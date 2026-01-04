@@ -1,12 +1,13 @@
 import { UserType } from "../../constants";
+import { Screens } from "../../navigation/routes";
 
 const BaseUserMenuOptions = [{ title: "Edit Profile" }];
 
 export const UserMenu = {
   [UserType.Professor]: {
     options: [
-      { title: "Topics" },
-      { title: "Assignments" },
+      { title: "Topics", route: Screens.TOPICS },
+      { title: "Assignments", route: Screens.ASSIGNMENTS },
       { title: "Theses All" },
       { title: "Invitations" },
       { title: "Statistics" },

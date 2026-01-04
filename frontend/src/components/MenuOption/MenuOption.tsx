@@ -1,8 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import type { MenuOptionProps } from "./MenuOption.types";
 
-const MenuOption = ({ title }: MenuOptionProps) => {
+const MenuOption = ({ option }: MenuOptionProps) => {
+  const navigate = useNavigate();
+
+  const { title, route } = option;
+
   const handleClick = () => {
-    console.log(`Clicked on menu item: ${title}`);
+    route && navigate(route);
   };
 
   return <button onClick={handleClick}>{title}</button>;

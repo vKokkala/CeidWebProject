@@ -4,9 +4,9 @@ import { UserMenu } from "./Menu.constants";
 
 const Menu = () => {
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       {UserMenu[UserType.Professor].options.map((x) => (
-        <MenuOption title={x.title} />
+        <MenuOption option={x}/>
       ))}
     </div>
   );
