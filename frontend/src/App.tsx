@@ -1,10 +1,11 @@
 import "./App.css";
 import Menu from "./components/Menu/Menu";
-import Router from "./navigation/Router";
+import Router from "./navigation/router";
+import LoginScreen from "./screens/LoginScreen/LoginScreen";
 
-function App() {
+const LoggedInApp = () => {
   return (
-    <div className="wrapper">
+    <>
       <div className="menu-wrapper">
         <Menu />
       </div>
@@ -12,8 +13,18 @@ function App() {
       <div className="main-screen-wrapper ">
         <Router />
       </div>
+    </>
+  );
+};
+
+const App = () => {
+  const isLoggedIn = true;
+
+  return (
+    <div className="wrapper">
+      {isLoggedIn ? <LoggedInApp /> : <LoginScreen />}
     </div>
   );
-}
+};
 
 export default App;
