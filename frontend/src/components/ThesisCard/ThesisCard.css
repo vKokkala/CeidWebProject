@@ -1,0 +1,21 @@
+.card {
+    background-color: rgb(193, 236, 207);
+    margin: 16px;
+    padding: 20px;
+    border: 0px solid #e13a3a;
+    border-radius: 6px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-title {
+    /* font-weight: bold;
+    font-size: 18px; */
+}
+
+.card-description {
+    /* font-size: 14px;
+    color: #333; */
+}

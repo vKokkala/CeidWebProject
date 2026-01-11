@@ -2,9 +2,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AssignmentsScreen from "../screens/AssignmentsScreen/AssignmentsScreen";
 import TopicsScreen from "../screens/TopicsScreen/TopicsScreen";
 import { Screens } from "./routes";
+import ThesisAllScreen from "../screens/ThesisAllScreen/ThesisAllScreen";
 
 const Router = () => {
-  const { ASSIGNMENTS, TOPICS, LOGIN_SCREEN } = Screens;
+  const { ASSIGNMENTS, TOPICS, LOGIN_SCREEN, THESIS_ALL } = Screens;
 
   return (
     <Routes>
@@ -16,6 +17,7 @@ const Router = () => {
         path={LOGIN_SCREEN}
         element={<Navigate to={LOGIN_SCREEN} replace />}
       />
+      <Route path={THESIS_ALL} element={<ThesisAllScreen /> } />
     </Routes>
   );
 };

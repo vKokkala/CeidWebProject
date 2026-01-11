@@ -20,7 +20,7 @@ export const UserMenu = {
     options: [
       { title: "Active Theses" },
       { title: "Import Data" },
-      { title: "Theses All " },
+      { title: "Theses All ", route: Screens.THESIS_ALL },
     ],
   },
 };
