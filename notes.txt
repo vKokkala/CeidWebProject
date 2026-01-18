@@ -27,3 +27,11 @@ docker-compose up -d
 
 npx prisma migrate reset --force
 npx prisma migrate dev --name init 
+
+
+// restart docker to see endpoints and all
+// docker-compose down
+// docker-compose up -d
+
+// doicker has old code 
+docker compose up -d --build

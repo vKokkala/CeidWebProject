@@ -1,6 +1,40 @@
+import { useState } from "react";
+import axios, { isAxiosError } from "axios";
 import "./LoginScreen.css";
+import type { User } from "../../types";
 
-const LoginScreen = () => {
+interface LoginScreenProps {
+  onLogin: (user: User) => void;
+}
+
+const LoginScreen = ({ onLogin }: LoginScreenProps) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      const { data } = await axios.post("http://localhost:3000/login", {
+        username,
+        password,
+      });
+
+      onLogin(data);
+    } catch (err) {
+      if (isAxiosError(err) && err.response) {
+        setError(err.response.data.error || "Login failed");
+      } else {
+        setError("Failed to connect to server");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="screen-wrapper">
       <div className="login-card">
@@ -14,7 +48,9 @@ const LoginScreen = () => {
             type="text"
             required
             placeholder="Alice"
-          ></input>
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
 
         <div className="input-label-component">
@@ -26,9 +62,19 @@ const LoginScreen = () => {
             type="password"
             required
             placeholder="**********"
-          ></input>
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-          <button className="login-button"> Login </button>
+          <button
+            className="login-button"
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          {error && <p className="login-error">{error}</p>}
         </div>
       </div>
     </div>

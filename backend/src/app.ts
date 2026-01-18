@@ -28,11 +28,20 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
-// Get user by ID
-app.get("/users/:id", async (req, res) => {
-  const { id } = req.params;
+/**
+ * Login
+ */
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ error: "Both username and password are required" });
+  }
+
   const user = await prisma.user.findUnique({
-    where: { id: Number(id) },
+    where: { username },
     include: {
       student: true,
       professor: true,
@@ -43,7 +52,12 @@ app.get("/users/:id", async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
 
-  res.json(user);
+  if (user.password !== password) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  const { password: _, ...rest } = user;
+  res.json(rest);
 });
 
 export default app;
