@@ -1,9 +1,8 @@
-import { useState } from "react";
 import "./App.css";
 import Menu from "./components/Menu/Menu";
 import Router from "./navigation/router";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
-import type { User } from "./types";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 const LoggedInApp = () => {
   return (
@@ -19,17 +18,21 @@ const LoggedInApp = () => {
   );
 };
 
-const App = () => {
-  const [user, setUser] = useState<User | null>(null);
-
-  const handleLogin = (loggedInUser: User) => {
-    setUser(loggedInUser);
-  };
+const AppContent = () => {
+  const { user, login } = useAuth();
 
   return (
     <div className="wrapper">
-      {user ? <LoggedInApp /> : <LoginScreen onLogin={handleLogin} />}
+      {user ? <LoggedInApp /> : <LoginScreen onLogin={login} />}
     </div>
+  );
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 };
 
