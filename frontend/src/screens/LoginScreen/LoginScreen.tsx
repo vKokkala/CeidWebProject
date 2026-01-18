@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios, { isAxiosError } from "axios";
+import { isAxiosError } from "axios";
+import api from "../../api/client";
 import "./LoginScreen.css";
 import type { User } from "../../types";
 
@@ -18,11 +19,7 @@ const LoginScreen = ({ onLogin }: LoginScreenProps) => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("http://localhost:3000/login", {
-        username,
-        password,
-      });
-
+      const { data } = await api.post("/login", { username, password });
       onLogin(data);
     } catch (err) {
       if (isAxiosError(err) && err.response) {
