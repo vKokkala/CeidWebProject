@@ -15,3 +15,15 @@ npx prisma db seed
 
 // Running simple commands
 npx tsx -e "import('./prisma/seed.ts').then(m => m.populateDbWithRandomUsers())"
+
+
+
+// reseting db and all 
+-> remvoe migrations file 
+
+
+docker-compose down -v
+docker-compose up -d
+
+npx prisma migrate reset --force
+npx prisma migrate dev --name init 

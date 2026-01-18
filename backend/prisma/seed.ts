@@ -49,6 +49,8 @@ const populateUsers = async ({
         role,
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
+        username: faker.internet.username(),
+        password: faker.internet.password(),
         ...getStudentFields(role),
         ...getProfessorFields(role),
       },
