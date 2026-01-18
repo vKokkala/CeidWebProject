@@ -1,0 +1,17 @@
+Backend
+
+
+
+Starting docker and all :
+
+docker-compose build -up
+
+Running the migrations: 
+npx prisma migrate dev --name init
+
+// script to pass data to db
+npx prisma db seed
+
+
+// Running simple commands
+npx tsx -e "import('./prisma/seed.ts').then(m => m.populateDbWithRandomUsers())"

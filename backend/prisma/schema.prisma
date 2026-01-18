@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/**
+ * ENUMS
+ */
+enum Role {
+  STUDENT
+  PROFESSOR
+  SECRETARIAT
+}
+
+enum ThesisStatus {
+  UNDER_ASSIGNMENT
+  ACTIVE
+  UNDER_EXAMINATION
+  COMPLETED
+  CANCELLED
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum ExamMode {
+  ONSITE
+  ONLINE
+}
+
+model Student {
+  id              Int     @id @default(autoincrement())
+  userId          Int     @unique
+  am              String  @unique
+  address         String?
+  cellPhoneNumber String?
+  phoneNumber     String?
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Professor {
+  id     Int @id @default(autoincrement())
+  userId Int @unique
+
+  user User @relation(fields: [userId], references: [id])
+
+  // TODO: Add theses etc here
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  role      Role
+  firstName String
+  lastName  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student   Student?
+  professor Professor?
+}
