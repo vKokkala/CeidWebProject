@@ -1,10 +1,13 @@
-import { UserType } from "../../constants";
 import { Screens } from "../../navigation/routes";
+import type { Role } from "../../types";
 
 const BaseUserMenuOptions = [{ title: "Edit Profile" }];
 
-export const UserMenu = {
-  [UserType.Professor]: {
+export const UserMenu: Record<
+  Role,
+  { options: { title: string; route?: string }[] }
+> = {
+  PROFESSOR: {
     options: [
       { title: "Topics", route: Screens.TOPICS },
       { title: "Assignments", route: Screens.ASSIGNMENTS },
@@ -13,10 +16,10 @@ export const UserMenu = {
       { title: "Statistics" },
     ],
   },
-  [UserType.Student]: {
+  STUDENT: {
     options: [{ title: "Thesis" }],
   },
-  [UserType.Faculty]: {
+  SECRETARIAT: {
     options: [
       { title: "Active Theses" },
       { title: "Import Data" },

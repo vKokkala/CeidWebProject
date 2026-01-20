@@ -1,12 +1,19 @@
-import { UserType } from "../../constants";
 import MenuOption from "../MenuOption/MenuOption";
 import { UserMenu } from "./Menu.constants";
+import type { Role } from "../../types";
+import "./Menu.css";
 
-const Menu = () => {
+export type MenuProps = {
+  userRole: Role;
+};
+
+const Menu = ({ userRole }: MenuProps) => {
+  console.log("userRole", userRole);
+
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      {UserMenu[UserType.Faculty].options.map((x) => (
-        <MenuOption option={x}/>
+    <div className="menuWrapper">
+      {UserMenu[userRole]?.options.map((x) => (
+        <MenuOption option={x} />
       ))}
     </div>
   );

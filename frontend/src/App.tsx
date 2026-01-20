@@ -3,12 +3,17 @@ import Menu from "./components/Menu/Menu";
 import Router from "./navigation/router";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import type { User } from "./types";
 
-const LoggedInApp = () => {
+export type LoggedInAppProps = {
+  user: User;
+};
+
+const LoggedInApp = ({ user }: LoggedInAppProps) => {
   return (
     <>
       <div className="menu-wrapper">
-        <Menu />
+        <Menu userRole={user.role} />
       </div>
 
       <div className="main-screen-wrapper ">
@@ -21,9 +26,11 @@ const LoggedInApp = () => {
 const AppContent = () => {
   const { user, login } = useAuth();
 
+  console.log("user", user);
+
   return (
     <div className="wrapper">
-      {user ? <LoggedInApp /> : <LoginScreen onLogin={login} />}
+      {user ? <LoggedInApp user={user} /> : <LoginScreen onLogin={login} />}
     </div>
   );
 };

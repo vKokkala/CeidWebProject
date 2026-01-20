@@ -76,3 +76,10 @@ model User {
   student   Student?
   professor Professor?
 }
+
+model Topic {
+  id                     Int    @id @default(autoincrement())
+  title                  String @unique
+  description            String @db.Text
+  extendedDescriptionPdf Bytes?
+}
