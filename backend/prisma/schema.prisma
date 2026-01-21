@@ -43,22 +43,23 @@ enum ExamMode {
 
 model Student {
   id              Int     @id @default(autoincrement())
-  userId          Int     @unique
   am              String  @unique
   address         String?
   cellPhoneNumber String?
   phoneNumber     String?
 
+  userId          Int     @unique
   user User @relation(fields: [userId], references: [id])
 }
 
 model Professor {
-  id     Int @id @default(autoincrement())
-  userId Int @unique
+  id Int @id @default(autoincrement())
 
-  user User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
 
   // TODO: Add theses etc here
+  topics Topic[]
 }
 
 model User {
@@ -78,8 +79,10 @@ model User {
 }
 
 model Topic {
-  id                     Int    @id @default(autoincrement())
-  title                  String @unique
-  description            String @db.Text
+  id                     Int        @id @default(autoincrement())
+  title                  String     @unique
+  description            String     @db.Text
   extendedDescriptionPdf Bytes?
+  professor              Professor? @relation(fields: [professorId], references: [id])
+  professorId            Int?
 }

@@ -1,14 +1,42 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import api from "../../api/client";
+import { useAuth } from "../../context/AuthContext";
 
 const TopicsScreen = () => {
   const [showTopicForm, setShowTopicForm] = useState(false);
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [topics, setTopics] = useState([]);
+  const { user } = useAuth();
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPdfFile(file);
+  useEffect(() => {
+    const fetchTopics = async () => {
+      const { data } = await api.get("/topic", {
+        params: { professorId: user?.professor?.id },
+      });
+
+      console.log('data', data)
+
+      setTopics(data);
+    };
+
+    if (user?.professor?.id) {
+      fetchTopics();
     }
+  }, [user?.professor?.id]);
+
+  const createTopic = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
+
+    console.log("formData", formData);
+
+    await api.post(
+      "/topic",
+      { ...formData, userId: user?.id },
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      },
+    );
   };
 
   return (
@@ -21,20 +49,19 @@ const TopicsScreen = () => {
       >
         Create New Topic
       </button>
+
       {showTopicForm && (
-        <form>
+        <form onSubmit={createTopic}>
           <label>Title</label>
-          <input />
+          <input name="title" />
 
           <label>Description</label>
-          <input />
+          <input name="description" />
 
           <label>Upload PDF</label>
-          <input type="file" accept=".pdf" onChange={handleFileChange} />
-          {pdfFile && <span>{pdfFile.name}</span>}
+          <input type="file" name="pdf" accept=".pdf" />
 
-          <label></label>
-          <input />
+          <button type="submit">Create</button>
         </form>
       )}
     </>

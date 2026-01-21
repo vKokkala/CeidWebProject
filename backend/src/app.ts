@@ -60,4 +60,38 @@ app.post("/login", async (req, res) => {
   res.json(rest);
 });
 
+app.get("/topic", async (req, res) => {
+  const { professorId } = req.query;
+
+  if (!professorId)
+    return res.status(400).json({ error: "ProfessorId not provided" });
+
+  const topics = await prisma.topic.findMany({
+    where: { professorId: Number(professorId) },
+  });
+
+  res.json(topics);
+});
+
+// // TODO -> uploading files
+// app.post("/topic", async (req, res) => {
+//   const { professorId, title, description, pdf } = req.query;
+
+//   console.log()
+
+//   if (!professorId)
+//     return res.status(400).json({ error: "ProfessorId not provided" });
+
+//   const topics = await prisma.topic.create({
+//     data: {
+//       title: title,
+//       description: description,
+//       extendedDescriptionPdf: pdf ? pdf : undefined,
+//       professor: { connect: { id: Number(professorId) } },
+//     },
+//   });
+
+//   res.json(topics);
+// });
+
 export default app;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { isAxiosError } from "axios";
 import api from "../../api/client";
 import "./LoginScreen.css";
@@ -9,17 +9,18 @@ interface LoginScreenProps {
 }
 
 const LoginScreen = ({ onLogin }: LoginScreenProps) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setError("");
     setLoading(true);
 
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
+
     try {
-      const { data } = await api.post("/login", { username, password });
+      const { data } = await api.post("/login", formData);
       onLogin(data);
     } catch (err) {
       if (isAxiosError(err) && err.response) {
@@ -34,46 +35,30 @@ const LoginScreen = ({ onLogin }: LoginScreenProps) => {
 
   return (
     <div className="screen-wrapper">
-      <div className="login-card">
+      <form className="login-card" onSubmit={handleLogin}>
         <p className="login-title">Welcome</p>
 
         <div className="input-label-component">
           <label>Username</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            required
-            placeholder="Alice"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          <input name="username" type="text" required placeholder="Alice" />
         </div>
 
         <div className="input-label-component">
           <label>Password</label>
-
           <input
-            id="password"
             name="password"
             type="password"
             required
             placeholder="**********"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button
-            className="login-button"
-            onClick={handleLogin}
-            disabled={loading}
-          >
+          <button className="login-button" type="submit" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
 
           {error && <p className="login-error">{error}</p>}
         </div>
-      </div>
+      </form>
     </div>
   );
 };

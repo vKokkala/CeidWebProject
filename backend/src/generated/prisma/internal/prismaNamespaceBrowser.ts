@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Student: 'Student',
   Professor: 'Professor',
-  User: 'User'
+  User: 'User',
+  Topic: 'Topic'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -74,11 +75,11 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const StudentScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   am: 'am',
   address: 'address',
   cellPhoneNumber: 'cellPhoneNumber',
-  phoneNumber: 'phoneNumber'
+  phoneNumber: 'phoneNumber',
+  userId: 'userId'
 } as const
 
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
@@ -105,6 +106,17 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const TopicScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  extendedDescriptionPdf: 'extendedDescriptionPdf',
+  professorId: 'professorId'
+} as const
+
+export type TopicScalarFieldEnum = (typeof TopicScalarFieldEnum)[keyof typeof TopicScalarFieldEnum]
 
 
 export const SortOrder = {

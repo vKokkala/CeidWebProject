@@ -38,29 +38,29 @@ export type StudentSumAggregateOutputType = {
 
 export type StudentMinAggregateOutputType = {
   id: number | null
-  userId: number | null
   am: string | null
   address: string | null
   cellPhoneNumber: string | null
   phoneNumber: string | null
+  userId: number | null
 }
 
 export type StudentMaxAggregateOutputType = {
   id: number | null
-  userId: number | null
   am: string | null
   address: string | null
   cellPhoneNumber: string | null
   phoneNumber: string | null
+  userId: number | null
 }
 
 export type StudentCountAggregateOutputType = {
   id: number
-  userId: number
   am: number
   address: number
   cellPhoneNumber: number
   phoneNumber: number
+  userId: number
   _all: number
 }
 
@@ -77,29 +77,29 @@ export type StudentSumAggregateInputType = {
 
 export type StudentMinAggregateInputType = {
   id?: true
-  userId?: true
   am?: true
   address?: true
   cellPhoneNumber?: true
   phoneNumber?: true
+  userId?: true
 }
 
 export type StudentMaxAggregateInputType = {
   id?: true
-  userId?: true
   am?: true
   address?: true
   cellPhoneNumber?: true
   phoneNumber?: true
+  userId?: true
 }
 
 export type StudentCountAggregateInputType = {
   id?: true
-  userId?: true
   am?: true
   address?: true
   cellPhoneNumber?: true
   phoneNumber?: true
+  userId?: true
   _all?: true
 }
 
@@ -191,11 +191,11 @@ export type StudentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type StudentGroupByOutputType = {
   id: number
-  userId: number
   am: string
   address: string | null
   cellPhoneNumber: string | null
   phoneNumber: string | null
+  userId: number
   _count: StudentCountAggregateOutputType | null
   _avg: StudentAvgAggregateOutputType | null
   _sum: StudentSumAggregateOutputType | null
@@ -223,28 +223,28 @@ export type StudentWhereInput = {
   OR?: Prisma.StudentWhereInput[]
   NOT?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   id?: Prisma.IntFilter<"Student"> | number
-  userId?: Prisma.IntFilter<"Student"> | number
   am?: Prisma.StringFilter<"Student"> | string
   address?: Prisma.StringNullableFilter<"Student"> | string | null
   cellPhoneNumber?: Prisma.StringNullableFilter<"Student"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"Student"> | string | null
+  userId?: Prisma.IntFilter<"Student"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type StudentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   am?: Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   cellPhoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type StudentWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  userId?: number
   am?: string
+  userId?: number
   AND?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   OR?: Prisma.StudentWhereInput[]
   NOT?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
@@ -252,15 +252,15 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   cellPhoneNumber?: Prisma.StringNullableFilter<"Student"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"Student"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId" | "am">
+}, "id" | "am" | "userId">
 
 export type StudentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   am?: Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   cellPhoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
   _count?: Prisma.StudentCountOrderByAggregateInput
   _avg?: Prisma.StudentAvgOrderByAggregateInput
   _max?: Prisma.StudentMaxOrderByAggregateInput
@@ -273,11 +273,11 @@ export type StudentScalarWhereWithAggregatesInput = {
   OR?: Prisma.StudentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.StudentScalarWhereWithAggregatesInput | Prisma.StudentScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Student"> | number
-  userId?: Prisma.IntWithAggregatesFilter<"Student"> | number
   am?: Prisma.StringWithAggregatesFilter<"Student"> | string
   address?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
   cellPhoneNumber?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
   phoneNumber?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
+  userId?: Prisma.IntWithAggregatesFilter<"Student"> | number
 }
 
 export type StudentCreateInput = {
@@ -290,11 +290,11 @@ export type StudentCreateInput = {
 
 export type StudentUncheckedCreateInput = {
   id?: number
-  userId: number
   am: string
   address?: string | null
   cellPhoneNumber?: string | null
   phoneNumber?: string | null
+  userId: number
 }
 
 export type StudentUpdateInput = {
@@ -307,20 +307,20 @@ export type StudentUpdateInput = {
 
 export type StudentUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
   am?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cellPhoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type StudentCreateManyInput = {
   id?: number
-  userId: number
   am: string
   address?: string | null
   cellPhoneNumber?: string | null
   phoneNumber?: string | null
+  userId: number
 }
 
 export type StudentUpdateManyMutationInput = {
@@ -332,20 +332,20 @@ export type StudentUpdateManyMutationInput = {
 
 export type StudentUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
   am?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cellPhoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type StudentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   am?: Prisma.SortOrder
   address?: Prisma.SortOrder
   cellPhoneNumber?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type StudentAvgOrderByAggregateInput = {
@@ -355,20 +355,20 @@ export type StudentAvgOrderByAggregateInput = {
 
 export type StudentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   am?: Prisma.SortOrder
   address?: Prisma.SortOrder
   cellPhoneNumber?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type StudentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   am?: Prisma.SortOrder
   address?: Prisma.SortOrder
   cellPhoneNumber?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type StudentSumOrderByAggregateInput = {
@@ -479,44 +479,44 @@ export type StudentUncheckedUpdateWithoutUserInput = {
 
 export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   am?: boolean
   address?: boolean
   cellPhoneNumber?: boolean
   phoneNumber?: boolean
+  userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["student"]>
 
 export type StudentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   am?: boolean
   address?: boolean
   cellPhoneNumber?: boolean
   phoneNumber?: boolean
+  userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["student"]>
 
 export type StudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   am?: boolean
   address?: boolean
   cellPhoneNumber?: boolean
   phoneNumber?: boolean
+  userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["student"]>
 
 export type StudentSelectScalar = {
   id?: boolean
-  userId?: boolean
   am?: boolean
   address?: boolean
   cellPhoneNumber?: boolean
   phoneNumber?: boolean
+  userId?: boolean
 }
 
-export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "am" | "address" | "cellPhoneNumber" | "phoneNumber", ExtArgs["result"]["student"]>
+export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "am" | "address" | "cellPhoneNumber" | "phoneNumber" | "userId", ExtArgs["result"]["student"]>
 export type StudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -534,11 +534,11 @@ export type $StudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    userId: number
     am: string
     address: string | null
     cellPhoneNumber: string | null
     phoneNumber: string | null
+    userId: number
   }, ExtArgs["result"]["student"]>
   composites: {}
 }
@@ -964,11 +964,11 @@ export interface Prisma__StudentClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface StudentFieldRefs {
   readonly id: Prisma.FieldRef<"Student", 'Int'>
-  readonly userId: Prisma.FieldRef<"Student", 'Int'>
   readonly am: Prisma.FieldRef<"Student", 'String'>
   readonly address: Prisma.FieldRef<"Student", 'String'>
   readonly cellPhoneNumber: Prisma.FieldRef<"Student", 'String'>
   readonly phoneNumber: Prisma.FieldRef<"Student", 'String'>
+  readonly userId: Prisma.FieldRef<"Student", 'Int'>
 }
     
 

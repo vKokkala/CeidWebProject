@@ -15,7 +15,7 @@ npx prisma db seed
 
 // Running simple commands
 npx tsx -e "import('./prisma/seed.ts').then(m => m.populateDbWithRandomUsers())"
-
+npx tsx -e "import('./prisma/seed.ts').then(m => m.populateDbWithRandomTopics())"
 
 
 // reseting db and all 

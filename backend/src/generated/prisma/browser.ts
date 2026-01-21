@@ -32,3 +32,8 @@ export type Professor = Prisma.ProfessorModel
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Topic
+ * 
+ */
+export type Topic = Prisma.TopicModel

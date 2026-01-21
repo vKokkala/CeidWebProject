@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, Role } from "../src/generated/prisma/client.js";
 import dotenv from "dotenv";
+import { randomInt } from "node:crypto";
 
 dotenv.config();
 
@@ -66,6 +67,29 @@ export const populateDbWithRandomUsers = async () => {
       populateUsers({ count: 10, role: Role.STUDENT }),
       populateUsers({ count: 5, role: Role.PROFESSOR }),
     ]);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const populateTopics = async () => {
+  for (let i = 0; i < 10; i++) {
+    await prisma.topic.create({
+      data: {
+        title: faker.book.title(),
+        description: faker.commerce.productDescription(),
+        // as made by the populateDbWithRandomUsers
+        professor: { connect: { id: randomInt(1, 5) } },
+      },
+    });
+  }
+};
+
+export const populateDbWithRandomTopics = async () => {
+  try {
+    await populateTopics();
   } catch (error) {
     console.error(error);
   } finally {

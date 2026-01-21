@@ -11,4 +11,5 @@
 export type * from './models/Student.js'
 export type * from './models/Professor.js'
 export type * from './models/User.js'
+export type * from './models/Topic.js'
 export type * from './commonInputTypes.js'

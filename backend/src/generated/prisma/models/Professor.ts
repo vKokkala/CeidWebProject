@@ -197,12 +197,14 @@ export type ProfessorWhereInput = {
   id?: Prisma.IntFilter<"Professor"> | number
   userId?: Prisma.IntFilter<"Professor"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  topics?: Prisma.TopicListRelationFilter
 }
 
 export type ProfessorOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  topics?: Prisma.TopicOrderByRelationAggregateInput
 }
 
 export type ProfessorWhereUniqueInput = Prisma.AtLeast<{
@@ -212,6 +214,7 @@ export type ProfessorWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProfessorWhereInput[]
   NOT?: Prisma.ProfessorWhereInput | Prisma.ProfessorWhereInput[]
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  topics?: Prisma.TopicListRelationFilter
 }, "id" | "userId">
 
 export type ProfessorOrderByWithAggregationInput = {
@@ -234,20 +237,24 @@ export type ProfessorScalarWhereWithAggregatesInput = {
 
 export type ProfessorCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutProfessorInput
+  topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorUncheckedCreateInput = {
   id?: number
   userId: number
+  topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+  topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
 }
 
 export type ProfessorUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
 }
 
 export type ProfessorCreateManyInput = {
@@ -326,12 +333,29 @@ export type ProfessorUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutUserInput, Prisma.ProfessorUpdateWithoutUserInput>, Prisma.ProfessorUncheckedUpdateWithoutUserInput>
 }
 
-export type ProfessorCreateWithoutUserInput = {
+export type ProfessorCreateNestedOneWithoutTopicsInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutTopicsInput, Prisma.ProfessorUncheckedCreateWithoutTopicsInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutTopicsInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+}
 
+export type ProfessorUpdateOneWithoutTopicsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutTopicsInput, Prisma.ProfessorUncheckedCreateWithoutTopicsInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutTopicsInput
+  upsert?: Prisma.ProfessorUpsertWithoutTopicsInput
+  disconnect?: Prisma.ProfessorWhereInput | boolean
+  delete?: Prisma.ProfessorWhereInput | boolean
+  connect?: Prisma.ProfessorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutTopicsInput, Prisma.ProfessorUpdateWithoutTopicsInput>, Prisma.ProfessorUncheckedUpdateWithoutTopicsInput>
+}
+
+export type ProfessorCreateWithoutUserInput = {
+  topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorUncheckedCreateWithoutUserInput = {
   id?: number
+  topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorCreateOrConnectWithoutUserInput = {
@@ -351,19 +375,85 @@ export type ProfessorUpdateToOneWithWhereWithoutUserInput = {
 }
 
 export type ProfessorUpdateWithoutUserInput = {
-
+  topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
 }
 
 export type ProfessorUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
 }
 
+export type ProfessorCreateWithoutTopicsInput = {
+  user: Prisma.UserCreateNestedOneWithoutProfessorInput
+}
+
+export type ProfessorUncheckedCreateWithoutTopicsInput = {
+  id?: number
+  userId: number
+}
+
+export type ProfessorCreateOrConnectWithoutTopicsInput = {
+  where: Prisma.ProfessorWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutTopicsInput, Prisma.ProfessorUncheckedCreateWithoutTopicsInput>
+}
+
+export type ProfessorUpsertWithoutTopicsInput = {
+  update: Prisma.XOR<Prisma.ProfessorUpdateWithoutTopicsInput, Prisma.ProfessorUncheckedUpdateWithoutTopicsInput>
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutTopicsInput, Prisma.ProfessorUncheckedCreateWithoutTopicsInput>
+  where?: Prisma.ProfessorWhereInput
+}
+
+export type ProfessorUpdateToOneWithWhereWithoutTopicsInput = {
+  where?: Prisma.ProfessorWhereInput
+  data: Prisma.XOR<Prisma.ProfessorUpdateWithoutTopicsInput, Prisma.ProfessorUncheckedUpdateWithoutTopicsInput>
+}
+
+export type ProfessorUpdateWithoutTopicsInput = {
+  user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+}
+
+export type ProfessorUncheckedUpdateWithoutTopicsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+
+/**
+ * Count Type ProfessorCountOutputType
+ */
+
+export type ProfessorCountOutputType = {
+  topics: number
+}
+
+export type ProfessorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  topics?: boolean | ProfessorCountOutputTypeCountTopicsArgs
+}
+
+/**
+ * ProfessorCountOutputType without action
+ */
+export type ProfessorCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProfessorCountOutputType
+   */
+  select?: Prisma.ProfessorCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProfessorCountOutputType without action
+ */
+export type ProfessorCountOutputTypeCountTopicsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TopicWhereInput
+}
 
 
 export type ProfessorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  topics?: boolean | Prisma.Professor$topicsArgs<ExtArgs>
+  _count?: boolean | Prisma.ProfessorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["professor"]>
 
 export type ProfessorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -386,6 +476,8 @@ export type ProfessorSelectScalar = {
 export type ProfessorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId", ExtArgs["result"]["professor"]>
 export type ProfessorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  topics?: boolean | Prisma.Professor$topicsArgs<ExtArgs>
+  _count?: boolean | Prisma.ProfessorCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProfessorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -398,6 +490,7 @@ export type $ProfessorPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Professor"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    topics: Prisma.$TopicPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -797,6 +890,7 @@ readonly fields: ProfessorFieldRefs;
 export interface Prisma__ProfessorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  topics<T extends Prisma.Professor$topicsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professor$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1221,6 +1315,30 @@ export type ProfessorDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many Professors to delete.
    */
   limit?: number
+}
+
+/**
+ * Professor.topics
+ */
+export type Professor$topicsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Topic
+   */
+  select?: Prisma.TopicSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Topic
+   */
+  omit?: Prisma.TopicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TopicInclude<ExtArgs> | null
+  where?: Prisma.TopicWhereInput
+  orderBy?: Prisma.TopicOrderByWithRelationInput | Prisma.TopicOrderByWithRelationInput[]
+  cursor?: Prisma.TopicWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TopicScalarFieldEnum | Prisma.TopicScalarFieldEnum[]
 }
 
 /**
