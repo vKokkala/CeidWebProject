@@ -3,4 +3,5 @@ export const Screens = {
   TOPICS: "/topics",
   LOGIN_SCREEN: "/loginScreen",
   THESIS_ALL: '/thesisAll',
+  EDIT_PROFILE: '/editProfile',
 };

@@ -11,4 +11,12 @@ export interface User {
     id: number;
     userId: number;
   };
+  student?: {
+    id: number;
+    userId: number;
+    am: string;
+    address?: string;
+    cellPhoneNumber?: string;
+    phoneNumber?: string;
+  };
 }

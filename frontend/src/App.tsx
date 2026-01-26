@@ -7,13 +7,16 @@ import type { User } from "./types";
 
 export type LoggedInAppProps = {
   user: User;
+  logout: () => void;
 };
 
-const LoggedInApp = ({ user }: LoggedInAppProps) => {
+const LoggedInApp = ({ user, logout }: LoggedInAppProps) => {
   return (
     <>
       <div className="menu-wrapper">
         <Menu userRole={user.role} />
+
+        <button onClick={logout}>Logout</button>
       </div>
 
       <div className="main-screen-wrapper ">
@@ -24,13 +27,17 @@ const LoggedInApp = ({ user }: LoggedInAppProps) => {
 };
 
 const AppContent = () => {
-  const { user, login } = useAuth();
+  const { user, login, logout } = useAuth();
 
   console.log("user", user);
 
   return (
     <div className="wrapper">
-      {user ? <LoggedInApp user={user} /> : <LoginScreen onLogin={login} />}
+      {user ? (
+        <LoggedInApp user={user} logout={logout} />
+      ) : (
+        <LoginScreen onLogin={login} />
+      )}
     </div>
   );
 };

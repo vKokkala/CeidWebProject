@@ -28,6 +28,78 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+app.get("/user", async (req, res) => {
+  const { userId } = req.query;
+
+  if (!userId) return res.status(403).json({ error: "Missing user id" });
+
+  const user = await prisma.user.findUnique({
+    where: { id: Number(userId) },
+    include: {
+      student: true,
+      professor: true,
+    },
+  });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  res.json(user);
+});
+
+app.patch("/user", async (req, res) => {
+  const { userId } = req.query;
+  const { email, address, cellPhoneNumber, phoneNumber } = req.body;
+
+  if (!userId) return res.status(400).json({ error: "Missing user id" });
+
+  const user = await prisma.user.findUnique({
+    where: { id: Number(userId) },
+    include: {
+      student: true,
+      professor: true,
+    },
+  });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  if (email && user.email !== email) {
+    // Update user email if provided
+    await prisma.user.update({
+      where: { id: Number(userId) },
+      data: {
+        ...(email && { email }),
+      },
+    });
+  }
+
+  // Update details only if query made by a user
+  if (user.student) {
+    await prisma.student.update({
+      where: { id: user.student.id },
+      data: {
+        ...(address !== undefined && { address }),
+        ...(cellPhoneNumber !== undefined && { cellPhoneNumber }),
+        ...(phoneNumber !== undefined && { phoneNumber }),
+      },
+    });
+  }
+
+  // Fetch the updated user with all relations
+  const updatedUserDetails = await prisma.user.findUnique({
+    where: { id: Number(userId) },
+    include: {
+      student: true,
+      professor: true,
+    },
+  });
+
+  res.json(updatedUserDetails);
+}); 
+
 /**
  * Login
  */

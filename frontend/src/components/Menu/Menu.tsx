@@ -12,7 +12,7 @@ const Menu = ({ userRole }: MenuProps) => {
 
   return (
     <div className="menuWrapper">
-      {UserMenu[userRole]?.options.map((x) => (
+      {UserMenu["STUDENT"]?.options.map((x) => (
         <MenuOption option={x} />
       ))}
     </div>
