@@ -1,42 +1,25 @@
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import api from "../../api/client";
 import { useAuth } from "../../context/AuthContext";
 import "./EditProfileScreen.css";
 
 const EditProfileScreen = () => {
   const { user, updateUser } = useAuth();
+  const { email, firstName, lastName, username, student } = user || {};
+  const { address, cellPhoneNumber, phoneNumber } = student || {};
 
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [cellPhoneNumber, setCellPhoneNumber] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
-
-  console.log('user', user)
-
-  // Sync form fields when user data loads
-  useEffect(() => {
-    if (user) {
-      setEmail(user.email || "");
-      setAddress(user.student?.address || "");
-      setCellPhoneNumber(user.student?.cellPhoneNumber || "");
-      setPhoneNumber(user.student?.phoneNumber || "");
-    }
-  }, [user]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage("");
 
+    const formData = new FormData(e.currentTarget);
+
     try {
-      const { data } = await api.patch("/user", {
-        email,
-        address,
-        cellPhoneNumber,
-        phoneNumber,
-      }, {
+      const { data } = await api.patch("/user", Object.fromEntries(formData), {
         params: { userId: user?.id },
       });
 
@@ -54,7 +37,7 @@ const EditProfileScreen = () => {
     <div className="editProfileContainer">
       <h2>Edit Profile</h2>
       <p className="profileInfo">
-        {user?.firstName} {user?.lastName} ({user?.username})
+        {firstName} {lastName} ({username})
       </p>
 
       <form onSubmit={handleSubmit} className="editProfileForm">
@@ -62,9 +45,9 @@ const EditProfileScreen = () => {
           <label htmlFor="email">Email</label>
           <input
             id="email"
+            name="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            defaultValue={email}
             placeholder="Email"
           />
         </div>
@@ -73,9 +56,9 @@ const EditProfileScreen = () => {
           <label htmlFor="address">Address</label>
           <input
             id="address"
+            name="address"
             type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            defaultValue={address}
             placeholder="Full postal address"
           />
         </div>
@@ -84,9 +67,9 @@ const EditProfileScreen = () => {
           <label htmlFor="cellPhoneNumber">Mobile Phone</label>
           <input
             id="cellPhoneNumber"
+            name="cellPhoneNumber"
             type="tel"
-            value={cellPhoneNumber}
-            onChange={(e) => setCellPhoneNumber(e.target.value)}
+            defaultValue={cellPhoneNumber}
             placeholder="Mobile phone number"
           />
         </div>
@@ -95,9 +78,9 @@ const EditProfileScreen = () => {
           <label htmlFor="phoneNumber">Landline Phone</label>
           <input
             id="phoneNumber"
+            name="phoneNumber"
             type="tel"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            defaultValue={phoneNumber}
             placeholder="Landline phone number"
           />
         </div>

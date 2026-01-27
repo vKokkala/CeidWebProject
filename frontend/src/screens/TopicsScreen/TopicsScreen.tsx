@@ -13,7 +13,7 @@ const TopicsScreen = () => {
         params: { professorId: user?.professor?.id },
       });
 
-      console.log('data', data)
+      console.log("data", data);
 
       setTopics(data);
     };
@@ -32,7 +32,7 @@ const TopicsScreen = () => {
 
     await api.post(
       "/topic",
-      { ...formData, userId: user?.id },
+      { ...formData, professorId: user?.professor.id },
       {
         headers: { "Content-Type": "multipart/form-data" },
       },

@@ -11,9 +11,9 @@ export const UserMenu: Record<
     options: [
       { title: "Topics", route: Screens.TOPICS },
       { title: "Assignments", route: Screens.ASSIGNMENTS },
-      { title: "Theses All" },
-      { title: "Invitations" },
-      { title: "Statistics" },
+      { title: "Theses All", route: Screens.THESIS_ALL },
+      { title: "Invitations", route: Screens.INVITATIONS },
+      { title: "Statistics", route: Screens.STATISTICS },
     ],
   },
   STUDENT: {

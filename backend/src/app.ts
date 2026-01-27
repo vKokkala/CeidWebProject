@@ -71,7 +71,7 @@ app.patch("/user", async (req, res) => {
     await prisma.user.update({
       where: { id: Number(userId) },
       data: {
-        ...(email && { email }),
+        email: email,
       },
     });
   }
@@ -81,9 +81,9 @@ app.patch("/user", async (req, res) => {
     await prisma.student.update({
       where: { id: user.student.id },
       data: {
-        ...(address !== undefined && { address }),
-        ...(cellPhoneNumber !== undefined && { cellPhoneNumber }),
-        ...(phoneNumber !== undefined && { phoneNumber }),
+        ...(address && { address }),
+        ...(cellPhoneNumber && { cellPhoneNumber }),
+        ...(phoneNumber && { phoneNumber }),
       },
     });
   }
@@ -98,7 +98,7 @@ app.patch("/user", async (req, res) => {
   });
 
   res.json(updatedUserDetails);
-}); 
+});
 
 /**
  * Login
@@ -145,25 +145,25 @@ app.get("/topic", async (req, res) => {
   res.json(topics);
 });
 
-// // TODO -> uploading files
-// app.post("/topic", async (req, res) => {
-//   const { professorId, title, description, pdf } = req.query;
+// TODO -> uploading files
+app.post("/topic", async (req, res) => {
+  const { professorId, title, description, pdf } = req.query;
 
-//   console.log()
+  console.log()
 
-//   if (!professorId)
-//     return res.status(400).json({ error: "ProfessorId not provided" });
+  if (!professorId)
+    return res.status(400).json({ error: "ProfessorId not provided" });
 
-//   const topics = await prisma.topic.create({
-//     data: {
-//       title: title,
-//       description: description,
-//       extendedDescriptionPdf: pdf ? pdf : undefined,
-//       professor: { connect: { id: Number(professorId) } },
-//     },
-//   });
+  const topics = await prisma.topic.create({
+    data: {
+      title: title,
+      description: description,
+      extendedDescriptionPdf: pdf,
+      professor: { connect: { id: Number(professorId) } },
+    },
+  });
 
-//   res.json(topics);
-// });
+  res.json(topics);
+});
 
 export default app;

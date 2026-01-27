@@ -14,9 +14,7 @@ const LoggedInApp = ({ user, logout }: LoggedInAppProps) => {
   return (
     <>
       <div className="menu-wrapper">
-        <Menu userRole={user.role} />
-
-        <button onClick={logout}>Logout</button>
+        <Menu userRole={user.role} onLogout={logout} />
       </div>
 
       <div className="main-screen-wrapper ">

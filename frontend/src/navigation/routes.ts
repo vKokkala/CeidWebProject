@@ -4,4 +4,6 @@ export const Screens = {
   LOGIN_SCREEN: "/loginScreen",
   THESIS_ALL: '/thesisAll',
   EDIT_PROFILE: '/editProfile',
+  INVITATIONS: '/invitations',
+  STATISTICS: '/statistics',
 };

@@ -5,16 +5,16 @@ import "./Menu.css";
 
 export type MenuProps = {
   userRole: Role;
+  onLogout: () => void;
 };
 
-const Menu = ({ userRole }: MenuProps) => {
-  console.log("userRole", userRole);
-
+const Menu = ({ userRole, onLogout }: MenuProps) => {
   return (
     <div className="menuWrapper">
-      {UserMenu["STUDENT"]?.options.map((x) => (
+      {UserMenu[userRole]?.options.map((x) => (
         <MenuOption option={x} />
       ))}
+      <button className="logoutButton" onClick={onLogout}>Logout</button>
     </div>
   );
 };
