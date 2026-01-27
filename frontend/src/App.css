@@ -7,7 +7,7 @@
 }
 
 .wrapper {
-  background-color: red;
+  background: linear-gradient(120deg, rgb(86, 173, 255) 40%, rgb(138, 33, 159));
   height: 100%;
   display: flex;
   flex: 1;
@@ -19,6 +19,6 @@
 
 .main-screen-wrapper {
   flex: 1;
-  background-color: blue;
   overflow-y: auto;
+  color: white;
 }

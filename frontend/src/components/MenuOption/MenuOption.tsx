@@ -10,7 +10,7 @@ const MenuOption = ({ option }: MenuOptionProps) => {
     route && navigate(route);
   };
 
-  return <button onClick={handleClick}>{title}</button>;
+  return <button className="menuOptionButton" onClick={handleClick}>{title}</button>;
 };
 
 export default MenuOption;

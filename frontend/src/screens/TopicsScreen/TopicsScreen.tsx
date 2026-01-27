@@ -6,9 +6,11 @@ import "./TopicsScreen.css";
 
 const TopicsScreen = () => {
   const [topics, setTopics] = useState([]);
+  const [showCreateTopicCard, setShowCreateTopicCard] = useState(false);
+
   const { user } = useAuth();
 
-  console.log('topics', topics)
+  console.log("topics", topics);
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -28,19 +30,23 @@ const TopicsScreen = () => {
     <>
       <div>Topics Screen</div>
 
-      <button> Assign to Student </button>
-      <button> Create new topic </button>
+      <button onClick={() => setShowCreateTopicCard(!showCreateTopicCard)}>
+        {showCreateTopicCard ? "Dismiss new topic form" : "Create new topic"}
+      </button>
+      <button> Assign to Student</button>
 
       <p className="topicsDescription">
         Create a new topic or edit an existing one by clicking the pencil icon.
       </p>
 
       <div className="topicsGrid">
-        <TopicCard
-          topic={{ title: "", description: "" }}
-          isNew
-          professorId={user?.professor?.id}
-        />
+        {showCreateTopicCard && (
+          <TopicCard
+            topic={{ title: "", description: "" }}
+            isNew
+            professorId={user?.professor?.id}
+          />
+        )}
         {topics.map((topic: any) => (
           <TopicCard key={topic.id} topic={topic} />
         ))}

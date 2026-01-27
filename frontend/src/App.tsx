@@ -17,7 +17,7 @@ const LoggedInApp = ({ user, logout }: LoggedInAppProps) => {
         <Menu userRole={user.role} onLogout={logout} />
       </div>
 
-      <div className="main-screen-wrapper ">
+      <div className="main-screen-wrapper">
         <Router />
       </div>
     </>
