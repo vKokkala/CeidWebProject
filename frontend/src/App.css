@@ -18,7 +18,7 @@
 }
 
 .main-screen-wrapper {
-  display: flex;
   flex: 1;
   background-color: blue;
+  overflow-y: auto;
 }

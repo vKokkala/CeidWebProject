@@ -1,19 +1,20 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import api from "../../api/client";
 import { useAuth } from "../../context/AuthContext";
+import TopicCard from "../../components/TopicCard/TopicCard";
+import "./TopicsScreen.css";
 
 const TopicsScreen = () => {
-  const [showTopicForm, setShowTopicForm] = useState(false);
   const [topics, setTopics] = useState([]);
   const { user } = useAuth();
+
+  console.log('topics', topics)
 
   useEffect(() => {
     const fetchTopics = async () => {
       const { data } = await api.get("/topic", {
         params: { professorId: user?.professor?.id },
       });
-
-      console.log("data", data);
 
       setTopics(data);
     };
@@ -23,47 +24,27 @@ const TopicsScreen = () => {
     }
   }, [user?.professor?.id]);
 
-  const createTopic = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = Object.fromEntries(new FormData(e.currentTarget));
-
-    console.log("formData", formData);
-
-    await api.post(
-      "/topic",
-      { ...formData, professorId: user?.professor.id },
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      },
-    );
-  };
-
   return (
     <>
       <div>Topics Screen</div>
-      <button
-        onClick={() => {
-          setShowTopicForm((prev) => !prev);
-        }}
-      >
-        Create New Topic
-      </button>
 
-      {showTopicForm && (
-        <form onSubmit={createTopic}>
-          <label>Title</label>
-          <input name="title" />
+      <button> Assign to Student </button>
+      <button> Create new topic </button>
 
-          <label>Description</label>
-          <input name="description" />
+      <p className="topicsDescription">
+        Create a new topic or edit an existing one by clicking the pencil icon.
+      </p>
 
-          <label>Upload PDF</label>
-          <input type="file" name="pdf" accept=".pdf" />
-
-          <button type="submit">Create</button>
-        </form>
-      )}
+      <div className="topicsGrid">
+        <TopicCard
+          topic={{ title: "", description: "" }}
+          isNew
+          professorId={user?.professor?.id}
+        />
+        {topics.map((topic: any) => (
+          <TopicCard key={topic.id} topic={topic} />
+        ))}
+      </div>
     </>
   );
 };

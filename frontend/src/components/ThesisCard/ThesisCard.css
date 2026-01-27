@@ -1,6 +1,6 @@
 .card {
+    position: relative;
     background-color: rgb(193, 236, 207);
-    margin: 16px;
     padding: 20px;
     border: 0px solid #e13a3a;
     border-radius: 6px;
