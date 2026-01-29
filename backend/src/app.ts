@@ -147,9 +147,7 @@ app.get("/topic", async (req, res) => {
 
 // TODO -> uploading files
 app.post("/topic", async (req, res) => {
-  const { professorId, title, description, pdf } = req.query;
-
-  console.log()
+  const { professorId, title, description, pdf } = req.body;
 
   if (!professorId)
     return res.status(400).json({ error: "ProfessorId not provided" });
@@ -164,6 +162,34 @@ app.post("/topic", async (req, res) => {
   });
 
   res.json(topics);
+});
+
+app.patch("/topic/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, description, extendedDescriptionPdf } = req.body;
+
+  console.log('id', id)
+    console.log('id', id)
+
+
+  const topic = await prisma.topic.findUnique({
+    where: { id: Number(id) },
+  });
+
+  if (!topic) {
+    return res.status(404).json({ error: "Topic not found" });
+  }
+
+  const updatedTopic = await prisma.topic.update({
+    where: { id: Number(id) },
+    data: {
+      ...(title && { title }),
+      ...(description && { description }),
+      ...(extendedDescriptionPdf && { extendedDescriptionPdf }),
+    },
+  });
+
+  res.json(updatedTopic);
 });
 
 export default app;

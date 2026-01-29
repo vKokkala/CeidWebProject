@@ -41,6 +41,11 @@ enum ExamMode {
   ONLINE
 }
 
+enum CommitteeRole {
+  SUPERVISOR
+  MEMBER
+}
+
 model Student {
   id              Int     @id @default(autoincrement())
   am              String  @unique
@@ -48,8 +53,9 @@ model Student {
   cellPhoneNumber String?
   phoneNumber     String?
 
-  userId          Int     @unique
-  user User @relation(fields: [userId], references: [id])
+  userId      Int          @unique
+  user        User         @relation(fields: [userId], references: [id])
+  assignments Assignment[]
 }
 
 model Professor {
@@ -60,6 +66,8 @@ model Professor {
 
   // TODO: Add theses etc here
   topics Topic[]
+  theses Thesis[]
+  grades Grade[]
 }
 
 model User {
@@ -79,10 +87,94 @@ model User {
 }
 
 model Topic {
-  id                     Int        @id @default(autoincrement())
-  title                  String     @unique
-  description            String     @db.Text
+  id                     Int    @id @default(autoincrement())
+  title                  String @unique
+  description            String @db.Text
   extendedDescriptionPdf Bytes?
-  professor              Professor? @relation(fields: [professorId], references: [id])
-  professorId            Int?
+
+  professorId Int?
+  professor   Professor? @relation(fields: [professorId], references: [id])
+
+  isAssigned Boolean @default(false)
+
+  thesis Thesis?
+}
+
+model AssignmentCancellation {
+  id Int @id @default(autoincrement())
+
+  generalCommitteeGatheringNumber Int?
+  generalCommitteeGatheringYear   Int?
+
+  reason      String
+  assignments Assignment[]
+}
+
+model Assignment {
+  id                   Int                   @id @default(autoincrement())
+  student              Student?              @relation(fields: [studentId], references: [id])
+  studentId            Int?
+  committeeInvitations CommitteeInvitation[]
+  isFinalised          Boolean               @default(false)
+
+  wasCancelled Boolean @default(false)
+
+  cancellationContextId  Int?
+  assignmentCancellation AssignmentCancellation? @relation(fields: [cancellationContextId], references: [id])
+}
+
+model CommitteeInvitation {
+  id               Int              @id @default(autoincrement())
+  Role             CommitteeRole
+  invitationStatus InvitationStatus
+  assignmentId     Int?             @unique
+  assignment       Assignment?      @relation(fields: [assignmentId], references: [id])
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  rejectedAt DateTime?
+}
+
+model Grade {
+  id Int @id @default(autoincrement())
+
+  thesisId Int
+  thesis   Thesis? @relation(fields: [thesisId], references: [id])
+
+  professorId Int
+  professor   Professor? @relation(fields: [professorId], references: [id])
+}
+
+model Thesis {
+  id Int @id @default(autoincrement())
+
+  status ThesisStatus
+
+  topicId Int?   @unique
+  topic   Topic? @relation(fields: [topicId], references: [id])
+
+  professorId Int?
+  professor   Professor?    @relation(fields: [professorId], references: [id])
+  thesisNotes ThesisNotes[]
+
+  createdAt             DateTime  @default(now())
+  assignMentFinalisedAt DateTime?
+  grades                Grade[]
+
+  isGradingEnabled Boolean @default(false)
+
+  relevantLinks     String[]
+  thesisDocument    Bytes?
+  documentUpdatedAt DateTime?
+
+  nemertisLink   String?
+  completionDate DateTime?
+}
+
+model ThesisNotes {
+  id   Int    @id @default(autoincrement())
+  note String @db.Text
+
+  thesisId Int
+  thesis   Thesis? @relation(fields: [thesisId], references: [id])
 }
