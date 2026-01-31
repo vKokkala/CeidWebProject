@@ -425,6 +425,15 @@ app.get("/thesis/:id", async (req, res) => {
           },
         },
       },
+      committeeInvitations: {
+        include: {
+          professor: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      },
       statusChanges: {
         orderBy: {
           changedAt: "desc",
@@ -482,11 +491,9 @@ app.post("/thesis/:id/committee", async (req, res) => {
   }
 
   if (hadAlreadyRequested) {
-    return res
-      .status(400)
-      .json({
-        error: "Professor has already been invited to be a committee member",
-      });
+    return res.status(400).json({
+      error: "Professor has already been invited to be a committee member",
+    });
   }
 
   // Check if professor is the supervisor
@@ -507,7 +514,7 @@ app.post("/thesis/:id/committee", async (req, res) => {
         include: {
           user: true,
         },
-      },
+      }
     },
   });
 

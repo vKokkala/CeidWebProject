@@ -303,3 +303,24 @@
 .errorText {
     color: #e57373;
 }
+
+/* Invitation Status Badges */
+.roleAccepted {
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+}
+
+.rolePENDING {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+.roleACCEPTED {
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+}
+
+.roleREJECTED {
+    background: rgba(244, 67, 54, 0.2);
+    color: #e57373;
+}

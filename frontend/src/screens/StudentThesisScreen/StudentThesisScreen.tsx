@@ -76,7 +76,6 @@ const StudentThesisScreen = () => {
     }
   }, [showAddMember]);
 
-  // Filter professors: exclude supervisor and already added committee members
   const availableProfessors = professors.filter((prof) => {
     if (prof.professor?.id === thesis?.supervisorId) {
       return false;
@@ -85,6 +84,12 @@ const StudentThesisScreen = () => {
       (member: any) => member.professorId === prof.professor?.id,
     );
     if (isAlreadyMember) {
+      return false;
+    }
+    const isAlreadyInvited = thesis?.committeeInvitations?.some(
+      (invitation: any) => invitation.professorId === prof.professor?.id,
+    );
+    if (isAlreadyInvited) {
       return false;
     }
     return true;
@@ -284,29 +289,44 @@ const StudentThesisScreen = () => {
         )}
 
         <div className="committeeList">
-          <span className="committeeName">
-            Supervisor: {thesis.supervisor.user.firstName}{" "}
-            {thesis.supervisor.user.lastName}
-          </span>
-        </div>
-
-        {committeeMembers.length === 0 && !showAddMember ? (
-          <p className="emptyText">No committee members yet.</p>
-        ) : (
-          <div className="committeeList">
-            {committeeMembers.map((member: any) => (
-              <div key={member.id} className="committeeItem">
-                <span className="committeeName">
-                  Member: {member.professor?.user?.firstName}{" "}
-                  {member.professor?.user?.lastName}
-                </span>
-                <span className="committeeRole">
-                  {member.role === "SUPERVISOR" ? "Supervisor" : "Member"}
-                </span>
-              </div>
-            ))}
+          <div className="committeeItem">
+            <span className="committeeName">
+              {thesis.supervisor?.user?.firstName}{" "}
+              {thesis.supervisor?.user?.lastName}
+            </span>
+            <span className="committeeRole roleAccepted">Supervisor</span>
           </div>
-        )}
+
+          {committeeMembers.map((member: any) => (
+            <div key={member.id} className="committeeItem">
+              <span className="committeeName">
+                {member.professor?.user?.firstName}{" "}
+                {member.professor?.user?.lastName}
+              </span>
+              <span className="committeeRole roleAccepted">Member</span>
+            </div>
+          ))}
+
+          {thesis.committeeInvitations?.map((invitation: any) => (
+            <div key={invitation.id} className="committeeItem">
+              <span className="committeeName">
+                {invitation.professor?.user?.firstName}{" "}
+                {invitation.professor?.user?.lastName}
+              </span>
+              <span className={`committeeRole role${invitation.invitationStatus}`}>
+                {invitation.invitationStatus === "PENDING" && "Pending"}
+                {invitation.invitationStatus === "ACCEPTED" && "Accepted"}
+                {invitation.invitationStatus === "REJECTED" && "Rejected"}
+              </span>
+            </div>
+          ))}
+
+          {committeeMembers.length === 0 &&
+           (!thesis.committeeInvitations || thesis.committeeInvitations.length === 0) &&
+           !showAddMember && (
+            <p className="emptyText">No committee members invited yet.</p>
+          )}
+        </div>
       </section>
 
       {/* Status Timeline */}
