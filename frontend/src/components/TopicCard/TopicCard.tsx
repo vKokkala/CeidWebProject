@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./TopicCard.css";
 import api from "../../api/client";
 
@@ -17,29 +17,56 @@ type TopicCardProps = {
 const TopicCard = ({ topic, isNew, professorId, onSave }: TopicCardProps) => {
   const [isEditing, setIsEditing] = useState(!!isNew);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"success" | "error" | null>(
+    null,
+  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Clearr status after 3 seconds
+  useEffect(() => {
+    if (saveStatus) {
+      const timer = setTimeout(() => {
+        setSaveStatus(null);
+        setErrorMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [saveStatus]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSaveStatus(null);
+    setErrorMessage(null);
+
     const formData = new FormData(e.currentTarget);
 
     if (professorId) {
       formData.append("professorId", String(professorId));
     }
 
-    if (isNew) {
-      await api.post("/topic", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    } else if (topic.id) {
-      console.log("calling Patch");
-      await api.patch(`/topic/${topic.id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    }
+    try {
+      if (isNew) {
+        await api.post("/topic", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      } else if (topic.id) {
+        await api.patch(`/topic/${topic.id}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
 
-    setIsEditing(false);
-    setSelectedFileName(null);
-    onSave?.();
+      setSaveStatus("success");
+      setIsEditing(false);
+      setSelectedFileName(null);
+      onSave?.();
+    } catch (error: any) {
+      setSaveStatus("error");
+      setErrorMessage(error.response?.data?.error || "Failed to save topic");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,11 +75,25 @@ const TopicCard = ({ topic, isNew, professorId, onSave }: TopicCardProps) => {
   };
 
   return (
-    <div className={"card"}>
+    <div
+      className={`card ${saveStatus === "success" ? "card-success" : ""} ${saveStatus === "error" ? "card-error" : ""}`}
+    >
+      {saveStatus === "success" && (
+        <div className="card-status card-status-success">
+          Saved successfully!
+        </div>
+      )}
+      {saveStatus === "error" && (
+        <div className="card-status card-status-error">{errorMessage}</div>
+      )}
       {isEditing || isNew ? (
         <form onSubmit={handleSubmit}>
-          <button type="submit" className="card-edit-btn">
-            ✔
+          <button
+            type="submit"
+            className="card-edit-btn"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "..." : "✔"}
           </button>
           <input
             className="card-title-input"

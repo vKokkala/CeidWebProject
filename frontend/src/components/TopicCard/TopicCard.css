@@ -68,3 +68,34 @@
     border: 2px dashed rgba(255, 255, 255, 0.5);
     background-color: rgba(255, 255, 255, 0.1);
 }
+
+.card-status {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.card-status-success {
+    background-color: rgba(76, 175, 80, 0.3);
+    color: #81c784;
+}
+
+.card-status-error {
+    background-color: rgba(244, 67, 54, 0.3);
+    color: #e57373;
+}
+
+.card-success {
+    border-color: rgba(76, 175, 80, 0.5);
+}
+
+.card-error {
+    border-color: rgba(244, 67, 54, 0.5);
+}
+
+.card-edit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
