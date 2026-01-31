@@ -19,9 +19,10 @@ const EditProfileScreen = () => {
     const formData = new FormData(e.currentTarget);
 
     try {
-      const { data } = await api.patch("/user", Object.fromEntries(formData), {
-        params: { userId: user?.id },
-      });
+      const { data } = await api.patch(
+        `/user/${user?.id}`,
+        Object.fromEntries(formData),
+      );
 
       updateUser(data);
       setMessage("Profile updated successfully!");

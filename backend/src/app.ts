@@ -48,14 +48,15 @@ app.get("/user", async (req, res) => {
   res.json(user);
 });
 
-app.patch("/user", async (req, res) => {
-  const { userId } = req.query;
+app.patch("/user/:id", async (req, res) => {
+  const { id } = req.params;
   const { email, address, cellPhoneNumber, phoneNumber } = req.body;
 
-  if (!userId) return res.status(400).json({ error: "Missing user id" });
+
+  console.log('userId', id)
 
   const user = await prisma.user.findUnique({
-    where: { id: Number(userId) },
+    where: { id: Number(id) },
     include: {
       student: true,
       professor: true,
@@ -69,7 +70,7 @@ app.patch("/user", async (req, res) => {
   if (email && user.email !== email) {
     // Update user email if provided
     await prisma.user.update({
-      where: { id: Number(userId) },
+      where: { id: Number(id) },
       data: {
         email: email,
       },
@@ -90,7 +91,7 @@ app.patch("/user", async (req, res) => {
 
   // Fetch the updated user with all relations
   const updatedUserDetails = await prisma.user.findUnique({
-    where: { id: Number(userId) },
+    where: { id: Number(id) },
     include: {
       student: true,
       professor: true,

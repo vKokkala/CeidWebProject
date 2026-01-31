@@ -22,18 +22,12 @@ npx tsx -e "import('./prisma/seed.ts').then(m => m.populateDbWithRandomTopics())
 -> remvoe migrations file 
 
 
-docker-compose down -v
-docker-compose up -d
-
 npx prisma migrate dev
 
 npx prisma migrate reset --force
 npx prisma migrate dev --name init 
 
-
-// restart docker to see endpoints and all
-// docker-compose down
-// docker-compose up -d
-
-// doicker has old code 
-docker compose up -d --build
+// docker has old code 
+docker compose up -d
+docker compose --build
+docker compose up 
