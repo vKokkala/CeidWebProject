@@ -26,29 +26,105 @@ const StudentThesisScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Add committee member state
+  const [professors, setProfessors] = useState<any[]>([]);
+  const [showAddMember, setShowAddMember] = useState(false);
+  const [professorSearch, setProfessorSearch] = useState("");
+  const [showProfessorDropdown, setShowProfessorDropdown] = useState(false);
+  const [selectedProfessorId, setSelectedProfessorId] = useState<number | null>(
+    null,
+  );
+
+  console.log("thesis", thesis);
+
   const thesisId = user?.student?.thesis?.id;
 
-  console.log('user', user)
+  const fetchThesis = async () => {
+    if (!thesisId) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await api.get(`/thesis/${thesisId}`);
+      setThesis(response.data);
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Failed to load thesis");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchProfessors = async () => {
+    try {
+      const response = await api.get("/users", {
+        params: { role: "PROFESSOR" },
+      });
+      setProfessors(response.data || []);
+    } catch (err) {
+      console.error("Failed to fetch professors", err);
+    }
+  };
 
   useEffect(() => {
-    const fetchThesis = async () => {
-      if (!thesisId) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await api.get(`/thesis/${thesisId}`);
-        setThesis(response.data);
-      } catch (err: any) {
-        setError(err.response?.data?.error || "Failed to load thesis");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchThesis();
   }, [thesisId]);
+
+  useEffect(() => {
+    if (showAddMember) {
+      fetchProfessors();
+    }
+  }, [showAddMember]);
+
+  // Filter professors: exclude supervisor and already added committee members
+  const availableProfessors = professors.filter((prof) => {
+    if (prof.professor?.id === thesis?.supervisorId) {
+      return false;
+    }
+    const isAlreadyMember = thesis?.committeeMembers?.some(
+      (member: any) => member.professorId === prof.professor?.id,
+    );
+    if (isAlreadyMember) {
+      return false;
+    }
+    return true;
+  });
+
+  // Filter by search
+  const filteredProfessors = availableProfessors.filter((prof) => {
+    const searchLower = professorSearch.toLowerCase();
+    const fullName = `${prof.firstName} ${prof.lastName}`.toLowerCase();
+    return fullName.includes(searchLower);
+  });
+
+  const handleProfessorSelect = (prof: any) => {
+    setSelectedProfessorId(prof.professor?.id);
+    setProfessorSearch(`${prof.firstName} ${prof.lastName}`);
+    setShowProfessorDropdown(false);
+  };
+
+  const handleAddCommitteeMember = async () => {
+    if (!selectedProfessorId) return;
+
+    try {
+      await api.post(`/thesis/${thesisId}/committee`, {
+        professorId: selectedProfessorId,
+      });
+      setShowAddMember(false);
+      setProfessorSearch("");
+      setSelectedProfessorId(null);
+      fetchThesis();
+    } catch (err: any) {
+      console.error("Failed to add committee member", err);
+      alert(err.response?.data?.error || "Failed to add committee member");
+    }
+  };
+
+  const handleCancelAddMember = () => {
+    setShowAddMember(false);
+    setProfessorSearch("");
+    setSelectedProfessorId(null);
+  };
 
   if (loading) {
     return (
@@ -91,6 +167,7 @@ const StudentThesisScreen = () => {
   const committeeMembers = thesis.committeeMembers || [];
 
   const isCompleted = thesis.status === "COMPLETED";
+  const isUnderAssignment = thesis.status === "UNDER_ASSIGNMENT";
 
   return (
     <div className="studentThesisScreen">
@@ -138,15 +215,89 @@ const StudentThesisScreen = () => {
 
       {/* Committee */}
       <section className="thesisSection">
-        <h3>Committee</h3>
-        {committeeMembers.length === 0 ? (
+        <div className="sectionHeader">
+          <h3>Committee</h3>
+          {isUnderAssignment && !showAddMember && (
+            <button
+              className="btn btnSmall btnPrimary"
+              onClick={() => setShowAddMember(true)}
+            >
+              + Add Member
+            </button>
+          )}
+        </div>
+
+        {showAddMember && (
+          <div className="addMemberPanel">
+            <div className="searchWrapper">
+              <input
+                type="text"
+                className="searchInput"
+                placeholder="Search professor by name..."
+                value={professorSearch}
+                onChange={(e) => {
+                  setProfessorSearch(e.target.value);
+                  setShowProfessorDropdown(true);
+                  if (!e.target.value) setSelectedProfessorId(null);
+                }}
+                onFocus={() => setShowProfessorDropdown(true)}
+                onBlur={() =>
+                  setTimeout(() => setShowProfessorDropdown(false), 150)
+                }
+              />
+              {showProfessorDropdown && professorSearch && (
+                <div className="searchDropdown">
+                  {filteredProfessors.length === 0 ? (
+                    <div className="searchDropdownEmpty">
+                      No professors found
+                    </div>
+                  ) : (
+                    filteredProfessors.map((prof) => (
+                      <div
+                        key={prof.id}
+                        className={`searchDropdownItem ${selectedProfessorId === prof.professor?.id ? "selected" : ""}`}
+                        onClick={() => handleProfessorSelect(prof)}
+                      >
+                        {prof.firstName} {prof.lastName}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="addMemberActions">
+              <button
+                className="btn btnSmall btnSecondary"
+                onClick={handleCancelAddMember}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btnSmall btnPrimary"
+                onClick={handleAddCommitteeMember}
+                disabled={!selectedProfessorId}
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="committeeList">
+          <span className="committeeName">
+            Supervisor: {thesis.supervisor.user.firstName}{" "}
+            {thesis.supervisor.user.lastName}
+          </span>
+        </div>
+
+        {committeeMembers.length === 0 && !showAddMember ? (
           <p className="emptyText">No committee members yet.</p>
         ) : (
           <div className="committeeList">
             {committeeMembers.map((member: any) => (
               <div key={member.id} className="committeeItem">
                 <span className="committeeName">
-                  {member.professor?.user?.firstName}{" "}
+                  Member: {member.professor?.user?.firstName}{" "}
                   {member.professor?.user?.lastName}
                 </span>
                 <span className="committeeRole">

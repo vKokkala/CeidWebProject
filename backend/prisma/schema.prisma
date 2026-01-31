@@ -133,7 +133,7 @@ model AssignmentCancellation {
 
 model CommitteeInvitation {
   id               Int              @id @default(autoincrement())
-  Role             CommitteeRole
+  Role             CommitteeRole    @default(MEMBER)
   invitationStatus InvitationStatus @default(PENDING)
 
   thesisId Int

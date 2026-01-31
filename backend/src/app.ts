@@ -151,7 +151,15 @@ app.post("/login", async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { username },
     include: {
-      student: true,
+      student: {
+        include: {
+          thesis: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
       professor: true,
     },
   });
@@ -439,6 +447,71 @@ app.get("/thesis/:id", async (req, res) => {
   }
 
   res.json(thesis);
+});
+
+app.post("/thesis/:id/committee", async (req, res) => {
+  const { id } = req.params;
+  const { professorId } = req.body;
+
+  if (!professorId) {
+    return res.status(400).json({ error: "professorId is required" });
+  }
+
+  const thesis = await prisma.thesis.findUnique({
+    where: { id: Number(id) },
+    include: { committeeMembers: true, committeeInvitations: true },
+  });
+
+  if (!thesis) {
+    return res.status(404).json({ error: "Thesis not found" });
+  }
+
+  // Check if professor is already a committee member
+  const isAlreadyMember = thesis.committeeMembers.some(
+    (member) => member.professorId === Number(professorId),
+  );
+
+  const hadAlreadyRequested = thesis.committeeInvitations.some(
+    (invitation) => invitation.professorId === Number(professorId),
+  );
+
+  if (isAlreadyMember) {
+    return res
+      .status(400)
+      .json({ error: "Professor is already a committee member" });
+  }
+
+  if (hadAlreadyRequested) {
+    return res
+      .status(400)
+      .json({
+        error: "Professor has already been invited to be a committee member",
+      });
+  }
+
+  // Check if professor is the supervisor
+  if (thesis.supervisorId === Number(professorId)) {
+    return res
+      .status(400)
+      .json({ error: "Supervisor cannot be added as committee member" });
+  }
+
+  const committeeMember = await prisma.committeeInvitation.create({
+    data: {
+      Role: "MEMBER",
+      thesis: { connect: { id: Number(id) } },
+      professor: { connect: { id: Number(professorId) } },
+    },
+    include: {
+      professor: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+
+  res.json(committeeMember);
 });
 
 export default app;

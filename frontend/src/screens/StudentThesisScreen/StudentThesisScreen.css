@@ -330,3 +330,116 @@
     color: rgba(255, 255, 255, 0.6);
     font-size: 16px;
 }
+
+/* Section Header */
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sectionHeader h3 {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+/* Button variants */
+.btnSmall {
+    padding: 6px 14px;
+    font-size: 13px;
+}
+
+.btnPrimary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btnPrimary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btnPrimary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Add Member Panel */
+.addMemberPanel {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.searchWrapper {
+    position: relative;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #2a2a3e;
+    color: white;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.searchDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #2a2a3e;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.searchDropdownItem {
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+}
+
+.searchDropdownItem:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.searchDropdownItem.selected {
+    background: rgba(102, 126, 234, 0.3);
+}
+
+.searchDropdownEmpty {
+    padding: 10px 14px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+}
+
+.addMemberActions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
