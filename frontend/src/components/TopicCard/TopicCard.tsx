@@ -11,10 +11,10 @@ type TopicCardProps = {
   };
   isNew?: boolean;
   professorId?: number;
-  onSaved?: () => void;
+  onSave?: () => void;
 };
 
-const TopicCard = ({ topic, isNew, professorId, onSaved }: TopicCardProps) => {
+const TopicCard = ({ topic, isNew, professorId, onSave }: TopicCardProps) => {
   const [isEditing, setIsEditing] = useState(!!isNew);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
 
@@ -22,19 +22,16 @@ const TopicCard = ({ topic, isNew, professorId, onSaved }: TopicCardProps) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    // Add professorId to formData if provided
     if (professorId) {
       formData.append("professorId", String(professorId));
     }
 
     if (isNew) {
-            console.log('calling post')
-
       await api.post("/topic", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     } else if (topic.id) {
-      console.log('calling Patch')
+      console.log("calling Patch");
       await api.patch(`/topic/${topic.id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -42,7 +39,7 @@ const TopicCard = ({ topic, isNew, professorId, onSaved }: TopicCardProps) => {
 
     setIsEditing(false);
     setSelectedFileName(null);
-    onSaved?.();
+    onSave?.();
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
