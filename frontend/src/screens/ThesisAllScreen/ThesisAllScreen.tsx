@@ -1,123 +1,25 @@
+import { useEffect, useState } from "react";
 import ThesisCard from "../../components/ThesisCard/ThesisCard";
 import "./ThesisAllScreen.css";
+import api from "../../api/client";
 
 const ThesisAllScreen = () => {
-  const theses = [
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-    {
-      title: "title 1",
-      description: "description 1",
-    },
-    {
-      title: "title 2",
-      description: "description 2",
-    },
-  ];
+  const [theses, setTheses] = useState([]);
 
-  console.log(
-    "ere, ",
-    theses.map((x) => x)
-  );
+  useEffect(() => {
+    const fetchTheses = async () => {
+      const response = await api.get("/thesis");
+      console.log("thesesALl", response.data);
+      setTheses(response.data);
+    };
+
+    fetchTheses();
+  }, []);
 
   return (
     <div className="grid">
-      {theses.map((x) => (
-        <ThesisCard thesis={x} key={x.title} />
+      {theses?.map((x) => (
+        <ThesisCard thesis={x} key={x.id} />
       ))}
     </div>
   );

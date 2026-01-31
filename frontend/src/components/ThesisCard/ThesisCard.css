@@ -1,4 +1,4 @@
-.card {
+.thesis-card {
     position: relative;
     background-color: rgba(0, 0, 0, 0.3);
     padding: 20px;
@@ -10,13 +10,48 @@
     color: white;
 }
 
-.card-title {
+.thesis-card-title {
     font-weight: bold;
     font-size: 21px;
     color: white;
 }
 
-.card-description {
+.thesis-card-description {
     font-size: 18px;
     color: rgba(255, 255, 255, 0.85);
+}
+
+.thesis-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.thesis-card-info-row {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.thesis-card-label {
+    font-weight: 600;
+    margin-right: 8px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.thesis-card-pdf {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 8px;
+}
+
+.thesis-card-pdf-link {
+    color: rgb(170, 210, 255);
+    text-decoration: none;
+}
+
+.thesis-card-pdf-link:hover {
+    text-decoration: underline;
 }

@@ -148,7 +148,10 @@ const TopicCard = ({
       ) : (
         <>
           <div className="card-actions">
-            <button className="card-edit-btn" onClick={() => setIsEditing(true)}>
+            <button
+              className="card-edit-btn"
+              onClick={() => setIsEditing(true)}
+            >
               ✏️
             </button>
             {topic.isAssigned && (

@@ -168,6 +168,14 @@ app.get("/topic", async (req, res) => {
 
   const topics = await prisma.topic.findMany({
     where: { professorId: Number(professorId) },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      isAssigned: true,
+      professorId: true,
+      pdfFileName: true,
+    },
   });
 
   res.json(topics);
@@ -191,6 +199,14 @@ app.post("/topic", upload.single("pdfFile"), async (req, res) => {
         pdfMimeType: file.mimetype,
         pdfSize: file.size,
       }),
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      isAssigned: true,
+      professorId: true,
+      pdfFileName: true,
     },
   });
 
@@ -243,6 +259,14 @@ app.patch("/topic/:id", upload.single("pdfFile"), async (req, res) => {
         pdfSize: file.size,
       }),
     },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      isAssigned: true,
+      professorId: true,
+      pdfFileName: true,
+    },
   });
 
   res.json(updatedTopic);
@@ -253,7 +277,8 @@ app.post("/thesis", async (req, res) => {
 
   if (!professorId || !topicId || !studentId || !supervisorId) {
     return res.status(400).json({
-      error: "Missing required fields: professorId, topicId, studentId, supervisorId",
+      error:
+        "Missing required fields: professorId, topicId, studentId, supervisorId",
     });
   }
 
@@ -281,7 +306,9 @@ app.post("/thesis", async (req, res) => {
   }
 
   if (student.thesis) {
-    return res.status(400).json({ error: "Student already has a thesis assigned" });
+    return res
+      .status(400)
+      .json({ error: "Student already has a thesis assigned" });
   }
 
   // Create thesis and mark topic as assigned
@@ -301,6 +328,40 @@ app.post("/thesis", async (req, res) => {
   });
 
   res.json(thesis);
+});
+
+app.get("/thesis", async (req, res) => {
+  const theses = await prisma.thesis.findMany({
+    include: {
+      professor: {
+        include: {
+          user: true,
+        },
+      },
+      topic: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          isAssigned: true,
+          professorId: true,
+          pdfFileName: true,
+        },
+      },
+      student: {
+        include: {
+          user: true,
+        },
+      },
+      supervisor: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+
+  res.json(theses);
 });
 
 export default app;
