@@ -1,11 +1,25 @@
 import express from "express";
 import cors from "cors";
+import multer from "multer";
 import prisma from "./prisma.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Configure multer for memory storage (stores file as Buffer)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only PDF files are allowed"));
+    }
+  },
+});
 
 // Health check route
 app.get("/", (req, res) => {
@@ -51,10 +65,6 @@ app.get("/user", async (req, res) => {
 app.patch("/user/:id", async (req, res) => {
   const { id } = req.params;
   const { email, address, cellPhoneNumber, phoneNumber } = req.body;
-
-
-  console.log('userId', id)
-
   const user = await prisma.user.findUnique({
     where: { id: Number(id) },
     include: {
@@ -146,49 +156,83 @@ app.get("/topic", async (req, res) => {
   res.json(topics);
 });
 
-// TODO -> uploading files
-app.post("/topic", async (req, res) => {
-  const { professorId, title, description, pdf } = req.body;
+app.post("/topic", upload.single("pdfFile"), async (req, res) => {
+  const { professorId, title, description } = req.body;
+  const file = req.file as Express.Multer.File | undefined;
 
   if (!professorId)
     return res.status(400).json({ error: "ProfessorId not provided" });
 
-  const topics = await prisma.topic.create({
+  const topic = await prisma.topic.create({
     data: {
       title: title,
       description: description,
-      extendedDescriptionPdf: pdf,
       professor: { connect: { id: Number(professorId) } },
+      ...(file && {
+        pdfFile: Buffer.from(file.buffer),
+        pdfFileName: file.originalname,
+        pdfMimeType: file.mimetype,
+        pdfSize: file.size,
+      }),
     },
   });
 
-  res.json(topics);
+  res.json(topic);
 });
 
-app.patch("/topic/:id", async (req, res) => {
+// Download PDF from topic
+app.get("/topic/:id/pdf", async (req, res) => {
   const { id } = req.params;
-  const { title, description, extendedDescriptionPdf } = req.body;
-
-  console.log('id', id)
 
   const topic = await prisma.topic.findUnique({
     where: { id: Number(id) },
+    select: { pdfFile: true, pdfFileName: true, pdfMimeType: true },
   });
 
-  if (!topic) {
-    return res.status(404).json({ error: "Topic not found" });
+  if (!topic || !topic.pdfFile) {
+    return res.status(404).json({ error: "PDF not found" });
   }
 
-  const updatedTopic = await prisma.topic.update({
-    where: { id: Number(id) },
-    data: {
-      ...(title && { title }),
-      ...(description && { description }),
-      ...(extendedDescriptionPdf && { extendedDescriptionPdf }),
-    },
-  });
-
-  res.json(updatedTopic);
+  res.setHeader("Content-Type", topic.pdfMimeType || "application/pdf");
+  res.setHeader(
+    "Content-Disposition",
+    `inline; filename="${topic.pdfFileName}"`,
+  );
+  res.send(topic.pdfFile);
 });
+
+app.patch(
+  "/topic/:id",
+  upload.single("pdfFile"),
+  async (req: MulterRequest, res) => {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const file = req.file;
+
+    const topic = await prisma.topic.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!topic) {
+      return res.status(404).json({ error: "Topic not found" });
+    }
+
+    const updatedTopic = await prisma.topic.update({
+      where: { id: Number(id) },
+      data: {
+        ...(title && { title }),
+        ...(description && { description }),
+        ...(file && {
+          pdfFile: Buffer.from(file.buffer),
+          pdfFileName: file.originalname,
+          pdfMimeType: file.mimetype,
+          pdfSize: file.size,
+        }),
+      },
+    });
+
+    res.json(updatedTopic);
+  },
+);
 
 export default app;

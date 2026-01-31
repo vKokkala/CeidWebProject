@@ -44,3 +44,11 @@ export const ExamMode = {
 } as const
 
 export type ExamMode = (typeof ExamMode)[keyof typeof ExamMode]
+
+
+export const CommitteeRole = {
+  SUPERVISOR: 'SUPERVISOR',
+  MEMBER: 'MEMBER'
+} as const
+
+export type CommitteeRole = (typeof CommitteeRole)[keyof typeof CommitteeRole]

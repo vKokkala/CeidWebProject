@@ -250,6 +250,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   professor?: Prisma.XOR<Prisma.ProfessorNullableScalarRelationFilter, Prisma.ProfessorWhereInput> | null
+  secretariat?: Prisma.XOR<Prisma.SecretariatNullableScalarRelationFilter, Prisma.SecretariatWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -264,6 +265,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   student?: Prisma.StudentOrderByWithRelationInput
   professor?: Prisma.ProfessorOrderByWithRelationInput
+  secretariat?: Prisma.SecretariatOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -281,6 +283,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   professor?: Prisma.XOR<Prisma.ProfessorNullableScalarRelationFilter, Prisma.ProfessorWhereInput> | null
+  secretariat?: Prisma.XOR<Prisma.SecretariatNullableScalarRelationFilter, Prisma.SecretariatWhereInput> | null
 }, "id" | "email" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -326,6 +329,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   professor?: Prisma.ProfessorCreateNestedOneWithoutUserInput
+  secretariat?: Prisma.SecretariatCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -340,6 +344,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   professor?: Prisma.ProfessorUncheckedCreateNestedOneWithoutUserInput
+  secretariat?: Prisma.SecretariatUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -353,6 +358,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   professor?: Prisma.ProfessorUpdateOneWithoutUserNestedInput
+  secretariat?: Prisma.SecretariatUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -367,6 +373,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   professor?: Prisma.ProfessorUncheckedUpdateOneWithoutUserNestedInput
+  secretariat?: Prisma.SecretariatUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -481,6 +488,20 @@ export type UserUpdateOneRequiredWithoutProfessorNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfessorInput, Prisma.UserUpdateWithoutProfessorInput>, Prisma.UserUncheckedUpdateWithoutProfessorInput>
 }
 
+export type UserCreateNestedOneWithoutSecretariatInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSecretariatInput, Prisma.UserUncheckedCreateWithoutSecretariatInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSecretariatInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSecretariatNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSecretariatInput, Prisma.UserUncheckedCreateWithoutSecretariatInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSecretariatInput
+  upsert?: Prisma.UserUpsertWithoutSecretariatInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSecretariatInput, Prisma.UserUpdateWithoutSecretariatInput>, Prisma.UserUncheckedUpdateWithoutSecretariatInput>
+}
+
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
 }
@@ -499,6 +520,7 @@ export type UserCreateWithoutStudentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   professor?: Prisma.ProfessorCreateNestedOneWithoutUserInput
+  secretariat?: Prisma.SecretariatCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudentInput = {
@@ -512,6 +534,7 @@ export type UserUncheckedCreateWithoutStudentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   professor?: Prisma.ProfessorUncheckedCreateNestedOneWithoutUserInput
+  secretariat?: Prisma.SecretariatUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudentInput = {
@@ -540,6 +563,7 @@ export type UserUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   professor?: Prisma.ProfessorUpdateOneWithoutUserNestedInput
+  secretariat?: Prisma.SecretariatUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentInput = {
@@ -553,6 +577,7 @@ export type UserUncheckedUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   professor?: Prisma.ProfessorUncheckedUpdateOneWithoutUserNestedInput
+  secretariat?: Prisma.SecretariatUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProfessorInput = {
@@ -565,6 +590,7 @@ export type UserCreateWithoutProfessorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  secretariat?: Prisma.SecretariatCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfessorInput = {
@@ -578,6 +604,7 @@ export type UserUncheckedCreateWithoutProfessorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  secretariat?: Prisma.SecretariatUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfessorInput = {
@@ -606,6 +633,7 @@ export type UserUpdateWithoutProfessorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  secretariat?: Prisma.SecretariatUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfessorInput = {
@@ -619,6 +647,77 @@ export type UserUncheckedUpdateWithoutProfessorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  secretariat?: Prisma.SecretariatUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSecretariatInput = {
+  email: string
+  role: $Enums.Role
+  firstName: string
+  lastName: string
+  username: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  professor?: Prisma.ProfessorCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSecretariatInput = {
+  id?: number
+  email: string
+  role: $Enums.Role
+  firstName: string
+  lastName: string
+  username: string
+  password: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  professor?: Prisma.ProfessorUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSecretariatInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSecretariatInput, Prisma.UserUncheckedCreateWithoutSecretariatInput>
+}
+
+export type UserUpsertWithoutSecretariatInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSecretariatInput, Prisma.UserUncheckedUpdateWithoutSecretariatInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSecretariatInput, Prisma.UserUncheckedCreateWithoutSecretariatInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSecretariatInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSecretariatInput, Prisma.UserUncheckedUpdateWithoutSecretariatInput>
+}
+
+export type UserUpdateWithoutSecretariatInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  professor?: Prisma.ProfessorUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSecretariatInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  professor?: Prisma.ProfessorUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -635,6 +734,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   professor?: boolean | Prisma.User$professorArgs<ExtArgs>
+  secretariat?: boolean | Prisma.User$secretariatArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -677,6 +777,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   professor?: boolean | Prisma.User$professorArgs<ExtArgs>
+  secretariat?: boolean | Prisma.User$secretariatArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -686,6 +787,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     student: Prisma.$StudentPayload<ExtArgs> | null
     professor: Prisma.$ProfessorPayload<ExtArgs> | null
+    secretariat: Prisma.$SecretariatPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1093,6 +1195,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   student<T extends Prisma.User$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   professor<T extends Prisma.User$professorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$professorArgs<ExtArgs>>): Prisma.Prisma__ProfessorClient<runtime.Types.Result.GetResult<Prisma.$ProfessorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  secretariat<T extends Prisma.User$secretariatArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$secretariatArgs<ExtArgs>>): Prisma.Prisma__SecretariatClient<runtime.Types.Result.GetResult<Prisma.$SecretariatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1554,6 +1657,25 @@ export type User$professorArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.ProfessorInclude<ExtArgs> | null
   where?: Prisma.ProfessorWhereInput
+}
+
+/**
+ * User.secretariat
+ */
+export type User$secretariatArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Secretariat
+   */
+  select?: Prisma.SecretariatSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Secretariat
+   */
+  omit?: Prisma.SecretariatOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SecretariatInclude<ExtArgs> | null
+  where?: Prisma.SecretariatWhereInput
 }
 
 /**

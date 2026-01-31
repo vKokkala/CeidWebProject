@@ -7,7 +7,7 @@ type TopicCardProps = {
     id?: number;
     title: string;
     description: string;
-    extendedDescriptionPdf?: string;
+    pdfFileName?: string;
   };
   isNew?: boolean;
   professorId?: number;
@@ -16,25 +16,38 @@ type TopicCardProps = {
 
 const TopicCard = ({ topic, isNew, professorId, onSaved }: TopicCardProps) => {
   const [isEditing, setIsEditing] = useState(!!isNew);
+  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    const data = {
-      title: formData.get("title"),
-      description: formData.get("description"),
-      ...(professorId && { professorId }),
-    };
+    // Add professorId to formData if provided
+    if (professorId) {
+      formData.append("professorId", String(professorId));
+    }
 
     if (isNew) {
-      await api.post("/topic", data);
+            console.log('calling post')
+
+      await api.post("/topic", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
     } else if (topic.id) {
-      await api.patch(`/topic/${topic.id}`, data);
+      console.log('calling Patch')
+      await api.patch(`/topic/${topic.id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
     }
 
     setIsEditing(false);
+    setSelectedFileName(null);
     onSaved?.();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setSelectedFileName(file?.name || null);
   };
 
   return (
@@ -60,13 +73,16 @@ const TopicCard = ({ topic, isNew, professorId, onSaved }: TopicCardProps) => {
           />
           <div className="card-pdf">
             <label className="card-pdf-select">
-              {topic.extendedDescriptionPdf
-                ? `🔗 ${topic.extendedDescriptionPdf} (Replace)`
-                : "Add Extensive description file 🔗"}
+              {selectedFileName
+                ? `📄 ${selectedFileName}`
+                : topic.pdfFileName
+                  ? `🔗 ${topic.pdfFileName} (Replace)`
+                  : "Add Extensive description file 🔗"}
               <input
                 type="file"
-                name="extendedDescriptionPdf"
+                name="pdfFile"
                 accept=".pdf"
+                onChange={handleFileChange}
                 hidden
               />
             </label>
@@ -79,11 +95,16 @@ const TopicCard = ({ topic, isNew, professorId, onSaved }: TopicCardProps) => {
           </button>
           <div className="card-title">{topic.title}</div>
           <div className="card-description">{topic.description}</div>
-          {topic.extendedDescriptionPdf && (
+          {topic.pdfFileName && topic.id && (
             <div className="card-pdf">
-              <span className="card-pdf-name">
-                🔗 {topic.extendedDescriptionPdf}
-              </span>
+              <a
+                href={`${api.defaults.baseURL}/topic/${topic.id}/pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card-pdf-name"
+              >
+                🔗 {topic.pdfFileName}
+              </a>
             </div>
           )}
         </>

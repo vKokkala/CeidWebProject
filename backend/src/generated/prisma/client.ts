@@ -50,6 +50,11 @@ export type Student = Prisma.StudentModel
  */
 export type Professor = Prisma.ProfessorModel
 /**
+ * Model Secretariat
+ * 
+ */
+export type Secretariat = Prisma.SecretariatModel
+/**
  * Model User
  * 
  */
@@ -59,3 +64,38 @@ export type User = Prisma.UserModel
  * 
  */
 export type Topic = Prisma.TopicModel
+/**
+ * Model AssignmentCancellation
+ * 
+ */
+export type AssignmentCancellation = Prisma.AssignmentCancellationModel
+/**
+ * Model CommitteeInvitation
+ * 
+ */
+export type CommitteeInvitation = Prisma.CommitteeInvitationModel
+/**
+ * Model Grade
+ * 
+ */
+export type Grade = Prisma.GradeModel
+/**
+ * Model Thesis
+ * 
+ */
+export type Thesis = Prisma.ThesisModel
+/**
+ * Model ThesisStatusChange
+ * 
+ */
+export type ThesisStatusChange = Prisma.ThesisStatusChangeModel
+/**
+ * Model ThesisNote
+ * 
+ */
+export type ThesisNote = Prisma.ThesisNoteModel
+/**
+ * Model CommitteeMember
+ * 
+ */
+export type CommitteeMember = Prisma.CommitteeMemberModel

@@ -198,6 +198,12 @@ export type ProfessorWhereInput = {
   userId?: Prisma.IntFilter<"Professor"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   topics?: Prisma.TopicListRelationFilter
+  theses?: Prisma.ThesisListRelationFilter
+  grades?: Prisma.GradeListRelationFilter
+  supervisedTheses?: Prisma.ThesisListRelationFilter
+  committeeMembers?: Prisma.CommitteeMemberListRelationFilter
+  committeeInvitations?: Prisma.CommitteeInvitationListRelationFilter
+  notes?: Prisma.ThesisNoteListRelationFilter
 }
 
 export type ProfessorOrderByWithRelationInput = {
@@ -205,6 +211,12 @@ export type ProfessorOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   topics?: Prisma.TopicOrderByRelationAggregateInput
+  theses?: Prisma.ThesisOrderByRelationAggregateInput
+  grades?: Prisma.GradeOrderByRelationAggregateInput
+  supervisedTheses?: Prisma.ThesisOrderByRelationAggregateInput
+  committeeMembers?: Prisma.CommitteeMemberOrderByRelationAggregateInput
+  committeeInvitations?: Prisma.CommitteeInvitationOrderByRelationAggregateInput
+  notes?: Prisma.ThesisNoteOrderByRelationAggregateInput
 }
 
 export type ProfessorWhereUniqueInput = Prisma.AtLeast<{
@@ -215,6 +227,12 @@ export type ProfessorWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProfessorWhereInput | Prisma.ProfessorWhereInput[]
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   topics?: Prisma.TopicListRelationFilter
+  theses?: Prisma.ThesisListRelationFilter
+  grades?: Prisma.GradeListRelationFilter
+  supervisedTheses?: Prisma.ThesisListRelationFilter
+  committeeMembers?: Prisma.CommitteeMemberListRelationFilter
+  committeeInvitations?: Prisma.CommitteeInvitationListRelationFilter
+  notes?: Prisma.ThesisNoteListRelationFilter
 }, "id" | "userId">
 
 export type ProfessorOrderByWithAggregationInput = {
@@ -238,23 +256,47 @@ export type ProfessorScalarWhereWithAggregatesInput = {
 export type ProfessorCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutProfessorInput
   topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorUncheckedCreateInput = {
   id?: number
   userId: number
   topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
   topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutProfessorNestedInput
 }
 
 export type ProfessorUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutProfessorNestedInput
 }
 
 export type ProfessorCreateManyInput = {
@@ -299,6 +341,11 @@ export type ProfessorSumOrderByAggregateInput = {
 export type ProfessorNullableScalarRelationFilter = {
   is?: Prisma.ProfessorWhereInput | null
   isNot?: Prisma.ProfessorWhereInput | null
+}
+
+export type ProfessorScalarRelationFilter = {
+  is?: Prisma.ProfessorWhereInput
+  isNot?: Prisma.ProfessorWhereInput
 }
 
 export type ProfessorCreateNestedOneWithoutUserInput = {
@@ -349,13 +396,113 @@ export type ProfessorUpdateOneWithoutTopicsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutTopicsInput, Prisma.ProfessorUpdateWithoutTopicsInput>, Prisma.ProfessorUncheckedUpdateWithoutTopicsInput>
 }
 
+export type ProfessorCreateNestedOneWithoutCommitteeInvitationsInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutCommitteeInvitationsInput, Prisma.ProfessorUncheckedCreateWithoutCommitteeInvitationsInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutCommitteeInvitationsInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+}
+
+export type ProfessorUpdateOneRequiredWithoutCommitteeInvitationsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutCommitteeInvitationsInput, Prisma.ProfessorUncheckedCreateWithoutCommitteeInvitationsInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutCommitteeInvitationsInput
+  upsert?: Prisma.ProfessorUpsertWithoutCommitteeInvitationsInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutCommitteeInvitationsInput, Prisma.ProfessorUpdateWithoutCommitteeInvitationsInput>, Prisma.ProfessorUncheckedUpdateWithoutCommitteeInvitationsInput>
+}
+
+export type ProfessorCreateNestedOneWithoutGradesInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutGradesInput, Prisma.ProfessorUncheckedCreateWithoutGradesInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutGradesInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+}
+
+export type ProfessorUpdateOneWithoutGradesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutGradesInput, Prisma.ProfessorUncheckedCreateWithoutGradesInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutGradesInput
+  upsert?: Prisma.ProfessorUpsertWithoutGradesInput
+  disconnect?: Prisma.ProfessorWhereInput | boolean
+  delete?: Prisma.ProfessorWhereInput | boolean
+  connect?: Prisma.ProfessorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutGradesInput, Prisma.ProfessorUpdateWithoutGradesInput>, Prisma.ProfessorUncheckedUpdateWithoutGradesInput>
+}
+
+export type ProfessorCreateNestedOneWithoutThesesInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutThesesInput, Prisma.ProfessorUncheckedCreateWithoutThesesInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutThesesInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+}
+
+export type ProfessorCreateNestedOneWithoutSupervisedThesesInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutSupervisedThesesInput, Prisma.ProfessorUncheckedCreateWithoutSupervisedThesesInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutSupervisedThesesInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+}
+
+export type ProfessorUpdateOneWithoutThesesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutThesesInput, Prisma.ProfessorUncheckedCreateWithoutThesesInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutThesesInput
+  upsert?: Prisma.ProfessorUpsertWithoutThesesInput
+  disconnect?: Prisma.ProfessorWhereInput | boolean
+  delete?: Prisma.ProfessorWhereInput | boolean
+  connect?: Prisma.ProfessorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutThesesInput, Prisma.ProfessorUpdateWithoutThesesInput>, Prisma.ProfessorUncheckedUpdateWithoutThesesInput>
+}
+
+export type ProfessorUpdateOneRequiredWithoutSupervisedThesesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutSupervisedThesesInput, Prisma.ProfessorUncheckedCreateWithoutSupervisedThesesInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutSupervisedThesesInput
+  upsert?: Prisma.ProfessorUpsertWithoutSupervisedThesesInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutSupervisedThesesInput, Prisma.ProfessorUpdateWithoutSupervisedThesesInput>, Prisma.ProfessorUncheckedUpdateWithoutSupervisedThesesInput>
+}
+
+export type ProfessorCreateNestedOneWithoutNotesInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutNotesInput, Prisma.ProfessorUncheckedCreateWithoutNotesInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutNotesInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+}
+
+export type ProfessorUpdateOneRequiredWithoutNotesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutNotesInput, Prisma.ProfessorUncheckedCreateWithoutNotesInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutNotesInput
+  upsert?: Prisma.ProfessorUpsertWithoutNotesInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutNotesInput, Prisma.ProfessorUpdateWithoutNotesInput>, Prisma.ProfessorUncheckedUpdateWithoutNotesInput>
+}
+
+export type ProfessorCreateNestedOneWithoutCommitteeMembersInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutCommitteeMembersInput, Prisma.ProfessorUncheckedCreateWithoutCommitteeMembersInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutCommitteeMembersInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+}
+
+export type ProfessorUpdateOneRequiredWithoutCommitteeMembersNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessorCreateWithoutCommitteeMembersInput, Prisma.ProfessorUncheckedCreateWithoutCommitteeMembersInput>
+  connectOrCreate?: Prisma.ProfessorCreateOrConnectWithoutCommitteeMembersInput
+  upsert?: Prisma.ProfessorUpsertWithoutCommitteeMembersInput
+  connect?: Prisma.ProfessorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessorUpdateToOneWithWhereWithoutCommitteeMembersInput, Prisma.ProfessorUpdateWithoutCommitteeMembersInput>, Prisma.ProfessorUncheckedUpdateWithoutCommitteeMembersInput>
+}
+
 export type ProfessorCreateWithoutUserInput = {
   topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorUncheckedCreateWithoutUserInput = {
   id?: number
   topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorCreateOrConnectWithoutUserInput = {
@@ -376,20 +523,44 @@ export type ProfessorUpdateToOneWithWhereWithoutUserInput = {
 
 export type ProfessorUpdateWithoutUserInput = {
   topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutProfessorNestedInput
 }
 
 export type ProfessorUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutProfessorNestedInput
 }
 
 export type ProfessorCreateWithoutTopicsInput = {
   user: Prisma.UserCreateNestedOneWithoutProfessorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorUncheckedCreateWithoutTopicsInput = {
   id?: number
   userId: number
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutProfessorInput
 }
 
 export type ProfessorCreateOrConnectWithoutTopicsInput = {
@@ -410,11 +581,371 @@ export type ProfessorUpdateToOneWithWhereWithoutTopicsInput = {
 
 export type ProfessorUpdateWithoutTopicsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutProfessorNestedInput
 }
 
 export type ProfessorUncheckedUpdateWithoutTopicsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorCreateWithoutCommitteeInvitationsInput = {
+  user: Prisma.UserCreateNestedOneWithoutProfessorInput
+  topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorUncheckedCreateWithoutCommitteeInvitationsInput = {
+  id?: number
+  userId: number
+  topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorCreateOrConnectWithoutCommitteeInvitationsInput = {
+  where: Prisma.ProfessorWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutCommitteeInvitationsInput, Prisma.ProfessorUncheckedCreateWithoutCommitteeInvitationsInput>
+}
+
+export type ProfessorUpsertWithoutCommitteeInvitationsInput = {
+  update: Prisma.XOR<Prisma.ProfessorUpdateWithoutCommitteeInvitationsInput, Prisma.ProfessorUncheckedUpdateWithoutCommitteeInvitationsInput>
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutCommitteeInvitationsInput, Prisma.ProfessorUncheckedCreateWithoutCommitteeInvitationsInput>
+  where?: Prisma.ProfessorWhereInput
+}
+
+export type ProfessorUpdateToOneWithWhereWithoutCommitteeInvitationsInput = {
+  where?: Prisma.ProfessorWhereInput
+  data: Prisma.XOR<Prisma.ProfessorUpdateWithoutCommitteeInvitationsInput, Prisma.ProfessorUncheckedUpdateWithoutCommitteeInvitationsInput>
+}
+
+export type ProfessorUpdateWithoutCommitteeInvitationsInput = {
+  user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+  topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorUncheckedUpdateWithoutCommitteeInvitationsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorCreateWithoutGradesInput = {
+  user: Prisma.UserCreateNestedOneWithoutProfessorInput
+  topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorUncheckedCreateWithoutGradesInput = {
+  id?: number
+  userId: number
+  topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorCreateOrConnectWithoutGradesInput = {
+  where: Prisma.ProfessorWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutGradesInput, Prisma.ProfessorUncheckedCreateWithoutGradesInput>
+}
+
+export type ProfessorUpsertWithoutGradesInput = {
+  update: Prisma.XOR<Prisma.ProfessorUpdateWithoutGradesInput, Prisma.ProfessorUncheckedUpdateWithoutGradesInput>
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutGradesInput, Prisma.ProfessorUncheckedCreateWithoutGradesInput>
+  where?: Prisma.ProfessorWhereInput
+}
+
+export type ProfessorUpdateToOneWithWhereWithoutGradesInput = {
+  where?: Prisma.ProfessorWhereInput
+  data: Prisma.XOR<Prisma.ProfessorUpdateWithoutGradesInput, Prisma.ProfessorUncheckedUpdateWithoutGradesInput>
+}
+
+export type ProfessorUpdateWithoutGradesInput = {
+  user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+  topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorUncheckedUpdateWithoutGradesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorCreateWithoutThesesInput = {
+  user: Prisma.UserCreateNestedOneWithoutProfessorInput
+  topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorUncheckedCreateWithoutThesesInput = {
+  id?: number
+  userId: number
+  topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorCreateOrConnectWithoutThesesInput = {
+  where: Prisma.ProfessorWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutThesesInput, Prisma.ProfessorUncheckedCreateWithoutThesesInput>
+}
+
+export type ProfessorCreateWithoutSupervisedThesesInput = {
+  user: Prisma.UserCreateNestedOneWithoutProfessorInput
+  topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeCreateNestedManyWithoutProfessorInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorUncheckedCreateWithoutSupervisedThesesInput = {
+  id?: number
+  userId: number
+  topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutProfessorInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorCreateOrConnectWithoutSupervisedThesesInput = {
+  where: Prisma.ProfessorWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutSupervisedThesesInput, Prisma.ProfessorUncheckedCreateWithoutSupervisedThesesInput>
+}
+
+export type ProfessorUpsertWithoutThesesInput = {
+  update: Prisma.XOR<Prisma.ProfessorUpdateWithoutThesesInput, Prisma.ProfessorUncheckedUpdateWithoutThesesInput>
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutThesesInput, Prisma.ProfessorUncheckedCreateWithoutThesesInput>
+  where?: Prisma.ProfessorWhereInput
+}
+
+export type ProfessorUpdateToOneWithWhereWithoutThesesInput = {
+  where?: Prisma.ProfessorWhereInput
+  data: Prisma.XOR<Prisma.ProfessorUpdateWithoutThesesInput, Prisma.ProfessorUncheckedUpdateWithoutThesesInput>
+}
+
+export type ProfessorUpdateWithoutThesesInput = {
+  user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+  topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorUncheckedUpdateWithoutThesesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorUpsertWithoutSupervisedThesesInput = {
+  update: Prisma.XOR<Prisma.ProfessorUpdateWithoutSupervisedThesesInput, Prisma.ProfessorUncheckedUpdateWithoutSupervisedThesesInput>
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutSupervisedThesesInput, Prisma.ProfessorUncheckedCreateWithoutSupervisedThesesInput>
+  where?: Prisma.ProfessorWhereInput
+}
+
+export type ProfessorUpdateToOneWithWhereWithoutSupervisedThesesInput = {
+  where?: Prisma.ProfessorWhereInput
+  data: Prisma.XOR<Prisma.ProfessorUpdateWithoutSupervisedThesesInput, Prisma.ProfessorUncheckedUpdateWithoutSupervisedThesesInput>
+}
+
+export type ProfessorUpdateWithoutSupervisedThesesInput = {
+  user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+  topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutProfessorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorUncheckedUpdateWithoutSupervisedThesesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutProfessorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorCreateWithoutNotesInput = {
+  user: Prisma.UserCreateNestedOneWithoutProfessorInput
+  topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorUncheckedCreateWithoutNotesInput = {
+  id?: number
+  userId: number
+  topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutProfessorInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorCreateOrConnectWithoutNotesInput = {
+  where: Prisma.ProfessorWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutNotesInput, Prisma.ProfessorUncheckedCreateWithoutNotesInput>
+}
+
+export type ProfessorUpsertWithoutNotesInput = {
+  update: Prisma.XOR<Prisma.ProfessorUpdateWithoutNotesInput, Prisma.ProfessorUncheckedUpdateWithoutNotesInput>
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutNotesInput, Prisma.ProfessorUncheckedCreateWithoutNotesInput>
+  where?: Prisma.ProfessorWhereInput
+}
+
+export type ProfessorUpdateToOneWithWhereWithoutNotesInput = {
+  where?: Prisma.ProfessorWhereInput
+  data: Prisma.XOR<Prisma.ProfessorUpdateWithoutNotesInput, Prisma.ProfessorUncheckedUpdateWithoutNotesInput>
+}
+
+export type ProfessorUpdateWithoutNotesInput = {
+  user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+  topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorUncheckedUpdateWithoutNotesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutProfessorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorCreateWithoutCommitteeMembersInput = {
+  user: Prisma.UserCreateNestedOneWithoutProfessorInput
+  topics?: Prisma.TopicCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisCreateNestedManyWithoutSupervisorInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorUncheckedCreateWithoutCommitteeMembersInput = {
+  id?: number
+  userId: number
+  topics?: Prisma.TopicUncheckedCreateNestedManyWithoutProfessorInput
+  theses?: Prisma.ThesisUncheckedCreateNestedManyWithoutProfessorInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutProfessorInput
+  supervisedTheses?: Prisma.ThesisUncheckedCreateNestedManyWithoutSupervisorInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutProfessorInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutProfessorInput
+}
+
+export type ProfessorCreateOrConnectWithoutCommitteeMembersInput = {
+  where: Prisma.ProfessorWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutCommitteeMembersInput, Prisma.ProfessorUncheckedCreateWithoutCommitteeMembersInput>
+}
+
+export type ProfessorUpsertWithoutCommitteeMembersInput = {
+  update: Prisma.XOR<Prisma.ProfessorUpdateWithoutCommitteeMembersInput, Prisma.ProfessorUncheckedUpdateWithoutCommitteeMembersInput>
+  create: Prisma.XOR<Prisma.ProfessorCreateWithoutCommitteeMembersInput, Prisma.ProfessorUncheckedCreateWithoutCommitteeMembersInput>
+  where?: Prisma.ProfessorWhereInput
+}
+
+export type ProfessorUpdateToOneWithWhereWithoutCommitteeMembersInput = {
+  where?: Prisma.ProfessorWhereInput
+  data: Prisma.XOR<Prisma.ProfessorUpdateWithoutCommitteeMembersInput, Prisma.ProfessorUncheckedUpdateWithoutCommitteeMembersInput>
+}
+
+export type ProfessorUpdateWithoutCommitteeMembersInput = {
+  user?: Prisma.UserUpdateOneRequiredWithoutProfessorNestedInput
+  topics?: Prisma.TopicUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUpdateManyWithoutSupervisorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutProfessorNestedInput
+}
+
+export type ProfessorUncheckedUpdateWithoutCommitteeMembersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  topics?: Prisma.TopicUncheckedUpdateManyWithoutProfessorNestedInput
+  theses?: Prisma.ThesisUncheckedUpdateManyWithoutProfessorNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutProfessorNestedInput
+  supervisedTheses?: Prisma.ThesisUncheckedUpdateManyWithoutSupervisorNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutProfessorNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutProfessorNestedInput
 }
 
 
@@ -424,10 +955,22 @@ export type ProfessorUncheckedUpdateWithoutTopicsInput = {
 
 export type ProfessorCountOutputType = {
   topics: number
+  theses: number
+  grades: number
+  supervisedTheses: number
+  committeeMembers: number
+  committeeInvitations: number
+  notes: number
 }
 
 export type ProfessorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   topics?: boolean | ProfessorCountOutputTypeCountTopicsArgs
+  theses?: boolean | ProfessorCountOutputTypeCountThesesArgs
+  grades?: boolean | ProfessorCountOutputTypeCountGradesArgs
+  supervisedTheses?: boolean | ProfessorCountOutputTypeCountSupervisedThesesArgs
+  committeeMembers?: boolean | ProfessorCountOutputTypeCountCommitteeMembersArgs
+  committeeInvitations?: boolean | ProfessorCountOutputTypeCountCommitteeInvitationsArgs
+  notes?: boolean | ProfessorCountOutputTypeCountNotesArgs
 }
 
 /**
@@ -447,12 +990,60 @@ export type ProfessorCountOutputTypeCountTopicsArgs<ExtArgs extends runtime.Type
   where?: Prisma.TopicWhereInput
 }
 
+/**
+ * ProfessorCountOutputType without action
+ */
+export type ProfessorCountOutputTypeCountThesesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ThesisWhereInput
+}
+
+/**
+ * ProfessorCountOutputType without action
+ */
+export type ProfessorCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GradeWhereInput
+}
+
+/**
+ * ProfessorCountOutputType without action
+ */
+export type ProfessorCountOutputTypeCountSupervisedThesesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ThesisWhereInput
+}
+
+/**
+ * ProfessorCountOutputType without action
+ */
+export type ProfessorCountOutputTypeCountCommitteeMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommitteeMemberWhereInput
+}
+
+/**
+ * ProfessorCountOutputType without action
+ */
+export type ProfessorCountOutputTypeCountCommitteeInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommitteeInvitationWhereInput
+}
+
+/**
+ * ProfessorCountOutputType without action
+ */
+export type ProfessorCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ThesisNoteWhereInput
+}
+
 
 export type ProfessorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   topics?: boolean | Prisma.Professor$topicsArgs<ExtArgs>
+  theses?: boolean | Prisma.Professor$thesesArgs<ExtArgs>
+  grades?: boolean | Prisma.Professor$gradesArgs<ExtArgs>
+  supervisedTheses?: boolean | Prisma.Professor$supervisedThesesArgs<ExtArgs>
+  committeeMembers?: boolean | Prisma.Professor$committeeMembersArgs<ExtArgs>
+  committeeInvitations?: boolean | Prisma.Professor$committeeInvitationsArgs<ExtArgs>
+  notes?: boolean | Prisma.Professor$notesArgs<ExtArgs>
   _count?: boolean | Prisma.ProfessorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["professor"]>
 
@@ -477,6 +1068,12 @@ export type ProfessorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ProfessorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   topics?: boolean | Prisma.Professor$topicsArgs<ExtArgs>
+  theses?: boolean | Prisma.Professor$thesesArgs<ExtArgs>
+  grades?: boolean | Prisma.Professor$gradesArgs<ExtArgs>
+  supervisedTheses?: boolean | Prisma.Professor$supervisedThesesArgs<ExtArgs>
+  committeeMembers?: boolean | Prisma.Professor$committeeMembersArgs<ExtArgs>
+  committeeInvitations?: boolean | Prisma.Professor$committeeInvitationsArgs<ExtArgs>
+  notes?: boolean | Prisma.Professor$notesArgs<ExtArgs>
   _count?: boolean | Prisma.ProfessorCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProfessorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -491,6 +1088,12 @@ export type $ProfessorPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     topics: Prisma.$TopicPayload<ExtArgs>[]
+    theses: Prisma.$ThesisPayload<ExtArgs>[]
+    grades: Prisma.$GradePayload<ExtArgs>[]
+    supervisedTheses: Prisma.$ThesisPayload<ExtArgs>[]
+    committeeMembers: Prisma.$CommitteeMemberPayload<ExtArgs>[]
+    committeeInvitations: Prisma.$CommitteeInvitationPayload<ExtArgs>[]
+    notes: Prisma.$ThesisNotePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -891,6 +1494,12 @@ export interface Prisma__ProfessorClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   topics<T extends Prisma.Professor$topicsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professor$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  theses<T extends Prisma.Professor$thesesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professor$thesesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThesisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  grades<T extends Prisma.Professor$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professor$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  supervisedTheses<T extends Prisma.Professor$supervisedThesesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professor$supervisedThesesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThesisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  committeeMembers<T extends Prisma.Professor$committeeMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professor$committeeMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitteeMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  committeeInvitations<T extends Prisma.Professor$committeeInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professor$committeeInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitteeInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notes<T extends Prisma.Professor$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professor$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThesisNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1339,6 +1948,150 @@ export type Professor$topicsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.TopicScalarFieldEnum | Prisma.TopicScalarFieldEnum[]
+}
+
+/**
+ * Professor.theses
+ */
+export type Professor$thesesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Thesis
+   */
+  select?: Prisma.ThesisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Thesis
+   */
+  omit?: Prisma.ThesisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ThesisInclude<ExtArgs> | null
+  where?: Prisma.ThesisWhereInput
+  orderBy?: Prisma.ThesisOrderByWithRelationInput | Prisma.ThesisOrderByWithRelationInput[]
+  cursor?: Prisma.ThesisWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ThesisScalarFieldEnum | Prisma.ThesisScalarFieldEnum[]
+}
+
+/**
+ * Professor.grades
+ */
+export type Professor$gradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Grade
+   */
+  select?: Prisma.GradeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Grade
+   */
+  omit?: Prisma.GradeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GradeInclude<ExtArgs> | null
+  where?: Prisma.GradeWhereInput
+  orderBy?: Prisma.GradeOrderByWithRelationInput | Prisma.GradeOrderByWithRelationInput[]
+  cursor?: Prisma.GradeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GradeScalarFieldEnum | Prisma.GradeScalarFieldEnum[]
+}
+
+/**
+ * Professor.supervisedTheses
+ */
+export type Professor$supervisedThesesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Thesis
+   */
+  select?: Prisma.ThesisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Thesis
+   */
+  omit?: Prisma.ThesisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ThesisInclude<ExtArgs> | null
+  where?: Prisma.ThesisWhereInput
+  orderBy?: Prisma.ThesisOrderByWithRelationInput | Prisma.ThesisOrderByWithRelationInput[]
+  cursor?: Prisma.ThesisWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ThesisScalarFieldEnum | Prisma.ThesisScalarFieldEnum[]
+}
+
+/**
+ * Professor.committeeMembers
+ */
+export type Professor$committeeMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CommitteeMember
+   */
+  select?: Prisma.CommitteeMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CommitteeMember
+   */
+  omit?: Prisma.CommitteeMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommitteeMemberInclude<ExtArgs> | null
+  where?: Prisma.CommitteeMemberWhereInput
+  orderBy?: Prisma.CommitteeMemberOrderByWithRelationInput | Prisma.CommitteeMemberOrderByWithRelationInput[]
+  cursor?: Prisma.CommitteeMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommitteeMemberScalarFieldEnum | Prisma.CommitteeMemberScalarFieldEnum[]
+}
+
+/**
+ * Professor.committeeInvitations
+ */
+export type Professor$committeeInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CommitteeInvitation
+   */
+  select?: Prisma.CommitteeInvitationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CommitteeInvitation
+   */
+  omit?: Prisma.CommitteeInvitationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommitteeInvitationInclude<ExtArgs> | null
+  where?: Prisma.CommitteeInvitationWhereInput
+  orderBy?: Prisma.CommitteeInvitationOrderByWithRelationInput | Prisma.CommitteeInvitationOrderByWithRelationInput[]
+  cursor?: Prisma.CommitteeInvitationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommitteeInvitationScalarFieldEnum | Prisma.CommitteeInvitationScalarFieldEnum[]
+}
+
+/**
+ * Professor.notes
+ */
+export type Professor$notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ThesisNote
+   */
+  select?: Prisma.ThesisNoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ThesisNote
+   */
+  omit?: Prisma.ThesisNoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ThesisNoteInclude<ExtArgs> | null
+  where?: Prisma.ThesisNoteWhereInput
+  orderBy?: Prisma.ThesisNoteOrderByWithRelationInput | Prisma.ThesisNoteOrderByWithRelationInput[]
+  cursor?: Prisma.ThesisNoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ThesisNoteScalarFieldEnum | Prisma.ThesisNoteScalarFieldEnum[]
 }
 
 /**

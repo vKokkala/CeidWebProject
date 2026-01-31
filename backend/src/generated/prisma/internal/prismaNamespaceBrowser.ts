@@ -53,8 +53,16 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Student: 'Student',
   Professor: 'Professor',
+  Secretariat: 'Secretariat',
   User: 'User',
-  Topic: 'Topic'
+  Topic: 'Topic',
+  AssignmentCancellation: 'AssignmentCancellation',
+  CommitteeInvitation: 'CommitteeInvitation',
+  Grade: 'Grade',
+  Thesis: 'Thesis',
+  ThesisStatusChange: 'ThesisStatusChange',
+  ThesisNote: 'ThesisNote',
+  CommitteeMember: 'CommitteeMember'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -93,6 +101,14 @@ export const ProfessorScalarFieldEnum = {
 export type ProfessorScalarFieldEnum = (typeof ProfessorScalarFieldEnum)[keyof typeof ProfessorScalarFieldEnum]
 
 
+export const SecretariatScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId'
+} as const
+
+export type SecretariatScalarFieldEnum = (typeof SecretariatScalarFieldEnum)[keyof typeof SecretariatScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -112,11 +128,116 @@ export const TopicScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  extendedDescriptionPdf: 'extendedDescriptionPdf',
-  professorId: 'professorId'
+  pdfFile: 'pdfFile',
+  pdfFileName: 'pdfFileName',
+  pdfMimeType: 'pdfMimeType',
+  pdfSize: 'pdfSize',
+  professorId: 'professorId',
+  isAssigned: 'isAssigned',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type TopicScalarFieldEnum = (typeof TopicScalarFieldEnum)[keyof typeof TopicScalarFieldEnum]
+
+
+export const AssignmentCancellationScalarFieldEnum = {
+  id: 'id',
+  generalCommitteeGatheringNumber: 'generalCommitteeGatheringNumber',
+  generalCommitteeGatheringYear: 'generalCommitteeGatheringYear',
+  reason: 'reason'
+} as const
+
+export type AssignmentCancellationScalarFieldEnum = (typeof AssignmentCancellationScalarFieldEnum)[keyof typeof AssignmentCancellationScalarFieldEnum]
+
+
+export const CommitteeInvitationScalarFieldEnum = {
+  id: 'id',
+  Role: 'Role',
+  invitationStatus: 'invitationStatus',
+  thesisId: 'thesisId',
+  professorId: 'professorId',
+  createdAt: 'createdAt',
+  repliedAt: 'repliedAt'
+} as const
+
+export type CommitteeInvitationScalarFieldEnum = (typeof CommitteeInvitationScalarFieldEnum)[keyof typeof CommitteeInvitationScalarFieldEnum]
+
+
+export const GradeScalarFieldEnum = {
+  id: 'id',
+  criterion1Score: 'criterion1Score',
+  criterion2Score: 'criterion2Score',
+  criterion3Score: 'criterion3Score',
+  criterion4Score: 'criterion4Score',
+  criterion5Score: 'criterion5Score',
+  totalGrade: 'totalGrade',
+  comments: 'comments',
+  thesisId: 'thesisId',
+  professorId: 'professorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof GradeScalarFieldEnum]
+
+
+export const ThesisScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  assignmentFinalisedAt: 'assignmentFinalisedAt',
+  officialAssignmentDate: 'officialAssignmentDate',
+  completedAt: 'completedAt',
+  cancelledAt: 'cancelledAt',
+  examinationDate: 'examinationDate',
+  examinationMode: 'examinationMode',
+  examinationPlace: 'examinationPlace',
+  topicId: 'topicId',
+  studentId: 'studentId',
+  professorId: 'professorId',
+  supervisorId: 'supervisorId',
+  isGradingEnabled: 'isGradingEnabled',
+  relevantLinks: 'relevantLinks',
+  thesisDocument: 'thesisDocument',
+  nemertisLink: 'nemertisLink',
+  finalGrade: 'finalGrade'
+} as const
+
+export type ThesisScalarFieldEnum = (typeof ThesisScalarFieldEnum)[keyof typeof ThesisScalarFieldEnum]
+
+
+export const ThesisStatusChangeScalarFieldEnum = {
+  id: 'id',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  changedAt: 'changedAt',
+  changedBy: 'changedBy',
+  notes: 'notes',
+  thesisId: 'thesisId'
+} as const
+
+export type ThesisStatusChangeScalarFieldEnum = (typeof ThesisStatusChangeScalarFieldEnum)[keyof typeof ThesisStatusChangeScalarFieldEnum]
+
+
+export const ThesisNoteScalarFieldEnum = {
+  id: 'id',
+  note: 'note',
+  thesisId: 'thesisId',
+  professorId: 'professorId'
+} as const
+
+export type ThesisNoteScalarFieldEnum = (typeof ThesisNoteScalarFieldEnum)[keyof typeof ThesisNoteScalarFieldEnum]
+
+
+export const CommitteeMemberScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  acceptedAt: 'acceptedAt',
+  thesisId: 'thesisId',
+  professorId: 'professorId'
+} as const
+
+export type CommitteeMemberScalarFieldEnum = (typeof CommitteeMemberScalarFieldEnum)[keyof typeof CommitteeMemberScalarFieldEnum]
 
 
 export const SortOrder = {

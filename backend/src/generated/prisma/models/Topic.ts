@@ -28,11 +28,13 @@ export type AggregateTopic = {
 
 export type TopicAvgAggregateOutputType = {
   id: number | null
+  pdfSize: number | null
   professorId: number | null
 }
 
 export type TopicSumAggregateOutputType = {
   id: number | null
+  pdfSize: number | null
   professorId: number | null
 }
 
@@ -40,35 +42,55 @@ export type TopicMinAggregateOutputType = {
   id: number | null
   title: string | null
   description: string | null
-  extendedDescriptionPdf: runtime.Bytes | null
+  pdfFile: runtime.Bytes | null
+  pdfFileName: string | null
+  pdfMimeType: string | null
+  pdfSize: number | null
   professorId: number | null
+  isAssigned: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type TopicMaxAggregateOutputType = {
   id: number | null
   title: string | null
   description: string | null
-  extendedDescriptionPdf: runtime.Bytes | null
+  pdfFile: runtime.Bytes | null
+  pdfFileName: string | null
+  pdfMimeType: string | null
+  pdfSize: number | null
   professorId: number | null
+  isAssigned: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type TopicCountAggregateOutputType = {
   id: number
   title: number
   description: number
-  extendedDescriptionPdf: number
+  pdfFile: number
+  pdfFileName: number
+  pdfMimeType: number
+  pdfSize: number
   professorId: number
+  isAssigned: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
 
 export type TopicAvgAggregateInputType = {
   id?: true
+  pdfSize?: true
   professorId?: true
 }
 
 export type TopicSumAggregateInputType = {
   id?: true
+  pdfSize?: true
   professorId?: true
 }
 
@@ -76,24 +98,42 @@ export type TopicMinAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  extendedDescriptionPdf?: true
+  pdfFile?: true
+  pdfFileName?: true
+  pdfMimeType?: true
+  pdfSize?: true
   professorId?: true
+  isAssigned?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type TopicMaxAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  extendedDescriptionPdf?: true
+  pdfFile?: true
+  pdfFileName?: true
+  pdfMimeType?: true
+  pdfSize?: true
   professorId?: true
+  isAssigned?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type TopicCountAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  extendedDescriptionPdf?: true
+  pdfFile?: true
+  pdfFileName?: true
+  pdfMimeType?: true
+  pdfSize?: true
   professorId?: true
+  isAssigned?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -187,8 +227,14 @@ export type TopicGroupByOutputType = {
   id: number
   title: string
   description: string
-  extendedDescriptionPdf: runtime.Bytes | null
+  pdfFile: runtime.Bytes | null
+  pdfFileName: string | null
+  pdfMimeType: string | null
+  pdfSize: number | null
   professorId: number | null
+  isAssigned: boolean
+  createdAt: Date
+  updatedAt: Date | null
   _count: TopicCountAggregateOutputType | null
   _avg: TopicAvgAggregateOutputType | null
   _sum: TopicSumAggregateOutputType | null
@@ -218,18 +264,32 @@ export type TopicWhereInput = {
   id?: Prisma.IntFilter<"Topic"> | number
   title?: Prisma.StringFilter<"Topic"> | string
   description?: Prisma.StringFilter<"Topic"> | string
-  extendedDescriptionPdf?: Prisma.BytesNullableFilter<"Topic"> | runtime.Bytes | null
+  pdfFile?: Prisma.BytesNullableFilter<"Topic"> | runtime.Bytes | null
+  pdfFileName?: Prisma.StringNullableFilter<"Topic"> | string | null
+  pdfMimeType?: Prisma.StringNullableFilter<"Topic"> | string | null
+  pdfSize?: Prisma.IntNullableFilter<"Topic"> | number | null
   professorId?: Prisma.IntNullableFilter<"Topic"> | number | null
+  isAssigned?: Prisma.BoolFilter<"Topic"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Topic"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Topic"> | Date | string | null
   professor?: Prisma.XOR<Prisma.ProfessorNullableScalarRelationFilter, Prisma.ProfessorWhereInput> | null
+  thesis?: Prisma.XOR<Prisma.ThesisNullableScalarRelationFilter, Prisma.ThesisWhereInput> | null
 }
 
 export type TopicOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  extendedDescriptionPdf?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfFile?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfMimeType?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfSize?: Prisma.SortOrderInput | Prisma.SortOrder
   professorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isAssigned?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   professor?: Prisma.ProfessorOrderByWithRelationInput
+  thesis?: Prisma.ThesisOrderByWithRelationInput
 }
 
 export type TopicWhereUniqueInput = Prisma.AtLeast<{
@@ -239,17 +299,30 @@ export type TopicWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.TopicWhereInput[]
   NOT?: Prisma.TopicWhereInput | Prisma.TopicWhereInput[]
   description?: Prisma.StringFilter<"Topic"> | string
-  extendedDescriptionPdf?: Prisma.BytesNullableFilter<"Topic"> | runtime.Bytes | null
+  pdfFile?: Prisma.BytesNullableFilter<"Topic"> | runtime.Bytes | null
+  pdfFileName?: Prisma.StringNullableFilter<"Topic"> | string | null
+  pdfMimeType?: Prisma.StringNullableFilter<"Topic"> | string | null
+  pdfSize?: Prisma.IntNullableFilter<"Topic"> | number | null
   professorId?: Prisma.IntNullableFilter<"Topic"> | number | null
+  isAssigned?: Prisma.BoolFilter<"Topic"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Topic"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Topic"> | Date | string | null
   professor?: Prisma.XOR<Prisma.ProfessorNullableScalarRelationFilter, Prisma.ProfessorWhereInput> | null
+  thesis?: Prisma.XOR<Prisma.ThesisNullableScalarRelationFilter, Prisma.ThesisWhereInput> | null
 }, "id" | "title">
 
 export type TopicOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  extendedDescriptionPdf?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfFile?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfMimeType?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfSize?: Prisma.SortOrderInput | Prisma.SortOrder
   professorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isAssigned?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TopicCountOrderByAggregateInput
   _avg?: Prisma.TopicAvgOrderByAggregateInput
   _max?: Prisma.TopicMaxOrderByAggregateInput
@@ -264,60 +337,112 @@ export type TopicScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Topic"> | number
   title?: Prisma.StringWithAggregatesFilter<"Topic"> | string
   description?: Prisma.StringWithAggregatesFilter<"Topic"> | string
-  extendedDescriptionPdf?: Prisma.BytesNullableWithAggregatesFilter<"Topic"> | runtime.Bytes | null
+  pdfFile?: Prisma.BytesNullableWithAggregatesFilter<"Topic"> | runtime.Bytes | null
+  pdfFileName?: Prisma.StringNullableWithAggregatesFilter<"Topic"> | string | null
+  pdfMimeType?: Prisma.StringNullableWithAggregatesFilter<"Topic"> | string | null
+  pdfSize?: Prisma.IntNullableWithAggregatesFilter<"Topic"> | number | null
   professorId?: Prisma.IntNullableWithAggregatesFilter<"Topic"> | number | null
+  isAssigned?: Prisma.BoolWithAggregatesFilter<"Topic"> | boolean
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Topic"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Topic"> | Date | string | null
 }
 
 export type TopicCreateInput = {
   title: string
   description: string
-  extendedDescriptionPdf?: runtime.Bytes | null
+  pdfFile?: runtime.Bytes | null
+  pdfFileName?: string | null
+  pdfMimeType?: string | null
+  pdfSize?: number | null
+  isAssigned?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   professor?: Prisma.ProfessorCreateNestedOneWithoutTopicsInput
+  thesis?: Prisma.ThesisCreateNestedOneWithoutTopicInput
 }
 
 export type TopicUncheckedCreateInput = {
   id?: number
   title: string
   description: string
-  extendedDescriptionPdf?: runtime.Bytes | null
+  pdfFile?: runtime.Bytes | null
+  pdfFileName?: string | null
+  pdfMimeType?: string | null
+  pdfSize?: number | null
   professorId?: number | null
+  isAssigned?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  thesis?: Prisma.ThesisUncheckedCreateNestedOneWithoutTopicInput
 }
 
 export type TopicUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  extendedDescriptionPdf?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   professor?: Prisma.ProfessorUpdateOneWithoutTopicsNestedInput
+  thesis?: Prisma.ThesisUpdateOneWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  extendedDescriptionPdf?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   professorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  thesis?: Prisma.ThesisUncheckedUpdateOneWithoutTopicNestedInput
 }
 
 export type TopicCreateManyInput = {
   id?: number
   title: string
   description: string
-  extendedDescriptionPdf?: runtime.Bytes | null
+  pdfFile?: runtime.Bytes | null
+  pdfFileName?: string | null
+  pdfMimeType?: string | null
+  pdfSize?: number | null
   professorId?: number | null
+  isAssigned?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type TopicUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  extendedDescriptionPdf?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TopicUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  extendedDescriptionPdf?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   professorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TopicListRelationFilter = {
@@ -334,12 +459,19 @@ export type TopicCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  extendedDescriptionPdf?: Prisma.SortOrder
+  pdfFile?: Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrder
+  pdfMimeType?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
   professorId?: Prisma.SortOrder
+  isAssigned?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TopicAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
   professorId?: Prisma.SortOrder
 }
 
@@ -347,21 +479,39 @@ export type TopicMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  extendedDescriptionPdf?: Prisma.SortOrder
+  pdfFile?: Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrder
+  pdfMimeType?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
   professorId?: Prisma.SortOrder
+  isAssigned?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TopicMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  extendedDescriptionPdf?: Prisma.SortOrder
+  pdfFile?: Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrder
+  pdfMimeType?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
   professorId?: Prisma.SortOrder
+  isAssigned?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TopicSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
   professorId?: Prisma.SortOrder
+}
+
+export type TopicNullableScalarRelationFilter = {
+  is?: Prisma.TopicWhereInput | null
+  isNot?: Prisma.TopicWhereInput | null
 }
 
 export type TopicCreateNestedManyWithoutProfessorInput = {
@@ -418,17 +568,55 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type TopicCreateNestedOneWithoutThesisInput = {
+  create?: Prisma.XOR<Prisma.TopicCreateWithoutThesisInput, Prisma.TopicUncheckedCreateWithoutThesisInput>
+  connectOrCreate?: Prisma.TopicCreateOrConnectWithoutThesisInput
+  connect?: Prisma.TopicWhereUniqueInput
+}
+
+export type TopicUpdateOneWithoutThesisNestedInput = {
+  create?: Prisma.XOR<Prisma.TopicCreateWithoutThesisInput, Prisma.TopicUncheckedCreateWithoutThesisInput>
+  connectOrCreate?: Prisma.TopicCreateOrConnectWithoutThesisInput
+  upsert?: Prisma.TopicUpsertWithoutThesisInput
+  disconnect?: Prisma.TopicWhereInput | boolean
+  delete?: Prisma.TopicWhereInput | boolean
+  connect?: Prisma.TopicWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TopicUpdateToOneWithWhereWithoutThesisInput, Prisma.TopicUpdateWithoutThesisInput>, Prisma.TopicUncheckedUpdateWithoutThesisInput>
+}
+
 export type TopicCreateWithoutProfessorInput = {
   title: string
   description: string
-  extendedDescriptionPdf?: runtime.Bytes | null
+  pdfFile?: runtime.Bytes | null
+  pdfFileName?: string | null
+  pdfMimeType?: string | null
+  pdfSize?: number | null
+  isAssigned?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  thesis?: Prisma.ThesisCreateNestedOneWithoutTopicInput
 }
 
 export type TopicUncheckedCreateWithoutProfessorInput = {
   id?: number
   title: string
   description: string
-  extendedDescriptionPdf?: runtime.Bytes | null
+  pdfFile?: runtime.Bytes | null
+  pdfFileName?: string | null
+  pdfMimeType?: string | null
+  pdfSize?: number | null
+  isAssigned?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  thesis?: Prisma.ThesisUncheckedCreateNestedOneWithoutTopicInput
 }
 
 export type TopicCreateOrConnectWithoutProfessorInput = {
@@ -464,35 +652,137 @@ export type TopicScalarWhereInput = {
   id?: Prisma.IntFilter<"Topic"> | number
   title?: Prisma.StringFilter<"Topic"> | string
   description?: Prisma.StringFilter<"Topic"> | string
-  extendedDescriptionPdf?: Prisma.BytesNullableFilter<"Topic"> | runtime.Bytes | null
+  pdfFile?: Prisma.BytesNullableFilter<"Topic"> | runtime.Bytes | null
+  pdfFileName?: Prisma.StringNullableFilter<"Topic"> | string | null
+  pdfMimeType?: Prisma.StringNullableFilter<"Topic"> | string | null
+  pdfSize?: Prisma.IntNullableFilter<"Topic"> | number | null
   professorId?: Prisma.IntNullableFilter<"Topic"> | number | null
+  isAssigned?: Prisma.BoolFilter<"Topic"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Topic"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Topic"> | Date | string | null
+}
+
+export type TopicCreateWithoutThesisInput = {
+  title: string
+  description: string
+  pdfFile?: runtime.Bytes | null
+  pdfFileName?: string | null
+  pdfMimeType?: string | null
+  pdfSize?: number | null
+  isAssigned?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  professor?: Prisma.ProfessorCreateNestedOneWithoutTopicsInput
+}
+
+export type TopicUncheckedCreateWithoutThesisInput = {
+  id?: number
+  title: string
+  description: string
+  pdfFile?: runtime.Bytes | null
+  pdfFileName?: string | null
+  pdfMimeType?: string | null
+  pdfSize?: number | null
+  professorId?: number | null
+  isAssigned?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+}
+
+export type TopicCreateOrConnectWithoutThesisInput = {
+  where: Prisma.TopicWhereUniqueInput
+  create: Prisma.XOR<Prisma.TopicCreateWithoutThesisInput, Prisma.TopicUncheckedCreateWithoutThesisInput>
+}
+
+export type TopicUpsertWithoutThesisInput = {
+  update: Prisma.XOR<Prisma.TopicUpdateWithoutThesisInput, Prisma.TopicUncheckedUpdateWithoutThesisInput>
+  create: Prisma.XOR<Prisma.TopicCreateWithoutThesisInput, Prisma.TopicUncheckedCreateWithoutThesisInput>
+  where?: Prisma.TopicWhereInput
+}
+
+export type TopicUpdateToOneWithWhereWithoutThesisInput = {
+  where?: Prisma.TopicWhereInput
+  data: Prisma.XOR<Prisma.TopicUpdateWithoutThesisInput, Prisma.TopicUncheckedUpdateWithoutThesisInput>
+}
+
+export type TopicUpdateWithoutThesisInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  professor?: Prisma.ProfessorUpdateOneWithoutTopicsNestedInput
+}
+
+export type TopicUncheckedUpdateWithoutThesisInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  professorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TopicCreateManyProfessorInput = {
   id?: number
   title: string
   description: string
-  extendedDescriptionPdf?: runtime.Bytes | null
+  pdfFile?: runtime.Bytes | null
+  pdfFileName?: string | null
+  pdfMimeType?: string | null
+  pdfSize?: number | null
+  isAssigned?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type TopicUpdateWithoutProfessorInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  extendedDescriptionPdf?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  thesis?: Prisma.ThesisUpdateOneWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateWithoutProfessorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  extendedDescriptionPdf?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  thesis?: Prisma.ThesisUncheckedUpdateOneWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateManyWithoutProfessorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  extendedDescriptionPdf?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFile?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isAssigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -501,17 +791,30 @@ export type TopicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   title?: boolean
   description?: boolean
-  extendedDescriptionPdf?: boolean
+  pdfFile?: boolean
+  pdfFileName?: boolean
+  pdfMimeType?: boolean
+  pdfSize?: boolean
   professorId?: boolean
+  isAssigned?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   professor?: boolean | Prisma.Topic$professorArgs<ExtArgs>
+  thesis?: boolean | Prisma.Topic$thesisArgs<ExtArgs>
 }, ExtArgs["result"]["topic"]>
 
 export type TopicSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
   description?: boolean
-  extendedDescriptionPdf?: boolean
+  pdfFile?: boolean
+  pdfFileName?: boolean
+  pdfMimeType?: boolean
+  pdfSize?: boolean
   professorId?: boolean
+  isAssigned?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   professor?: boolean | Prisma.Topic$professorArgs<ExtArgs>
 }, ExtArgs["result"]["topic"]>
 
@@ -519,8 +822,14 @@ export type TopicSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   title?: boolean
   description?: boolean
-  extendedDescriptionPdf?: boolean
+  pdfFile?: boolean
+  pdfFileName?: boolean
+  pdfMimeType?: boolean
+  pdfSize?: boolean
   professorId?: boolean
+  isAssigned?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   professor?: boolean | Prisma.Topic$professorArgs<ExtArgs>
 }, ExtArgs["result"]["topic"]>
 
@@ -528,13 +837,20 @@ export type TopicSelectScalar = {
   id?: boolean
   title?: boolean
   description?: boolean
-  extendedDescriptionPdf?: boolean
+  pdfFile?: boolean
+  pdfFileName?: boolean
+  pdfMimeType?: boolean
+  pdfSize?: boolean
   professorId?: boolean
+  isAssigned?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type TopicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "extendedDescriptionPdf" | "professorId", ExtArgs["result"]["topic"]>
+export type TopicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "pdfFile" | "pdfFileName" | "pdfMimeType" | "pdfSize" | "professorId" | "isAssigned" | "createdAt" | "updatedAt", ExtArgs["result"]["topic"]>
 export type TopicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   professor?: boolean | Prisma.Topic$professorArgs<ExtArgs>
+  thesis?: boolean | Prisma.Topic$thesisArgs<ExtArgs>
 }
 export type TopicIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   professor?: boolean | Prisma.Topic$professorArgs<ExtArgs>
@@ -547,13 +863,20 @@ export type $TopicPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Topic"
   objects: {
     professor: Prisma.$ProfessorPayload<ExtArgs> | null
+    thesis: Prisma.$ThesisPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
     description: string
-    extendedDescriptionPdf: runtime.Bytes | null
+    pdfFile: runtime.Bytes | null
+    pdfFileName: string | null
+    pdfMimeType: string | null
+    pdfSize: number | null
     professorId: number | null
+    isAssigned: boolean
+    createdAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["topic"]>
   composites: {}
 }
@@ -949,6 +1272,7 @@ readonly fields: TopicFieldRefs;
 export interface Prisma__TopicClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   professor<T extends Prisma.Topic$professorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Topic$professorArgs<ExtArgs>>): Prisma.Prisma__ProfessorClient<runtime.Types.Result.GetResult<Prisma.$ProfessorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  thesis<T extends Prisma.Topic$thesisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Topic$thesisArgs<ExtArgs>>): Prisma.Prisma__ThesisClient<runtime.Types.Result.GetResult<Prisma.$ThesisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -981,8 +1305,14 @@ export interface TopicFieldRefs {
   readonly id: Prisma.FieldRef<"Topic", 'Int'>
   readonly title: Prisma.FieldRef<"Topic", 'String'>
   readonly description: Prisma.FieldRef<"Topic", 'String'>
-  readonly extendedDescriptionPdf: Prisma.FieldRef<"Topic", 'Bytes'>
+  readonly pdfFile: Prisma.FieldRef<"Topic", 'Bytes'>
+  readonly pdfFileName: Prisma.FieldRef<"Topic", 'String'>
+  readonly pdfMimeType: Prisma.FieldRef<"Topic", 'String'>
+  readonly pdfSize: Prisma.FieldRef<"Topic", 'Int'>
   readonly professorId: Prisma.FieldRef<"Topic", 'Int'>
+  readonly isAssigned: Prisma.FieldRef<"Topic", 'Boolean'>
+  readonly createdAt: Prisma.FieldRef<"Topic", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Topic", 'DateTime'>
 }
     
 
@@ -1395,6 +1725,25 @@ export type Topic$professorArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.ProfessorInclude<ExtArgs> | null
   where?: Prisma.ProfessorWhereInput
+}
+
+/**
+ * Topic.thesis
+ */
+export type Topic$thesisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Thesis
+   */
+  select?: Prisma.ThesisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Thesis
+   */
+  omit?: Prisma.ThesisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ThesisInclude<ExtArgs> | null
+  where?: Prisma.ThesisWhereInput
 }
 
 /**
