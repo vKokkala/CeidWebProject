@@ -8,6 +8,7 @@ type TopicCardProps = {
     title: string;
     description: string;
     pdfFileName?: string;
+    isAssigned?: boolean;
   };
   isNew?: boolean;
   professorId?: number;
@@ -146,9 +147,16 @@ const TopicCard = ({
         </form>
       ) : (
         <>
-          <button className="card-edit-btn" onClick={() => setIsEditing(true)}>
-            ✏️
-          </button>
+          <div className="card-actions">
+            <button className="card-edit-btn" onClick={() => setIsEditing(true)}>
+              ✏️
+            </button>
+            {topic.isAssigned && (
+              <span className="card-lock-icon" title="Topic is assigned">
+                🔒
+              </span>
+            )}
+          </div>
           <div className="card-title">{topic.title}</div>
           <div className="card-description">{topic.description}</div>
           {topic.pdfFileName && topic.id && (

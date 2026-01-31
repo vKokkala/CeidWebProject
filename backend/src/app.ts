@@ -248,4 +248,59 @@ app.patch("/topic/:id", upload.single("pdfFile"), async (req, res) => {
   res.json(updatedTopic);
 });
 
+app.post("/thesis", async (req, res) => {
+  const { professorId, topicId, studentId, supervisorId } = req.body;
+
+  if (!professorId || !topicId || !studentId || !supervisorId) {
+    return res.status(400).json({
+      error: "Missing required fields: professorId, topicId, studentId, supervisorId",
+    });
+  }
+
+  // Check if topic exists and is not already assigned
+  const topic = await prisma.topic.findUnique({
+    where: { id: Number(topicId) },
+  });
+
+  if (!topic) {
+    return res.status(404).json({ error: "Topic not found" });
+  }
+
+  if (topic.isAssigned) {
+    return res.status(400).json({ error: "Topic is already assigned" });
+  }
+
+  // Check if student exists and doesn't already have a thesis
+  const student = await prisma.student.findUnique({
+    where: { id: Number(studentId) },
+    include: { thesis: true },
+  });
+
+  if (!student) {
+    return res.status(404).json({ error: "Student not found" });
+  }
+
+  if (student.thesis) {
+    return res.status(400).json({ error: "Student already has a thesis assigned" });
+  }
+
+  // Create thesis and mark topic as assigned
+  const thesis = await prisma.thesis.create({
+    data: {
+      professor: { connect: { id: Number(professorId) } },
+      topic: { connect: { id: Number(topicId) } },
+      student: { connect: { id: Number(studentId) } },
+      supervisor: { connect: { id: Number(supervisorId) } },
+    },
+  });
+
+  // Mark topic as assigned
+  await prisma.topic.update({
+    where: { id: Number(topicId) },
+    data: { isAssigned: true },
+  });
+
+  res.json(thesis);
+});
+
 export default app;

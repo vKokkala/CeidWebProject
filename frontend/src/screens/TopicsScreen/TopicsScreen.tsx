@@ -13,6 +13,11 @@ const TopicsScreen = () => {
   const [selectedStudentId, setSelectedStudentId] = useState<number | null>(
     null,
   );
+  const [isAssigning, setIsAssigning] = useState(false);
+  const [assignStatus, setAssignStatus] = useState<"success" | "error" | null>(
+    null,
+  );
+  const [assignMessage, setAssignMessage] = useState<string | null>(null);
 
   const { user } = useAuth();
 
@@ -47,6 +52,43 @@ const TopicsScreen = () => {
     setShowCreateTopicCard(false);
   };
 
+  // Clear status after 4 seconds
+  useEffect(() => {
+    if (assignStatus) {
+      const timer = setTimeout(() => {
+        setAssignStatus(null);
+        setAssignMessage(null);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [assignStatus]);
+
+  const handleAssignTopic = async () => {
+    setIsAssigning(true);
+    setAssignStatus(null);
+    setAssignMessage(null);
+
+    try {
+      await api.post("/thesis", {
+        professorId: user?.professor?.id,
+        topicId: selectedTopicId,
+        studentId: selectedStudentId,
+        supervisorId: user?.professor?.id,
+      });
+
+      setAssignStatus("success");
+      setAssignMessage("Topic assigned successfully!");
+      setSelectedTopicId(null);
+      setSelectedStudentId(null);
+      fetchTopics();
+    } catch (error: any) {
+      setAssignStatus("error");
+      setAssignMessage(error.response?.data?.error || "Failed to assign topic");
+    } finally {
+      setIsAssigning(false);
+    }
+  };
+
   const unassignedTopics = topics.filter((x) => !x.isAssigned);
 
   console.log("studfents", selectedStudentId, selectedTopicId);
@@ -69,6 +111,12 @@ const TopicsScreen = () => {
         </header>
 
         <div className="assignmentPanel">
+          {assignStatus && (
+            <div className={`assignmentStatus ${assignStatus}`}>
+              {assignMessage}
+            </div>
+          )}
+
           <p className="topicsDescription">
             Select a topic and choose a student to assign it to.
           </p>
@@ -96,9 +144,10 @@ const TopicsScreen = () => {
 
             <button
               className="btn btnPrimary"
-              disabled={!selectedStudentId || !selectedTopicId}
+              disabled={!selectedStudentId || !selectedTopicId || isAssigning}
+              onClick={handleAssignTopic}
             >
-              Assign Topic
+              {isAssigning ? "Assigning..." : "Assign Topic"}
             </button>
           </div>
 
@@ -106,7 +155,10 @@ const TopicsScreen = () => {
             <p className="selectionInfo">
               Selected:{" "}
               <strong>
-                {unassignedTopics.find((t: any) => t.id === selectedTopicId)?.title}
+                {
+                  unassignedTopics.find((t: any) => t.id === selectedTopicId)
+                    ?.title
+                }
               </strong>
             </p>
           )}
