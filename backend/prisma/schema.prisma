@@ -53,9 +53,14 @@ model Student {
   cellPhoneNumber String?
   phoneNumber     String?
 
-  userId      Int          @unique
-  user        User         @relation(fields: [userId], references: [id])
-  assignments Assignment[]
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+
+  // CHECK
+  // thesis   Thesis? @relation(fields: [thesisId], references: [id])
+  // thesisId Int?
+
+  thesis Thesis?
 }
 
 model Professor {
@@ -64,10 +69,19 @@ model Professor {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id])
 
-  // TODO: Add theses etc here
-  topics Topic[]
-  theses Thesis[]
-  grades Grade[]
+  topics               Topic[]
+  theses               Thesis[]
+  grades               Grade[]
+  supervisedTheses     Thesis[]              @relation("SupervisedTheses")
+  committeeMembers     CommitteeMember[]
+  committeeInvitations CommitteeInvitation[]
+  notes                ThesisNote[]
+}
+
+model Secretariat {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -82,20 +96,28 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  student   Student?
-  professor Professor?
+  student     Student?
+  professor   Professor?
+  secretariat Secretariat?
 }
 
 model Topic {
-  id                     Int    @id @default(autoincrement())
-  title                  String @unique
-  description            String @db.Text
-  extendedDescriptionPdf Bytes?
+  id          Int    @id @default(autoincrement())
+  title       String @unique
+  description String @db.Text
+
+  pdfFile     Bytes?
+  pdfFileName String?
+  pdfMimeType String?
+  pdfSize     Int?
 
   professorId Int?
   professor   Professor? @relation(fields: [professorId], references: [id])
 
   isAssigned Boolean @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt
 
   thesis Thesis?
 }
@@ -106,75 +128,122 @@ model AssignmentCancellation {
   generalCommitteeGatheringNumber Int?
   generalCommitteeGatheringYear   Int?
 
-  reason      String
-  assignments Assignment[]
-}
-
-model Assignment {
-  id                   Int                   @id @default(autoincrement())
-  student              Student?              @relation(fields: [studentId], references: [id])
-  studentId            Int?
-  committeeInvitations CommitteeInvitation[]
-  isFinalised          Boolean               @default(false)
-
-  wasCancelled Boolean @default(false)
-
-  cancellationContextId  Int?
-  assignmentCancellation AssignmentCancellation? @relation(fields: [cancellationContextId], references: [id])
+  reason String
 }
 
 model CommitteeInvitation {
   id               Int              @id @default(autoincrement())
   Role             CommitteeRole
-  invitationStatus InvitationStatus
-  assignmentId     Int?             @unique
-  assignment       Assignment?      @relation(fields: [assignmentId], references: [id])
+  invitationStatus InvitationStatus @default(PENDING)
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  rejectedAt DateTime?
+  thesisId Int
+  thesis   Thesis @relation(fields: [thesisId], references: [id], onDelete: Cascade)
+
+  professorId Int
+  professor   Professor @relation(fields: [professorId], references: [id])
+
+  createdAt DateTime @default(now())
+  repliedAt DateTime @updatedAt
 }
 
 model Grade {
   id Int @id @default(autoincrement())
+
+  criterion1Score Decimal? @db.Decimal(4, 2)
+  criterion2Score Decimal? @db.Decimal(4, 2)
+  criterion3Score Decimal? @db.Decimal(4, 2)
+  criterion4Score Decimal? @db.Decimal(4, 2)
+  criterion5Score Decimal? @db.Decimal(4, 2)
+
+  totalGrade Decimal @db.Decimal(4, 2)
+  comments   String? @db.Text
 
   thesisId Int
   thesis   Thesis? @relation(fields: [thesisId], references: [id])
 
   professorId Int
   professor   Professor? @relation(fields: [professorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Thesis {
   id Int @id @default(autoincrement())
 
-  status ThesisStatus
+  status ThesisStatus @default(UNDER_ASSIGNMENT)
+
+  // dATES 
+  assignmentFinalisedAt  DateTime?
+  officialAssignmentDate DateTime?
+  completedAt            DateTime?
+  cancelledAt            DateTime?
+
+  examinationDate  DateTime?
+  examinationMode  ExamMode?
+  examinationPlace String? // link or ai8ousa
 
   topicId Int?   @unique
   topic   Topic? @relation(fields: [topicId], references: [id])
 
-  professorId Int?
-  professor   Professor?    @relation(fields: [professorId], references: [id])
-  thesisNotes ThesisNotes[]
+  studentId Int     @unique
+  student   Student @relation(fields: [studentId], references: [id])
 
-  createdAt             DateTime  @default(now())
-  assignMentFinalisedAt DateTime?
-  grades                Grade[]
+  professorId Int?
+  professor   Professor? @relation(fields: [professorId], references: [id])
+
+  supervisorId Int
+  supervisor   Professor @relation("SupervisedTheses", fields: [supervisorId], references: [id])
+
+  committeeMembers     CommitteeMember[]
+  committeeInvitations CommitteeInvitation[]
+  statusChanges        ThesisStatusChange[]
+  notes                ThesisNote[]
+  grades               Grade[]
 
   isGradingEnabled Boolean @default(false)
 
-  relevantLinks     String[]
-  thesisDocument    Bytes?
-  documentUpdatedAt DateTime?
+  relevantLinks  String[]
+  thesisDocument Bytes?
 
-  nemertisLink   String?
-  completionDate DateTime?
+  nemertisLink String?
+
+  finalGrade Decimal? @db.Decimal(4, 2)
 }
 
-model ThesisNotes {
+model ThesisStatusChange {
+  id         Int           @id @default(autoincrement())
+  fromStatus ThesisStatus?
+  toStatus   ThesisStatus
+  changedAt  DateTime      @default(now())
+
+  // TODO: what key do I need here?
+  changedBy String
+  notes     String? @db.Text
+
+  thesisId Int
+  thesis   Thesis @relation(fields: [thesisId], references: [id], onDelete: Cascade)
+}
+
+model ThesisNote {
   id   Int    @id @default(autoincrement())
-  note String @db.Text
+  note String @db.VarChar(300)
 
   thesisId Int
   thesis   Thesis? @relation(fields: [thesisId], references: [id])
+
+  professorId Int
+  professor   Professor @relation(fields: [professorId], references: [id])
+}
+
+model CommitteeMember {
+  id         Int           @id @default(autoincrement())
+  role       CommitteeRole
+  acceptedAt DateTime      @default(now())
+
+  thesisId Int
+  thesis   Thesis @relation(fields: [thesisId], references: [id], onDelete: Cascade)
+
+  professorId Int
+  professor   Professor @relation(fields: [professorId], references: [id])
 }

@@ -169,8 +169,6 @@ app.patch("/topic/:id", async (req, res) => {
   const { title, description, extendedDescriptionPdf } = req.body;
 
   console.log('id', id)
-    console.log('id', id)
-
 
   const topic = await prisma.topic.findUnique({
     where: { id: Number(id) },
