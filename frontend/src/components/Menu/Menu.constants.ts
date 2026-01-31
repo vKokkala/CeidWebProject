@@ -18,7 +18,7 @@ export const UserMenu: Record<
   },
   STUDENT: {
     options: [
-      { title: "Thesis" },
+      { title: "Thesis", route: Screens.STUDENT_THESIS },
       { title: "Edit profile", route: Screens.EDIT_PROFILE },
     ],
   },

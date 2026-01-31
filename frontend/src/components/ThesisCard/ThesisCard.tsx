@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./ThesisCard.css";
 import api from "../../api/client";
 
@@ -32,7 +33,8 @@ type ThesisCardProps = {
 };
 
 const ThesisCard = ({ thesis }: ThesisCardProps) => {
-  const { topic, student, professor, supervisor } = thesis;
+  const navigate = useNavigate();
+  const { topic, student, supervisor } = thesis;
 
   const studentName = student?.user
     ? `${student.user.firstName} ${student.user.lastName}`
@@ -41,8 +43,12 @@ const ThesisCard = ({ thesis }: ThesisCardProps) => {
     ? `${supervisor.user.firstName} ${supervisor.user.lastName}`
     : "Unknown";
 
+  const handleClick = () => {
+    navigate(`/thesis/${thesis.id}`);
+  };
+
   return (
-    <div className="thesis-card">
+    <div className="thesis-card" onClick={handleClick}>
       <div className="thesis-card-title">{topic?.title || "No topic"}</div>
       <div className="thesis-card-description">
         {topic?.description || "No description"}
@@ -64,6 +70,7 @@ const ThesisCard = ({ thesis }: ThesisCardProps) => {
             target="_blank"
             rel="noopener noreferrer"
             className="thesis-card-pdf-link"
+            onClick={(e) => e.preventDefault()}
           >
             {topic.pdfFileName}
           </a>

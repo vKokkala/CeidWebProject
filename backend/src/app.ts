@@ -67,7 +67,15 @@ app.get("/user", async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { id: Number(userId) },
     include: {
-      student: true,
+      student: {
+        include: {
+          thesis: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
       professor: true,
     },
   });
@@ -367,6 +375,70 @@ app.get("/thesis", async (req, res) => {
   });
 
   res.json(theses);
+});
+
+app.get("/thesis/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const thesis = await prisma.thesis.findUnique({
+    where: { id: Number(id) },
+    include: {
+      professor: {
+        include: {
+          user: true,
+        },
+      },
+      topic: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          isAssigned: true,
+          professorId: true,
+          pdfFileName: true,
+        },
+      },
+      student: {
+        include: {
+          user: true,
+        },
+      },
+      supervisor: {
+        include: {
+          user: true,
+        },
+      },
+      committeeMembers: {
+        include: {
+          professor: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      },
+      statusChanges: {
+        orderBy: {
+          changedAt: "desc",
+        },
+      },
+      grades: {
+        include: {
+          professor: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!thesis) {
+    return res.status(404).json({ error: "Thesis not found" });
+  }
+
+  res.json(thesis);
 });
 
 export default app;

@@ -1,0 +1,41 @@
+.assignmentsScreen {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.assignmentsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.assignmentsHeader h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.assignmentsDescription {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 24px;
+    font-size: 15px;
+}
+
+.assignmentsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-rows: min-content;
+    gap: 20px;
+}
+
+.emptyState {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+}
