@@ -35,6 +35,22 @@ const StudentThesisScreen = () => {
     null,
   );
 
+  // Form state
+  const [formData, setFormData] = useState({
+    examinationDate: "",
+    examinationMode: "" as "ONSITE" | "ONLINE" | "",
+    examinationPlace: "",
+    nemertisLink: "",
+    relevantLinks: [] as string[],
+  });
+  const [newLink, setNewLink] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [uploadingDocument, setUploadingDocument] = useState(false);
+  const [formMessage, setFormMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
   console.log("thesis", thesis);
 
   const thesisId = user?.student?.thesis?.id;
@@ -75,6 +91,20 @@ const StudentThesisScreen = () => {
       fetchProfessors();
     }
   }, [showAddMember]);
+
+  useEffect(() => {
+    if (thesis) {
+      setFormData({
+        examinationDate: thesis.examinationDate
+          ? new Date(thesis.examinationDate).toISOString().slice(0, 16)
+          : "",
+        examinationMode: thesis.examinationMode || "",
+        examinationPlace: thesis.examinationPlace || "",
+        nemertisLink: thesis.nemertisLink || "",
+        relevantLinks: thesis.relevantLinks || [],
+      });
+    }
+  }, [thesis]);
 
   const availableProfessors = professors.filter((prof) => {
     if (prof.professor?.id === thesis?.supervisorId) {
@@ -131,6 +161,73 @@ const StudentThesisScreen = () => {
     setSelectedProfessorId(null);
   };
 
+  const updateFormField = (field: keyof typeof formData, value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAddLink = () => {
+    if (!newLink.trim()) return;
+    setFormData((prev) => ({
+      ...prev,
+      relevantLinks: [...prev.relevantLinks, newLink.trim()],
+    }));
+    setNewLink("");
+  };
+
+  const handleRemoveLink = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      relevantLinks: prev.relevantLinks.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSaveForm = async () => {
+    setSaving(true);
+    setFormMessage(null);
+    try {
+      await api.patch(`/thesis/${thesisId}`, {
+        examinationDate: formData.examinationDate || null,
+        examinationMode: formData.examinationMode || null,
+        examinationPlace: formData.examinationPlace || null,
+        nemertisLink: formData.nemertisLink || null,
+        relevantLinks: formData.relevantLinks,
+      });
+      fetchThesis();
+      setFormMessage({ type: "success", text: "Changes saved successfully" });
+    } catch (err: any) {
+      console.error("Failed to save", err);
+      setFormMessage({
+        type: "error",
+        text: err.response?.data?.error || "Failed to save changes",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDocumentUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingDocument(true);
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append("document", file);
+      await api.post(`/thesis/${thesisId}/document`, formDataUpload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      fetchThesis();
+    } catch (err: any) {
+      console.error("Failed to upload document", err);
+      alert(err.response?.data?.error || "Failed to upload document");
+    } finally {
+      setUploadingDocument(false);
+      e.target.value = "";
+    }
+  };
+
   if (loading) {
     return (
       <div className="studentThesisScreen">
@@ -173,6 +270,9 @@ const StudentThesisScreen = () => {
 
   const isCompleted = thesis.status === "COMPLETED";
   const isUnderAssignment = thesis.status === "UNDER_ASSIGNMENT";
+  const isUnderExamination = thesis.status === "UNDER_EXAMINATION";
+
+  console.log("isUnderAssignment", isUnderAssignment);
 
   return (
     <div className="studentThesisScreen">
@@ -215,7 +315,93 @@ const StudentThesisScreen = () => {
               </a>
             </div>
           )}
+          {thesis.examinationDate && (
+            <div className="infoItem">
+              <span className="infoLabel">Examination Date</span>
+              <span className="infoValue">
+                {new Date(thesis.examinationDate).toLocaleString("el-GR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </div>
+          )}
+          {thesis.examinationMode && (
+            <div className="infoItem">
+              <span className="infoLabel">Examination Mode</span>
+              <span className="infoValue">
+                {thesis.examinationMode === "ONSITE" ? "In-Person" : "Online"}
+              </span>
+            </div>
+          )}
+          {thesis.examinationPlace && (
+            <div className="infoItem">
+              <span className="infoLabel">
+                {thesis.examinationMode === "ONLINE" ? "Meeting Link" : "Room"}
+              </span>
+              {thesis.examinationMode === "ONLINE" ? (
+                <a
+                  href={thesis.examinationPlace}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="infoLink"
+                >
+                  {thesis.examinationPlace}
+                </a>
+              ) : (
+                <span className="infoValue">{thesis.examinationPlace}</span>
+              )}
+            </div>
+          )}
+          {thesis.thesisDocument && (
+            <div className="infoItem">
+              <span className="infoLabel">Draft Document</span>
+              <a
+                href={`${api.defaults.baseURL}/thesis/${thesisId}/document`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="infoLink"
+              >
+                View Document
+              </a>
+            </div>
+          )}
+          {thesis.nemertisLink && (
+            <div className="infoItem">
+              <span className="infoLabel">Library Repository</span>
+              <a
+                href={thesis.nemertisLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="infoLink"
+              >
+                View in Nemertis
+              </a>
+            </div>
+          )}
         </div>
+        {thesis.relevantLinks?.length > 0 && (
+          <div className="relevantLinksDisplay">
+            <span className="infoLabel">Additional Materials</span>
+            <ul className="linksList">
+              {thesis.relevantLinks.map((link: string, index: number) => (
+                <li key={index} className="linkItemDisplay">
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="infoLink"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       {/* Committee */}
@@ -313,7 +499,9 @@ const StudentThesisScreen = () => {
                 {invitation.professor?.user?.firstName}{" "}
                 {invitation.professor?.user?.lastName}
               </span>
-              <span className={`committeeRole role${invitation.invitationStatus}`}>
+              <span
+                className={`committeeRole role${invitation.invitationStatus}`}
+              >
                 {invitation.invitationStatus === "PENDING" && "Pending"}
                 {invitation.invitationStatus === "ACCEPTED" && "Accepted"}
                 {invitation.invitationStatus === "REJECTED" && "Rejected"}
@@ -322,10 +510,11 @@ const StudentThesisScreen = () => {
           ))}
 
           {committeeMembers.length === 0 &&
-           (!thesis.committeeInvitations || thesis.committeeInvitations.length === 0) &&
-           !showAddMember && (
-            <p className="emptyText">No committee members invited yet.</p>
-          )}
+            (!thesis.committeeInvitations ||
+              thesis.committeeInvitations.length === 0) &&
+            !showAddMember && (
+              <p className="emptyText">No committee members invited yet.</p>
+            )}
         </div>
       </section>
 
@@ -368,6 +557,216 @@ const StudentThesisScreen = () => {
           </div>
         )}
       </section>
+
+      {/* Under Assignment Section - Single Form */}
+      {isUnderExamination && (
+        <section className="thesisSection underAssignmentSection">
+          <h3>Examination & Submission Details</h3>
+
+          <div className="thesisForm">
+            {/* Examination Date & Time */}
+            <div className="formRow">
+              <label className="formLabel">Examination Date & Time</label>
+              <input
+                type="datetime-local"
+                className="formInput"
+                value={formData.examinationDate}
+                onChange={(e) =>
+                  updateFormField("examinationDate", e.target.value)
+                }
+              />
+            </div>
+
+            {/* Examination Mode */}
+            <div className="formRow">
+              <label className="formLabel">Examination Mode</label>
+              <div className="radioGroup">
+                <label className="radioLabel">
+                  <input
+                    type="radio"
+                    name="examinationMode"
+                    value="ONSITE"
+                    checked={formData.examinationMode === "ONSITE"}
+                    onChange={(e) =>
+                      updateFormField("examinationMode", e.target.value)
+                    }
+                  />
+                  In-Person
+                </label>
+                <label className="radioLabel">
+                  <input
+                    type="radio"
+                    name="examinationMode"
+                    value="ONLINE"
+                    checked={formData.examinationMode === "ONLINE"}
+                    onChange={(e) =>
+                      updateFormField("examinationMode", e.target.value)
+                    }
+                  />
+                  Online
+                </label>
+              </div>
+            </div>
+
+            {/* Examination Place/Link */}
+            <div className="formRow">
+              <label className="formLabel">
+                {formData.examinationMode === "ONLINE"
+                  ? "Meeting Link"
+                  : "Examination Room"}
+              </label>
+              <input
+                type={formData.examinationMode === "ONLINE" ? "url" : "text"}
+                className="formInput"
+                placeholder={
+                  formData.examinationMode === "ONLINE"
+                    ? "Enter meeting URL..."
+                    : "Enter room name/number..."
+                }
+                value={formData.examinationPlace}
+                onChange={(e) =>
+                  updateFormField("examinationPlace", e.target.value)
+                }
+              />
+            </div>
+
+            {/* Draft Document */}
+            <div className="formRow">
+              <label className="formLabel">Draft Thesis Document (PDF)</label>
+              <div className="documentSection">
+                {thesis.thesisDocument ? (
+                  <div className="documentDisplay">
+                    <a
+                      href={`${api.defaults.baseURL}/thesis/${thesisId}/document`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btnSmall btnSecondary"
+                    >
+                      View Current Document
+                    </a>
+                    <label className="btn btnSmall btnSecondary uploadLabel">
+                      {uploadingDocument ? "Uploading..." : "Replace"}
+                      <input
+                        type="file"
+                        accept="application/pdf"
+                        onChange={handleDocumentUpload}
+                        disabled={uploadingDocument}
+                        hidden
+                      />
+                    </label>
+                  </div>
+                ) : (
+                  <label className="btn btnSmall btnSecondary uploadLabel">
+                    {uploadingDocument ? "Uploading..." : "Upload Document"}
+                    <input
+                      type="file"
+                      accept="application/pdf"
+                      onChange={handleDocumentUpload}
+                      disabled={uploadingDocument}
+                      hidden
+                    />
+                  </label>
+                )}
+              </div>
+            </div>
+
+            {/* Relevant Links */}
+            <div className="formRow">
+              <label className="formLabel">
+                Additional Materials (Google Drive, YouTube, etc.)
+              </label>
+              <div className="linksSection">
+                {formData.relevantLinks.length > 0 && (
+                  <ul className="linksList">
+                    {formData.relevantLinks.map((link, index) => (
+                      <li key={index} className="linkItem">
+                        <a
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="infoLink"
+                        >
+                          {link}
+                        </a>
+                        <button
+                          type="button"
+                          className="btn btnSmall btnDanger"
+                          onClick={() => handleRemoveLink(index)}
+                        >
+                          Remove
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <div className="addLinkForm">
+                  <input
+                    type="url"
+                    className="formInput"
+                    placeholder="Add link..."
+                    value={newLink}
+                    onChange={(e) => setNewLink(e.target.value)}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" && (e.preventDefault(), handleAddLink())
+                    }
+                  />
+                  <button
+                    type="button"
+                    className="btn btnSmall btnSecondary"
+                    onClick={handleAddLink}
+                    disabled={!newLink.trim()}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Nemertis Link */}
+            <div className="formRow">
+              <label className="formLabel">Library Repository (Nemertis)</label>
+              <input
+                type="url"
+                className="formInput"
+                placeholder="Enter Nemertis repository URL..."
+                value={formData.nemertisLink}
+                onChange={(e) =>
+                  updateFormField("nemertisLink", e.target.value)
+                }
+              />
+            </div>
+
+            {/* Examination Report */}
+            <div className="formRow">
+              <label className="formLabel">Examination Report</label>
+              <a
+                href={`${api.defaults.baseURL}/thesis/${thesisId}/examination-report`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btnSmall btnSecondary reportLink"
+              >
+                View Examination Report (HTML)
+              </a>
+            </div>
+
+            <div className="formActions">
+              {formMessage && (
+                <span className={`formMessage ${formMessage.type}`}>
+                  {formMessage.text}
+                </span>
+              )}
+              <button
+                type="button"
+                className="btn btnPrimary"
+                onClick={handleSaveForm}
+                disabled={saving}
+              >
+                {saving ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Completed Section - Final Grade & Links */}
       {isCompleted && (

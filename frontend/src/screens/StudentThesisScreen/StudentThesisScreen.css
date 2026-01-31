@@ -464,3 +464,197 @@
     background: rgba(244, 67, 54, 0.2);
     color: #e57373;
 }
+
+/* Under Assignment Section */
+.underAssignmentSection {
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.reportLink {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    text-decoration: none;
+}
+
+/* Thesis Form */
+.thesisForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formRow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formLabel {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.formInput {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #2a2a3e;
+    color: white;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.formInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.radioGroup {
+    display: flex;
+    gap: 20px;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+}
+
+.radioLabel input[type="radio"] {
+    accent-color: #667eea;
+}
+
+.formActions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.formMessage {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.formMessage.success {
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+}
+
+.formMessage.error {
+    background: rgba(244, 67, 54, 0.2);
+    color: #e57373;
+}
+
+/* Document Section */
+.documentSection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.documentDisplay {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.documentUpload {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.uploadLabel {
+    cursor: pointer;
+}
+
+/* Links Section */
+.linksSection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.linksList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.linkItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.linkItem .infoLink {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.addLinkForm {
+    display: flex;
+    gap: 10px;
+}
+
+.addLinkForm .searchInput {
+    flex: 1;
+}
+
+/* Danger button */
+.btnDanger {
+    background: rgba(244, 67, 54, 0.2);
+    color: #e57373;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.btnDanger:hover:not(:disabled) {
+    background: rgba(244, 67, 54, 0.3);
+}
+
+/* Relevant Links Display */
+.relevantLinksDisplay {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.relevantLinksDisplay .infoLabel {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.linkItemDisplay {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.linkItemDisplay:last-child {
+    border-bottom: none;
+}
