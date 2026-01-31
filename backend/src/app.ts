@@ -358,6 +358,11 @@ app.get("/thesis", async (req, res) => {
           user: true,
         },
       },
+      committeeMembers: {
+        include: {
+          professor: true,
+        },
+      },
     },
   });
 
