@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import multer from "multer";
 import prisma from "./prisma.js";
+import type { Role } from "./generated/prisma/enums.js";
 
 const app = express();
 
@@ -33,12 +34,28 @@ app.get("/", (req, res) => {
  * Get all users
  */
 app.get("/users", async (req, res) => {
+  const { role } = req.query;
+
+  if (
+    role &&
+    (typeof role !== "string" ||
+      !["STUDENT", "PROFESSOR", "SECRETARIAT"].includes(role))
+  ) {
+    return res.status(400).json({ error: "Bad request" });
+  }
+
   const users = await prisma.user.findMany({
+    ...(role && {
+      where: {
+        role: role as Role,
+      },
+    }),
     include: {
       student: true,
       professor: true,
     },
   });
+
   res.json(users);
 });
 
@@ -201,38 +218,34 @@ app.get("/topic/:id/pdf", async (req, res) => {
   res.send(topic.pdfFile);
 });
 
-app.patch(
-  "/topic/:id",
-  upload.single("pdfFile"),
-  async (req: MulterRequest, res) => {
-    const { id } = req.params;
-    const { title, description } = req.body;
-    const file = req.file;
+app.patch("/topic/:id", upload.single("pdfFile"), async (req, res) => {
+  const { id } = req.params;
+  const { title, description } = req.body;
+  const file = req.file;
 
-    const topic = await prisma.topic.findUnique({
-      where: { id: Number(id) },
-    });
+  const topic = await prisma.topic.findUnique({
+    where: { id: Number(id) },
+  });
 
-    if (!topic) {
-      return res.status(404).json({ error: "Topic not found" });
-    }
+  if (!topic) {
+    return res.status(404).json({ error: "Topic not found" });
+  }
 
-    const updatedTopic = await prisma.topic.update({
-      where: { id: Number(id) },
-      data: {
-        ...(title && { title }),
-        ...(description && { description }),
-        ...(file && {
-          pdfFile: Buffer.from(file.buffer),
-          pdfFileName: file.originalname,
-          pdfMimeType: file.mimetype,
-          pdfSize: file.size,
-        }),
-      },
-    });
+  const updatedTopic = await prisma.topic.update({
+    where: { id: Number(id) },
+    data: {
+      ...(title && { title }),
+      ...(description && { description }),
+      ...(file && {
+        pdfFile: Buffer.from(file.buffer),
+        pdfFileName: file.originalname,
+        pdfMimeType: file.mimetype,
+        pdfSize: file.size,
+      }),
+    },
+  });
 
-    res.json(updatedTopic);
-  },
-);
+  res.json(updatedTopic);
+});
 
 export default app;

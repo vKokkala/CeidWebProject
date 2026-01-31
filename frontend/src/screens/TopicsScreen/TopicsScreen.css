@@ -1,6 +1,138 @@
+.topicsScreen {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.topicsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.topicsHeader h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.buttonsWrapper {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btnPrimary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btnPrimary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btnSecondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btnSecondary:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.topicsDescription {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 24px;
+    font-size: 15px;
+}
+
 .topicsGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.assignmentPanel {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.assignmentControls {
+    display: flex;
     gap: 16px;
-    padding: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.selectWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.selectWrapper label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.selectWrapper select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #2a2a3e;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.selectWrapper select option {
+    background: #2a2a3e;
+    color: white;
+    padding: 10px;
+}
+
+.selectWrapper select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.selectionInfo {
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(79, 195, 247, 0.1);
+    border-radius: 8px;
+    color: #4fc3f7;
+    font-size: 14px;
+}
+
+.emptyState {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
 }

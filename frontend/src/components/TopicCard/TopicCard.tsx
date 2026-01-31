@@ -12,9 +12,20 @@ type TopicCardProps = {
   isNew?: boolean;
   professorId?: number;
   onSave?: () => void;
+  isSelectable?: boolean;
+  isSelected?: boolean;
+  onSelect?: () => void;
 };
 
-const TopicCard = ({ topic, isNew, professorId, onSave }: TopicCardProps) => {
+const TopicCard = ({
+  topic,
+  isNew,
+  professorId,
+  onSave,
+  isSelectable,
+  isSelected,
+  onSelect,
+}: TopicCardProps) => {
   const [isEditing, setIsEditing] = useState(!!isNew);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,9 +85,16 @@ const TopicCard = ({ topic, isNew, professorId, onSave }: TopicCardProps) => {
     setSelectedFileName(file?.name || null);
   };
 
+  const handleCardClick = () => {
+    if (isSelectable && onSelect) {
+      onSelect();
+    }
+  };
+
   return (
     <div
-      className={`card ${saveStatus === "success" ? "card-success" : ""} ${saveStatus === "error" ? "card-error" : ""}`}
+      className={`card ${saveStatus === "success" ? "card-success" : ""} ${saveStatus === "error" ? "card-error" : ""} ${isSelectable ? "card-selectable" : ""} ${isSelected ? "card-selected" : ""}`}
+      onClick={handleCardClick}
     >
       {saveStatus === "success" && (
         <div className="card-status card-status-success">
