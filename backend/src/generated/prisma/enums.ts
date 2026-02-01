@@ -32,7 +32,8 @@ export type ThesisStatus = (typeof ThesisStatus)[keyof typeof ThesisStatus]
 export const InvitationStatus = {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED'
 } as const
 
 export type InvitationStatus = (typeof InvitationStatus)[keyof typeof InvitationStatus]

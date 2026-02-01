@@ -300,7 +300,7 @@ export type CommitteeInvitationScalarWhereWithAggregatesInput = {
 }
 
 export type CommitteeInvitationCreateInput = {
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   createdAt?: Date | string
   repliedAt?: Date | string
@@ -310,7 +310,7 @@ export type CommitteeInvitationCreateInput = {
 
 export type CommitteeInvitationUncheckedCreateInput = {
   id?: number
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   thesisId: number
   professorId: number
@@ -339,7 +339,7 @@ export type CommitteeInvitationUncheckedUpdateInput = {
 
 export type CommitteeInvitationCreateManyInput = {
   id?: number
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   thesisId: number
   professorId: number
@@ -509,7 +509,7 @@ export type CommitteeInvitationUncheckedUpdateManyWithoutThesisNestedInput = {
 }
 
 export type CommitteeInvitationCreateWithoutProfessorInput = {
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   createdAt?: Date | string
   repliedAt?: Date | string
@@ -518,7 +518,7 @@ export type CommitteeInvitationCreateWithoutProfessorInput = {
 
 export type CommitteeInvitationUncheckedCreateWithoutProfessorInput = {
   id?: number
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   thesisId: number
   createdAt?: Date | string
@@ -565,7 +565,7 @@ export type CommitteeInvitationScalarWhereInput = {
 }
 
 export type CommitteeInvitationCreateWithoutThesisInput = {
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   createdAt?: Date | string
   repliedAt?: Date | string
@@ -574,7 +574,7 @@ export type CommitteeInvitationCreateWithoutThesisInput = {
 
 export type CommitteeInvitationUncheckedCreateWithoutThesisInput = {
   id?: number
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   professorId: number
   createdAt?: Date | string
@@ -609,7 +609,7 @@ export type CommitteeInvitationUpdateManyWithWhereWithoutThesisInput = {
 
 export type CommitteeInvitationCreateManyProfessorInput = {
   id?: number
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   thesisId: number
   createdAt?: Date | string
@@ -644,7 +644,7 @@ export type CommitteeInvitationUncheckedUpdateManyWithoutProfessorInput = {
 
 export type CommitteeInvitationCreateManyThesisInput = {
   id?: number
-  Role: $Enums.CommitteeRole
+  Role?: $Enums.CommitteeRole
   invitationStatus?: $Enums.InvitationStatus
   professorId: number
   createdAt?: Date | string

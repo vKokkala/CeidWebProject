@@ -3,6 +3,7 @@ import cors from "cors";
 import multer from "multer";
 import prisma from "./prisma.js";
 import type { Role } from "./generated/prisma/enums.js";
+import { InvitationStatus } from "./generated/prisma/enums.js";
 
 const app = express();
 
@@ -51,7 +52,15 @@ app.get("/users", async (req, res) => {
       },
     }),
     include: {
-      student: true,
+      student: {
+        include: {
+          thesis: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
       professor: true,
     },
   });
@@ -843,6 +852,191 @@ app.post("/thesis/:id/committee", async (req, res) => {
   });
 
   res.json(committeeMember);
+});
+
+// Get invitations for a professor
+app.get("/invitation", async (req, res) => {
+  const { professorId } = req.query;
+
+  if (!professorId) {
+    return res.status(400).json({ error: "professorId is required" });
+  }
+
+  const invitations = await prisma.committeeInvitation.findMany({
+    where: {
+      professorId: Number(professorId),
+      invitationStatus: "PENDING",
+    },
+    include: {
+      thesis: {
+        include: {
+          topic: true,
+          student: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  res.json(invitations);
+});
+
+// Accept invitation
+app.post("/invitation/:id/accept", async (req, res) => {
+  const { id } = req.params;
+
+  const invitation = await prisma.committeeInvitation.findUnique({
+    where: { id: Number(id) },
+  });
+
+  if (!invitation) {
+    return res.status(404).json({ error: "Invitation not found" });
+  }
+
+  if (invitation.invitationStatus !== "PENDING") {
+    return res.status(400).json({ error: "Invitation already responded" });
+  }
+
+  // Update invitation status and create committee member
+  await prisma.$transaction([
+    prisma.committeeInvitation.update({
+      where: { id: Number(id) },
+      data: { invitationStatus: "ACCEPTED" },
+    }),
+    prisma.committeeMember.create({
+      data: {
+        role: invitation.Role,
+        thesisId: invitation.thesisId,
+        professorId: invitation.professorId,
+      },
+    }),
+  ]);
+
+  // Check if thesis now has at least 2 committee members
+  const thesis = await prisma.thesis.findUnique({
+    where: { id: invitation.thesisId },
+    include: { committeeMembers: true },
+  });
+
+  if (thesis && thesis.status === "UNDER_ASSIGNMENT" && thesis.committeeMembers.length >= 2) {
+    await prisma.$transaction([
+      prisma.thesis.update({
+        where: { id: thesis.id },
+        data: {
+          status: "ACTIVE",
+          assignmentFinalisedAt: new Date(),
+        },
+      }),
+      prisma.thesisStatusChange.create({
+        data: {
+          fromStatus: "UNDER_ASSIGNMENT",
+          toStatus: "ACTIVE",
+          changedBy: "System",
+          notes: "Committee formed with 2+ members",
+          thesisId: thesis.id,
+        },
+      }),
+      prisma.committeeInvitation.updateMany({
+        where: {
+          thesisId: thesis.id,
+          invitationStatus: InvitationStatus.PENDING,
+        },
+        data: {
+          invitationStatus: InvitationStatus.CANCELLED,
+        },
+      }),
+    ]);
+  }
+
+  res.json({ message: "Invitation accepted" });
+});
+
+// Reject invitation
+app.post("/invitation/:id/reject", async (req, res) => {
+  const { id } = req.params;
+
+  const invitation = await prisma.committeeInvitation.findUnique({
+    where: { id: Number(id) },
+  });
+
+  if (!invitation) {
+    return res.status(404).json({ error: "Invitation not found" });
+  }
+
+  if (invitation.invitationStatus !== "PENDING") {
+    return res.status(400).json({ error: "Invitation already responded" });
+  }
+
+  await prisma.committeeInvitation.update({
+    where: { id: Number(id) },
+    data: { invitationStatus: "REJECTED" },
+  });
+
+  res.json({ message: "Invitation rejected" });
+});
+
+// Cancel thesis assignment (supervisor only, only when UNDER_ASSIGNMENT)
+app.post("/thesis/:id/cancel-assignment", async (req, res) => {
+  const { id } = req.params;
+  const { supervisorId, reason } = req.body;
+
+  const thesis = await prisma.thesis.findUnique({
+    where: { id: Number(id) },
+  });
+
+  if (!thesis) {
+    return res.status(404).json({ error: "Thesis not found" });
+  }
+
+  if (thesis.status !== "UNDER_ASSIGNMENT") {
+    return res.status(400).json({ error: "Can only cancel during UNDER_ASSIGNMENT status" });
+  }
+
+  if (thesis.supervisorId !== Number(supervisorId)) {
+    return res.status(403).json({ error: "Only the supervisor can cancel the assignment" });
+  }
+
+  await prisma.$transaction([
+    // Delete all committee members
+    prisma.committeeMember.deleteMany({
+      where: { thesisId: thesis.id },
+    }),
+    // Delete all committee invitations
+    prisma.committeeInvitation.deleteMany({
+      where: { thesisId: thesis.id },
+    }),
+    // Update thesis status
+    prisma.thesis.update({
+      where: { id: thesis.id },
+      data: {
+        status: "CANCELLED",
+        cancelledAt: new Date(),
+      },
+    }),
+    // Create status change record
+    prisma.thesisStatusChange.create({
+      data: {
+        fromStatus: "UNDER_ASSIGNMENT",
+        toStatus: "CANCELLED",
+        changedBy: "Supervisor",
+        notes: reason || "Assignment cancelled by supervisor",
+        thesisId: thesis.id,
+      },
+    }),
+    // Mark topic as unassigned
+    prisma.topic.update({
+      where: { id: thesis.topicId! },
+      data: { isAssigned: false },
+    }),
+  ]);
+
+  res.json({ message: "Assignment cancelled successfully" });
 });
 
 export default app;

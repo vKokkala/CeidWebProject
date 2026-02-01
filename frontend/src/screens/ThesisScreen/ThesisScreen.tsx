@@ -25,6 +25,8 @@ const ThesisScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  console.log('thesis', thesis)
+
   useEffect(() => {
     const fetchThesis = async () => {
       try {
@@ -70,6 +72,7 @@ const ThesisScreen = () => {
     : "Unknown";
 
   const committeeMembers = thesis.committeeMembers || [];
+  const committeMemberIds = committeeMembers.map(x => x.professorId);
 
   const isCompleted = thesis.status === "COMPLETED";
 
@@ -131,34 +134,95 @@ const ThesisScreen = () => {
             <span className="committeeRole roleAccepted">Supervisor</span>
           </div>
 
-          {committeeMembers.map((member: any) => (
-            <div key={member.id} className="committeeItem">
-              <span className="committeeName">
-                {member.professor?.user?.firstName}{" "}
-                {member.professor?.user?.lastName}
-              </span>
-              <span className="committeeRole roleAccepted">Member</span>
-            </div>
-          ))}
+          {committeeMembers.map((member: any) => {
+            const invitation = thesis.committeeInvitations?.find(
+              (inv: any) => inv.professorId === member.professorId
+            );
+            return (
+              <div key={member.id} className="committeeItem">
+                <div className="committeeItemMain">
+                  <span className="committeeName">
+                    {member.professor?.user?.firstName}{" "}
+                    {member.professor?.user?.lastName}
+                  </span>
+                  <span className="committeeRole roleAccepted">Member</span>
+                </div>
+                <div className="committeeItemDates">
+                  {invitation?.createdAt && (
+                    <span className="committeeDate">
+                      Invited: {new Date(invitation.createdAt).toLocaleString("el-GR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  )}
+                  {member.acceptedAt && (
+                    <span className="committeeDate">
+                      Accepted: {new Date(member.acceptedAt).toLocaleString("el-GR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
 
-          {thesis.committeeInvitations?.map((invitation: any) => (
-            <div key={invitation.id} className="committeeItem">
-              <span className="committeeName">
-                {invitation.professor?.user?.firstName}{" "}
-                {invitation.professor?.user?.lastName}
-              </span>
-              <span className={`committeeRole role${invitation.invitationStatus}`}>
-                {invitation.invitationStatus === "PENDING" && "Pending"}
-                {invitation.invitationStatus === "ACCEPTED" && "Accepted"}
-                {invitation.invitationStatus === "REJECTED" && "Rejected"}
-              </span>
-            </div>
-          ))}
+          {thesis.committeeInvitations
+            ?.filter((inv: any) => !committeMemberIds.includes(inv.professorId))
+            .map((invitation: any) => (
+              <div key={invitation.id} className="committeeItem">
+                <div className="committeeItemMain">
+                  <span className="committeeName">
+                    {invitation.professor?.user?.firstName}{" "}
+                    {invitation.professor?.user?.lastName}
+                  </span>
+                  <span
+                    className={`committeeRole role${invitation.invitationStatus}`}
+                  >
+                    {invitation.invitationStatus === "PENDING" && "Pending"}
+                    {invitation.invitationStatus === "ACCEPTED" && "Accepted"}
+                    {invitation.invitationStatus === "REJECTED" && "Rejected"}
+                    {invitation.invitationStatus === "CANCELLED" && "Cancelled"}
+                  </span>
+                </div>
+                <div className="committeeItemDates">
+                  <span className="committeeDate">
+                    Invited: {new Date(invitation.createdAt).toLocaleString("el-GR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                  {invitation.invitationStatus !== "PENDING" && invitation.repliedAt && (
+                    <span className="committeeDate">
+                      Replied: {new Date(invitation.repliedAt).toLocaleString("el-GR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
 
           {committeeMembers.length === 0 &&
-           (!thesis.committeeInvitations || thesis.committeeInvitations.length === 0) && (
-            <p className="emptyText">No committee members invited yet.</p>
-          )}
+            (!thesis.committeeInvitations ||
+              thesis.committeeInvitations.length === 0) && (
+              <p className="emptyText">No committee members invited yet.</p>
+            )}
         </div>
       </section>
 
@@ -210,7 +274,9 @@ const ThesisScreen = () => {
             {thesis.finalGrade && (
               <div className="infoItem">
                 <span className="infoLabel">Final Grade</span>
-                <span className="infoValue finalGrade">{thesis.finalGrade}</span>
+                <span className="infoValue finalGrade">
+                  {thesis.finalGrade}
+                </span>
               </div>
             )}
             {thesis.completedAt && (

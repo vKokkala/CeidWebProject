@@ -268,6 +268,8 @@ const StudentThesisScreen = () => {
 
   const committeeMembers = thesis.committeeMembers || [];
 
+  const committeMemberIds = committeeMembers.map((x) => x.professorId);
+
   const isCompleted = thesis.status === "COMPLETED";
   const isUnderAssignment = thesis.status === "UNDER_ASSIGNMENT";
   const isUnderExamination = thesis.status === "UNDER_EXAMINATION";
@@ -493,21 +495,23 @@ const StudentThesisScreen = () => {
             </div>
           ))}
 
-          {thesis.committeeInvitations?.map((invitation: any) => (
-            <div key={invitation.id} className="committeeItem">
-              <span className="committeeName">
-                {invitation.professor?.user?.firstName}{" "}
-                {invitation.professor?.user?.lastName}
-              </span>
-              <span
-                className={`committeeRole role${invitation.invitationStatus}`}
-              >
-                {invitation.invitationStatus === "PENDING" && "Pending"}
-                {invitation.invitationStatus === "ACCEPTED" && "Accepted"}
-                {invitation.invitationStatus === "REJECTED" && "Rejected"}
-              </span>
-            </div>
-          ))}
+          {thesis.committeeInvitations
+            ?.filter((inv: any) => !committeMemberIds.includes(inv.professorId))
+            .map((invitation: any) => (
+              <div key={invitation.id} className="committeeItem">
+                <span className="committeeName">
+                  {invitation.professor?.user?.firstName}{" "}
+                  {invitation.professor?.user?.lastName}
+                </span>
+                <span
+                  className={`committeeRole role${invitation.invitationStatus}`}
+                >
+                  {invitation.invitationStatus === "PENDING" && "Pending"}
+                  {invitation.invitationStatus === "ACCEPTED" && "Accepted"}
+                  {invitation.invitationStatus === "REJECTED" && "Rejected"}
+                </span>
+              </div>
+            ))}
 
           {committeeMembers.length === 0 &&
             (!thesis.committeeInvitations ||

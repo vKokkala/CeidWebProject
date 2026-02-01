@@ -30,8 +30,11 @@ const TopicsScreen = () => {
       },
     });
 
-    console.log("data", data);
-    setStudents(data);
+    const availableStudents = data.filter((x) => !Boolean(x.student.thesis));
+
+    console.log('availableStudents', availableStudents)
+
+    setStudents(availableStudents);
   }, []);
 
   const fetchTopics = useCallback(async () => {
@@ -84,6 +87,7 @@ const TopicsScreen = () => {
       setSelectedStudentId(null);
       setStudentSearch("");
       fetchTopics();
+      fetchStudents();
     } catch (error: any) {
       setAssignStatus("error");
       setAssignMessage(error.response?.data?.error || "Failed to assign topic");
@@ -103,7 +107,9 @@ const TopicsScreen = () => {
 
   const handleStudentSelect = (student: any) => {
     setSelectedStudentId(student.student?.id);
-    setStudentSearch(`${student.student?.am} - ${student.firstName} ${student.lastName}`);
+    setStudentSearch(
+      `${student.student?.am} - ${student.firstName} ${student.lastName}`,
+    );
     setShowStudentDropdown(false);
   };
 
@@ -154,12 +160,16 @@ const TopicsScreen = () => {
                     if (!e.target.value) setSelectedStudentId(null);
                   }}
                   onFocus={() => setShowStudentDropdown(true)}
-                  onBlur={() => setTimeout(() => setShowStudentDropdown(false), 150)}
+                  onBlur={() =>
+                    setTimeout(() => setShowStudentDropdown(false), 150)
+                  }
                 />
                 {showStudentDropdown && studentSearch && (
                   <div className="searchDropdown">
                     {filteredStudents.length === 0 ? (
-                      <div className="searchDropdownEmpty">No students found</div>
+                      <div className="searchDropdownEmpty">
+                        No students found
+                      </div>
                     ) : (
                       filteredStudents.map((x: any) => (
                         <div
@@ -185,9 +195,13 @@ const TopicsScreen = () => {
                   const id = e.target.value ? Number(e.target.value) : null;
                   setSelectedStudentId(id);
                   if (id) {
-                    const student = students.find((x: any) => x.student?.id === id) as any;
+                    const student = students.find(
+                      (x: any) => x.student?.id === id,
+                    ) as any;
                     if (student) {
-                      setStudentSearch(`${student.student?.am} - ${student.firstName} ${student.lastName}`);
+                      setStudentSearch(
+                        `${student.student?.am} - ${student.firstName} ${student.lastName}`,
+                      );
                     }
                   } else {
                     setStudentSearch("");
