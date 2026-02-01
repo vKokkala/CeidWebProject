@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/client";
+import "./AnnouncementsScreen.css";
 
 const AnnouncementsScreen = () => {
   const [announcements, setAnnouncements] = useState<any[]>([]);
@@ -10,9 +11,6 @@ const AnnouncementsScreen = () => {
     const loadAnnouncements = async () => {
       try {
         const res = await api.get("/announcements");
-
-        console.log("res", res);
-
         setAnnouncements(res.data.data);
       } catch (err) {
         console.error(err);
@@ -25,38 +23,69 @@ const AnnouncementsScreen = () => {
     loadAnnouncements();
   }, []);
 
-  if (loading) return <div>Loading announcements…</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) {
+    return (
+      <div className="announcements-screen">
+        <div className="announcements-container">
+          <div className="loading-state">Loading announcements...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="announcements-screen">
+        <div className="announcements-container">
+          <div className="error-state">{error}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="announcements-screen">
-      <h1>Announcements</h1>
+      <div className="announcements-container">
+        <div className="announcements-header">
+          <h1>Thesis Presentation Announcements</h1>
+        </div>
 
-      {announcements.length === 0 && <p>No announcements available.</p>}
+        <div className="announcements-grid">
+          {announcements.length === 0 ? (
+            <div className="empty-state">No announcements available.</div>
+          ) : (
+            announcements.map((x) => (
+              <div key={x.id} className="announcement-card">
+                <p className="announcement-text">{x.text}</p>
+                <p className="announcement-date">
+                  {new Date(x.createdAt).toLocaleString()}
+                </p>
 
-      {announcements.map((x) => (
-        <div key={x.id} className="announcement-card">
-          <p>{x.text}</p>
-
-          <small>{new Date(x.createdAt).toLocaleString()}</small>
-
-          {x.thesis && (
-            <div className="thesis-info">
-              <strong>{x.thesis.topic?.title}</strong>
-              <p>{x.thesis.topic?.description}</p>
-
-              <p>
-                Student:{" "}
-                {`${x.thesis.student.user.firstName} ${x.thesis.student.user.lastName}`}
-              </p>
-              <p>
-                Supervisor:{" "}
-                {`${x.thesis.supervisor.user.firstName} ${x.thesis.supervisor.user.lastName}`}
-              </p>
-            </div>
+                {x.thesis && (
+                  <div className="thesis-info">
+                    <h3 className="thesis-title">{x.thesis.topic?.title}</h3>
+                    {x.thesis.topic?.description && (
+                      <p className="thesis-description">
+                        {x.thesis.topic.description}
+                      </p>
+                    )}
+                    <div className="thesis-people">
+                      <p className="thesis-person">
+                        <span className="thesis-person-label">Student:</span>
+                        {`${x.thesis.student.user.firstName} ${x.thesis.student.user.lastName}`}
+                      </p>
+                      <p className="thesis-person">
+                        <span className="thesis-person-label">Supervisor:</span>
+                        {`${x.thesis.supervisor.user.firstName} ${x.thesis.supervisor.user.lastName}`}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
           )}
         </div>
-      ))}
+      </div>
     </div>
   );
 };

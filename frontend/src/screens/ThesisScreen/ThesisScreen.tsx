@@ -422,32 +422,34 @@ const ThesisScreen = () => {
         )}
       </section>
 
-      <section className="thesisSection">
-        <h2>Grade this thesis</h2>
+      {thesis.status !== "COMPLETED" && (
+        <section className="thesisSection">
+          <h2>Grade this thesis</h2>
 
-        <div className="addLinkForm">
-          <input
-            type="url"
-            className="formInput"
-            onChange={(e) => setGradeValue(e.target.value)}
-            onKeyDown={(e) => setGradeValue(e.target.value)}
-          />
-          <button
-            type="button"
-            className="btn btnSmall btnSecondary"
-            onClick={handleGradeThesis}
-          >
-            Submit Grade
-          </button>
-        </div>
+          <div className="addLinkForm">
+            <input
+              type="url"
+              className="formInput"
+              onChange={(e) => setGradeValue(e.target.value)}
+              onKeyDown={(e) => setGradeValue(e.target.value)}
+            />
+            <button
+              type="button"
+              className="btn btnSmall btnSecondary"
+              onClick={handleGradeThesis}
+            >
+              Submit Grade
+            </button>
+          </div>
 
-        <ul>
-          {thesis.grades?.length > 0 &&
-            thesis.grades.map((x: any) => (
-              <li>{`${x.professor.user.lastName} ${x.professor.user.firstName}:  ${x.totalGrade}`}</li>
-            ))}
-        </ul>
-      </section>
+          <ul>
+            {thesis.grades?.length > 0 &&
+              thesis.grades.map((x: any) => (
+                <li>{`${x.professor.user.lastName} ${x.professor.user.firstName}:  ${x.totalGrade}`}</li>
+              ))}
+          </ul>
+        </section>
+      )}
 
       {/* Presentation Announcement - Supervisor only when active */}
       {isUnderExamination && isSupervisor && (
