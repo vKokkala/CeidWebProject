@@ -2,10 +2,10 @@ import { useState, type FormEvent } from "react";
 import { isAxiosError } from "axios";
 import api from "../../api/client";
 import "./LoginScreen.css";
-import type { User } from "../../types";
+import type { User, AuthResponse } from "../../types";
 
 interface LoginScreenProps {
-  onLogin: (user: User) => void;
+  onLogin: (user: User, token: string) => void;
 }
 
 const LoginScreen = ({ onLogin }: LoginScreenProps) => {
@@ -20,8 +20,8 @@ const LoginScreen = ({ onLogin }: LoginScreenProps) => {
     const formData = Object.fromEntries(new FormData(e.currentTarget));
 
     try {
-      const { data } = await api.post("/login", formData);
-      onLogin(data);
+      const { data } = await api.post<AuthResponse>("/login", formData);
+      onLogin(data.user, data.token);
     } catch (err) {
       if (isAxiosError(err) && err.response) {
         setError(err.response.data.error || "Login failed");

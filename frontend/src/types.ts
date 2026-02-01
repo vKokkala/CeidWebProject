@@ -20,3 +20,13 @@ export interface User {
     phoneNumber?: string;
   };
 }
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+export interface AuthState {
+  user: User;
+  token: string;
+}

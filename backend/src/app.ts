@@ -4,6 +4,7 @@ import multer from "multer";
 import prisma from "./prisma.js";
 import type { Role } from "./generated/prisma/enums.js";
 import { InvitationStatus } from "./generated/prisma/enums.js";
+import { generateToken, authMiddleware } from "./middlewares/auth.js";
 
 const app = express();
 
@@ -30,6 +31,55 @@ app.get("/", (req, res) => {
     status: "running",
   });
 });
+
+/**
+ * Login (public)
+ */
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ error: "Both username and password are required" });
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { username },
+    include: {
+      student: {
+        include: {
+          thesis: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+      professor: true,
+    },
+  });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  if (user.password !== password) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  const token = generateToken({
+    id: user.id,
+    username: user.username,
+    role: user.role,
+  });
+
+  const { password: _, ...userWithoutPassword } = user;
+  res.json({ user: userWithoutPassword, token });
+});
+
+// Apply auth middleware to all routes below this point
+app.use(authMiddleware);
 
 /**
  * Get all users
@@ -143,46 +193,6 @@ app.patch("/user/:id", async (req, res) => {
   });
 
   res.json(updatedUserDetails);
-});
-
-/**
- * Login
- */
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res
-      .status(400)
-      .json({ error: "Both username and password are required" });
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { username },
-    include: {
-      student: {
-        include: {
-          thesis: {
-            select: {
-              id: true,
-            },
-          },
-        },
-      },
-      professor: true,
-    },
-  });
-
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  if (user.password !== password) {
-    return res.status(401).json({ error: "Invalid credentials" });
-  }
-
-  const { password: _, ...rest } = user;
-  res.json(rest);
 });
 
 app.get("/topic", async (req, res) => {
