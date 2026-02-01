@@ -8,4 +8,5 @@ export const Screens = {
   INVITATIONS: '/invitations',
   STATISTICS: '/statistics',
   STUDENT_THESIS: '/studentThesis',
+  ANNOUNCEMENTS: '/announcements',
 };

@@ -242,6 +242,7 @@ export type CommitteeMemberScalarFieldEnum = (typeof CommitteeMemberScalarFieldE
 
 export const ThesisPresentationAnnouncementScalarFieldEnum = {
   id: 'id',
+  text: 'text',
   thesisId: 'thesisId',
   createdAt: 'createdAt'
 } as const

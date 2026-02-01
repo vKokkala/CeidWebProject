@@ -4,6 +4,9 @@ import Router from "./navigation/router";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import type { User } from "./types";
+import { useLocation, useNavigate, useRoutes } from "react-router";
+import { useEffect } from "react";
+import AnnouncementsScreen from "./screens/AnnouncementsScreen/AnnouncementsScreen";
 
 export type LoggedInAppProps = {
   user: User;
@@ -26,8 +29,11 @@ const LoggedInApp = ({ user, logout }: LoggedInAppProps) => {
 
 const AppContent = () => {
   const { user, login, logout } = useAuth();
-
-  console.log("user", user);
+  const location = useLocation();
+  
+  if (location.pathname === "/announcements") {
+    return <AnnouncementsScreen />;
+  }
 
   return (
     <div className="wrapper">

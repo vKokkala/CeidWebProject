@@ -39,6 +39,9 @@ const ThesisScreen = () => {
   const [newNote, setNewNote] = useState("");
   const [noteLoading, setNoteLoading] = useState(false);
   const [examinationLoading, setExaminationLoading] = useState(false);
+  const [announcementLoading, setAnnouncementLoading] = useState(false);
+  const [announcementText, setAnnouncementText] = useState("");
+  const [existingAnnouncement, setExistingAnnouncement] = useState<{ id: number; text: string } | null>(null);
 
   useEffect(() => {
     const fetchThesis = async () => {
@@ -73,7 +76,29 @@ const ThesisScreen = () => {
     };
 
     fetchNotes();
-  }, [thesis, user?.professor?.id]);
+  }, [thesis, user?.professor?.id]);;
+
+  const handleCreateAnnouncement = async () => {
+    if (!thesis || !user?.professor?.id || !announcementText) return;
+
+    console.log('announcementText', announcementText)
+    console.log('user.professor.id', user.professor.id)
+
+
+    setAnnouncementLoading(true);
+    try {
+      const response = await api.post(`/thesis/${thesis.id}/announcement`, {
+        supervisorId: user.professor.id,
+        text: announcementText.trim(),
+      });
+      setExistingAnnouncement(response.data);
+      setAnnouncementText("");
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to create announcement");
+    } finally {
+      setAnnouncementLoading(false);
+    }
+  };
 
   const handleAddNote = async () => {
     if (!thesis || !user?.professor?.id || !newNote.trim()) return;
@@ -97,7 +122,7 @@ const ThesisScreen = () => {
     if (!thesis || !user?.professor?.id) return;
 
     const confirmed = window.confirm(
-      "Are you sure you want to cancel this assignment? This will delete the thesis and free the student for a new assignment."
+      "Are you sure you want to cancel this assignment? This will delete the thesis and free the student for a new assignment.",
     );
 
     if (!confirmed) return;
@@ -120,7 +145,7 @@ const ThesisScreen = () => {
     if (!thesis || !user?.professor?.id) return;
 
     const confirmed = window.confirm(
-      "Are you sure you want to move this thesis to examination phase?"
+      "Are you sure you want to move this thesis to examination phase?",
     );
 
     if (!confirmed) return;
@@ -183,16 +208,24 @@ const ThesisScreen = () => {
     : "Unknown";
 
   const committeeMembers = thesis.committeeMembers || [];
-  const committeMemberIds = committeeMembers.map(x => x.professorId);
+  const committeMemberIds = committeeMembers.map((x) => x.professorId);
 
   const isCompleted = thesis.status === "COMPLETED";
   const isActive = thesis.status === "ACTIVE";
   const isUnderAssignment = thesis.status === "UNDER_ASSIGNMENT";
+  const isUnderExamination = thesis.status === "UNDER_EXAMINATION";
   const isSupervisor = user?.professor?.id === thesis.supervisorId;
   const canCancel = isUnderAssignment && isSupervisor;
   const canStartExamination = isActive && isSupervisor;
   const isProfessor = !!user?.professor?.id;
   const canAddNotes = isActive && isProfessor;
+
+  // Announcement: only supervisor when active and presentation details are filled
+  const presentationDetailsFilled = !!(
+    thesis.examinationDate &&
+    thesis.examinationMode &&
+    thesis.examinationPlace
+  );
 
   return (
     <div className="thesisScreen">
@@ -343,6 +376,46 @@ const ThesisScreen = () => {
         )}
       </section>
 
+      {/* Presentation Announcement - Supervisor only when active */}
+      {isUnderExamination && isSupervisor && (
+        <section className="thesisSection announcementSection">
+          <h2>Presentation Announcement</h2>
+          {!presentationDetailsFilled ? (
+            <p className="emptyText">
+              The student must fill in the presentation details (date, mode,
+              place) before an announcement can be created.
+            </p>
+          ) : existingAnnouncement ? (
+            <div className="announcementDisplay">
+              <p className="announcementBadge">Announcement Published</p>
+              <div className="announcementTextDisplay">
+                {existingAnnouncement.text}
+              </div>
+            </div>
+          ) : (
+            <div className="announcementForm">
+              <p className="announcementInfo">
+                Write the presentation announcement text below:
+              </p>
+              <textarea
+                className="announcementTextarea"
+                placeholder="Enter the announcement text..."
+                value={announcementText}
+                onChange={(e) => setAnnouncementText(e.target.value)}
+                rows={6}
+              />
+              <button
+                className="btn btnPrimary"
+                onClick={handleCreateAnnouncement}
+                disabled={announcementLoading || !announcementText.trim()}
+              >
+                {announcementLoading ? "Publishing..." : "Publish Announcement"}
+              </button>
+            </div>
+          )}
+        </section>
+      )}
+
       {/* Committee */}
       <section className="thesisSection">
         <h2>Committee</h2>
@@ -357,7 +430,7 @@ const ThesisScreen = () => {
 
           {committeeMembers.map((member: any) => {
             const invitation = thesis.committeeInvitations?.find(
-              (inv: any) => inv.professorId === member.professorId
+              (inv: any) => inv.professorId === member.professorId,
             );
             return (
               <div key={member.id} className="committeeItem">
@@ -371,7 +444,8 @@ const ThesisScreen = () => {
                 <div className="committeeItemDates">
                   {invitation?.createdAt && (
                     <span className="committeeDate">
-                      Invited: {new Date(invitation.createdAt).toLocaleString("el-GR", {
+                      Invited:{" "}
+                      {new Date(invitation.createdAt).toLocaleString("el-GR", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
@@ -382,7 +456,8 @@ const ThesisScreen = () => {
                   )}
                   {member.acceptedAt && (
                     <span className="committeeDate">
-                      Accepted: {new Date(member.acceptedAt).toLocaleString("el-GR", {
+                      Accepted:{" "}
+                      {new Date(member.acceptedAt).toLocaleString("el-GR", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
@@ -416,7 +491,8 @@ const ThesisScreen = () => {
                 </div>
                 <div className="committeeItemDates">
                   <span className="committeeDate">
-                    Invited: {new Date(invitation.createdAt).toLocaleString("el-GR", {
+                    Invited:{" "}
+                    {new Date(invitation.createdAt).toLocaleString("el-GR", {
                       day: "2-digit",
                       month: "2-digit",
                       year: "numeric",
@@ -424,17 +500,22 @@ const ThesisScreen = () => {
                       minute: "2-digit",
                     })}
                   </span>
-                  {invitation.invitationStatus !== "PENDING" && invitation.repliedAt && (
-                    <span className="committeeDate">
-                      Replied: {new Date(invitation.repliedAt).toLocaleString("el-GR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </span>
-                  )}
+                  {invitation.invitationStatus !== "PENDING" &&
+                    invitation.repliedAt && (
+                      <span className="committeeDate">
+                        Replied:{" "}
+                        {new Date(invitation.repliedAt).toLocaleString(
+                          "el-GR",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          },
+                        )}
+                      </span>
+                    )}
                 </div>
               </div>
             ))}

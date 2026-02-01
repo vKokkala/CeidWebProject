@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import AssignmentsScreen from "../screens/AssignmentsScreen/AssignmentsScreen";
 import TopicsScreen from "../screens/TopicsScreen/TopicsScreen";
 import { Screens } from "./routes";
 import ThesisAllScreen from "../screens/ThesisAllScreen/ThesisAllScreen";
@@ -20,12 +19,13 @@ const Router = () => {
     INVITATIONS,
     STATISTICS,
     STUDENT_THESIS,
+    ANNOUNCEMENTS
   } = Screens;
 
   return (
     <Routes>
       <Route path="/" element={<Navigate to={LOGIN_SCREEN} replace />} />
-      <Route path={ASSIGNMENTS} element={<AssignmentsScreen />} />
+      <Route path={ANNOUNCEMENTS} element={<Navigate to={LOGIN_SCREEN} replace />} />
       <Route path={TOPICS} element={<TopicsScreen />} />
       <Route path="*" element={<Navigate to={TOPICS} replace />} />
       <Route

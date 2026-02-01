@@ -5,6 +5,8 @@ import prisma from "./prisma.js";
 import type { Role } from "./generated/prisma/enums.js";
 import { InvitationStatus } from "./generated/prisma/enums.js";
 import { generateToken, authMiddleware } from "./middlewares/auth.js";
+import xmlbuilder from "xmlbuilder";
+import type { ThesisPresentationAnnouncementWhereInput } from "./generated/prisma/models.js";
 
 const app = express();
 
@@ -76,6 +78,78 @@ app.post("/login", async (req, res) => {
 
   const { password: _, ...userWithoutPassword } = user;
   res.json({ user: userWithoutPassword, token });
+});
+
+/**
+ * Public thesis presentation announcements enbdpoint
+ */
+app.get("/announcements", async (req, res) => {
+  const { timeFrom, timeTo, format = "json" } = req.query;
+
+  const where: ThesisPresentationAnnouncementWhereInput = {};
+
+  if (timeFrom || timeTo) {
+    where.createdAt = {};
+
+    if (timeFrom) {
+      where.createdAt.gte = new Date(timeFrom as string);
+    }
+
+    if (timeTo) {
+      where.createdAt.lte = new Date(timeTo as string);
+    }
+  }
+
+  const announcements = await prisma.thesisPresentationAnnouncement.findMany({
+    where,
+    orderBy: { createdAt: "asc" },
+    include: {
+      thesis: {
+        include: {
+          student: {
+            include: {
+              user: true,
+            },
+          },
+          supervisor: {
+            include: {
+              user: true,
+            },
+          },
+          topic: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (format === "xml") {
+    const xml = xmlbuilder
+      .create("announcements")
+      .att("count", announcements.length);
+
+    announcements.forEach((a) => {
+      xml
+        .ele("announcement")
+        .ele("id", a.id)
+        .up()
+        .ele("createdAt", a.createdAt.toISOString())
+        .up()
+        .ele("text", a.text)
+        .up();
+    });
+
+    res.type("application/xml").send(xml.end({ pretty: true }));
+  } else {
+    res.json({
+      count: announcements.length,
+      data: announcements,
+    });
+  }
 });
 
 // Apply auth middleware to all routes below this point
@@ -1135,6 +1209,59 @@ app.post("/thesis/:id/start-examination", async (req, res) => {
   ]);
 
   res.json({ message: "Thesis status changed to UNDER_EXAMINATION" });
+});
+
+// Create presentation announcement (supervisor only, when ACTIVE and details filled)
+app.post("/thesis/:id/announcement", async (req, res) => {
+  const { id } = req.params;
+  const { supervisorId, text } = req.body;
+
+  if (!supervisorId) {
+    return res.status(400).json({ error: "supervisorId is required" });
+  }
+
+  if (!text || !text.trim()) {
+    return res.status(400).json({ error: "Announcement text is required" });
+  }
+
+  const thesis = await prisma.thesis.findUnique({
+    where: { id: Number(id) },
+  });
+
+  if (!thesis) {
+    return res.status(404).json({ error: "Thesis not found" });
+  }
+
+  if (thesis.status !== "UNDER_EXAMINATION") {
+    return res.status(400).json({ error: "Thesis must be in under examination status" });
+  }
+
+  if (thesis.supervisorId !== Number(supervisorId)) {
+    return res.status(403).json({ error: "Only the supervisor can create the announcement" });
+  }
+
+  if (!thesis.examinationDate || !thesis.examinationMode || !thesis.examinationPlace) {
+    return res.status(400).json({
+      error: "Presentation details must be filled by the student first (date, mode, place)"
+    });
+  }
+
+  const existingAnnouncement = await prisma.thesisPresentationAnnouncement.findFirst({
+    where: { thesisId: Number(id) },
+  });
+
+  if (existingAnnouncement) {
+    return res.status(400).json({ error: "Announcement already exists for this thesis" });
+  }
+
+  const announcement = await prisma.thesisPresentationAnnouncement.create({
+    data: {
+      text: text.trim(),
+      thesisId: Number(id),
+    },
+  });
+
+  res.json(announcement);
 });
 
 export default app;

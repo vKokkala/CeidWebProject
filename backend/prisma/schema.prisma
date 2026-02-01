@@ -254,6 +254,8 @@ model CommitteeMember {
 model ThesisPresentationAnnouncement {
   id Int @id @default(autoincrement())
 
+  text String @db.Text
+
   thesisId Int @unique
   thesis   Thesis @relation(fields: [thesisId], references: [id], onDelete: Cascade)
 

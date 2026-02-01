@@ -38,18 +38,21 @@ export type ThesisPresentationAnnouncementSumAggregateOutputType = {
 
 export type ThesisPresentationAnnouncementMinAggregateOutputType = {
   id: number | null
+  text: string | null
   thesisId: number | null
   createdAt: Date | null
 }
 
 export type ThesisPresentationAnnouncementMaxAggregateOutputType = {
   id: number | null
+  text: string | null
   thesisId: number | null
   createdAt: Date | null
 }
 
 export type ThesisPresentationAnnouncementCountAggregateOutputType = {
   id: number
+  text: number
   thesisId: number
   createdAt: number
   _all: number
@@ -68,18 +71,21 @@ export type ThesisPresentationAnnouncementSumAggregateInputType = {
 
 export type ThesisPresentationAnnouncementMinAggregateInputType = {
   id?: true
+  text?: true
   thesisId?: true
   createdAt?: true
 }
 
 export type ThesisPresentationAnnouncementMaxAggregateInputType = {
   id?: true
+  text?: true
   thesisId?: true
   createdAt?: true
 }
 
 export type ThesisPresentationAnnouncementCountAggregateInputType = {
   id?: true
+  text?: true
   thesisId?: true
   createdAt?: true
   _all?: true
@@ -173,6 +179,7 @@ export type ThesisPresentationAnnouncementGroupByArgs<ExtArgs extends runtime.Ty
 
 export type ThesisPresentationAnnouncementGroupByOutputType = {
   id: number
+  text: string
   thesisId: number
   createdAt: Date
   _count: ThesisPresentationAnnouncementCountAggregateOutputType | null
@@ -202,6 +209,7 @@ export type ThesisPresentationAnnouncementWhereInput = {
   OR?: Prisma.ThesisPresentationAnnouncementWhereInput[]
   NOT?: Prisma.ThesisPresentationAnnouncementWhereInput | Prisma.ThesisPresentationAnnouncementWhereInput[]
   id?: Prisma.IntFilter<"ThesisPresentationAnnouncement"> | number
+  text?: Prisma.StringFilter<"ThesisPresentationAnnouncement"> | string
   thesisId?: Prisma.IntFilter<"ThesisPresentationAnnouncement"> | number
   createdAt?: Prisma.DateTimeFilter<"ThesisPresentationAnnouncement"> | Date | string
   thesis?: Prisma.XOR<Prisma.ThesisScalarRelationFilter, Prisma.ThesisWhereInput>
@@ -209,6 +217,7 @@ export type ThesisPresentationAnnouncementWhereInput = {
 
 export type ThesisPresentationAnnouncementOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  text?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   thesis?: Prisma.ThesisOrderByWithRelationInput
@@ -216,16 +225,18 @@ export type ThesisPresentationAnnouncementOrderByWithRelationInput = {
 
 export type ThesisPresentationAnnouncementWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  thesisId?: number
   AND?: Prisma.ThesisPresentationAnnouncementWhereInput | Prisma.ThesisPresentationAnnouncementWhereInput[]
   OR?: Prisma.ThesisPresentationAnnouncementWhereInput[]
   NOT?: Prisma.ThesisPresentationAnnouncementWhereInput | Prisma.ThesisPresentationAnnouncementWhereInput[]
-  thesisId?: Prisma.IntFilter<"ThesisPresentationAnnouncement"> | number
+  text?: Prisma.StringFilter<"ThesisPresentationAnnouncement"> | string
   createdAt?: Prisma.DateTimeFilter<"ThesisPresentationAnnouncement"> | Date | string
   thesis?: Prisma.XOR<Prisma.ThesisScalarRelationFilter, Prisma.ThesisWhereInput>
-}, "id">
+}, "id" | "thesisId">
 
 export type ThesisPresentationAnnouncementOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  text?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ThesisPresentationAnnouncementCountOrderByAggregateInput
@@ -240,60 +251,64 @@ export type ThesisPresentationAnnouncementScalarWhereWithAggregatesInput = {
   OR?: Prisma.ThesisPresentationAnnouncementScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ThesisPresentationAnnouncementScalarWhereWithAggregatesInput | Prisma.ThesisPresentationAnnouncementScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"ThesisPresentationAnnouncement"> | number
+  text?: Prisma.StringWithAggregatesFilter<"ThesisPresentationAnnouncement"> | string
   thesisId?: Prisma.IntWithAggregatesFilter<"ThesisPresentationAnnouncement"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ThesisPresentationAnnouncement"> | Date | string
 }
 
 export type ThesisPresentationAnnouncementCreateInput = {
+  text: string
   createdAt?: Date | string
-  thesis: Prisma.ThesisCreateNestedOneWithoutThesisPresentationAnnouncementsInput
+  thesis: Prisma.ThesisCreateNestedOneWithoutThesisPresentationAnnouncementInput
 }
 
 export type ThesisPresentationAnnouncementUncheckedCreateInput = {
   id?: number
+  text: string
   thesisId: number
   createdAt?: Date | string
 }
 
 export type ThesisPresentationAnnouncementUpdateInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  thesis?: Prisma.ThesisUpdateOneRequiredWithoutThesisPresentationAnnouncementsNestedInput
+  thesis?: Prisma.ThesisUpdateOneRequiredWithoutThesisPresentationAnnouncementNestedInput
 }
 
 export type ThesisPresentationAnnouncementUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  text?: Prisma.StringFieldUpdateOperationsInput | string
   thesisId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ThesisPresentationAnnouncementCreateManyInput = {
   id?: number
+  text: string
   thesisId: number
   createdAt?: Date | string
 }
 
 export type ThesisPresentationAnnouncementUpdateManyMutationInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ThesisPresentationAnnouncementUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  text?: Prisma.StringFieldUpdateOperationsInput | string
   thesisId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ThesisPresentationAnnouncementListRelationFilter = {
-  every?: Prisma.ThesisPresentationAnnouncementWhereInput
-  some?: Prisma.ThesisPresentationAnnouncementWhereInput
-  none?: Prisma.ThesisPresentationAnnouncementWhereInput
-}
-
-export type ThesisPresentationAnnouncementOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type ThesisPresentationAnnouncementNullableScalarRelationFilter = {
+  is?: Prisma.ThesisPresentationAnnouncementWhereInput | null
+  isNot?: Prisma.ThesisPresentationAnnouncementWhereInput | null
 }
 
 export type ThesisPresentationAnnouncementCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  text?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -305,12 +320,14 @@ export type ThesisPresentationAnnouncementAvgOrderByAggregateInput = {
 
 export type ThesisPresentationAnnouncementMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  text?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type ThesisPresentationAnnouncementMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  text?: Prisma.SortOrder
   thesisId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -320,54 +337,46 @@ export type ThesisPresentationAnnouncementSumOrderByAggregateInput = {
   thesisId?: Prisma.SortOrder
 }
 
-export type ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput = {
-  create?: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput> | Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput[] | Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput[]
-  connectOrCreate?: Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput | Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput[]
-  createMany?: Prisma.ThesisPresentationAnnouncementCreateManyThesisInputEnvelope
-  connect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
+export type ThesisPresentationAnnouncementCreateNestedOneWithoutThesisInput = {
+  create?: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput>
+  connectOrCreate?: Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput
+  connect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput
 }
 
-export type ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput = {
-  create?: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput> | Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput[] | Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput[]
-  connectOrCreate?: Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput | Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput[]
-  createMany?: Prisma.ThesisPresentationAnnouncementCreateManyThesisInputEnvelope
-  connect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
+export type ThesisPresentationAnnouncementUncheckedCreateNestedOneWithoutThesisInput = {
+  create?: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput>
+  connectOrCreate?: Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput
+  connect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput
 }
 
-export type ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput = {
-  create?: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput> | Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput[] | Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput[]
-  connectOrCreate?: Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput | Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput[]
-  upsert?: Prisma.ThesisPresentationAnnouncementUpsertWithWhereUniqueWithoutThesisInput | Prisma.ThesisPresentationAnnouncementUpsertWithWhereUniqueWithoutThesisInput[]
-  createMany?: Prisma.ThesisPresentationAnnouncementCreateManyThesisInputEnvelope
-  set?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
-  disconnect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
-  delete?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
-  connect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
-  update?: Prisma.ThesisPresentationAnnouncementUpdateWithWhereUniqueWithoutThesisInput | Prisma.ThesisPresentationAnnouncementUpdateWithWhereUniqueWithoutThesisInput[]
-  updateMany?: Prisma.ThesisPresentationAnnouncementUpdateManyWithWhereWithoutThesisInput | Prisma.ThesisPresentationAnnouncementUpdateManyWithWhereWithoutThesisInput[]
-  deleteMany?: Prisma.ThesisPresentationAnnouncementScalarWhereInput | Prisma.ThesisPresentationAnnouncementScalarWhereInput[]
+export type ThesisPresentationAnnouncementUpdateOneWithoutThesisNestedInput = {
+  create?: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput>
+  connectOrCreate?: Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput
+  upsert?: Prisma.ThesisPresentationAnnouncementUpsertWithoutThesisInput
+  disconnect?: Prisma.ThesisPresentationAnnouncementWhereInput | boolean
+  delete?: Prisma.ThesisPresentationAnnouncementWhereInput | boolean
+  connect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ThesisPresentationAnnouncementUpdateToOneWithWhereWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUpdateWithoutThesisInput>, Prisma.ThesisPresentationAnnouncementUncheckedUpdateWithoutThesisInput>
 }
 
-export type ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput = {
-  create?: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput> | Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput[] | Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput[]
-  connectOrCreate?: Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput | Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput[]
-  upsert?: Prisma.ThesisPresentationAnnouncementUpsertWithWhereUniqueWithoutThesisInput | Prisma.ThesisPresentationAnnouncementUpsertWithWhereUniqueWithoutThesisInput[]
-  createMany?: Prisma.ThesisPresentationAnnouncementCreateManyThesisInputEnvelope
-  set?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
-  disconnect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
-  delete?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
-  connect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput | Prisma.ThesisPresentationAnnouncementWhereUniqueInput[]
-  update?: Prisma.ThesisPresentationAnnouncementUpdateWithWhereUniqueWithoutThesisInput | Prisma.ThesisPresentationAnnouncementUpdateWithWhereUniqueWithoutThesisInput[]
-  updateMany?: Prisma.ThesisPresentationAnnouncementUpdateManyWithWhereWithoutThesisInput | Prisma.ThesisPresentationAnnouncementUpdateManyWithWhereWithoutThesisInput[]
-  deleteMany?: Prisma.ThesisPresentationAnnouncementScalarWhereInput | Prisma.ThesisPresentationAnnouncementScalarWhereInput[]
+export type ThesisPresentationAnnouncementUncheckedUpdateOneWithoutThesisNestedInput = {
+  create?: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput>
+  connectOrCreate?: Prisma.ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput
+  upsert?: Prisma.ThesisPresentationAnnouncementUpsertWithoutThesisInput
+  disconnect?: Prisma.ThesisPresentationAnnouncementWhereInput | boolean
+  delete?: Prisma.ThesisPresentationAnnouncementWhereInput | boolean
+  connect?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ThesisPresentationAnnouncementUpdateToOneWithWhereWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUpdateWithoutThesisInput>, Prisma.ThesisPresentationAnnouncementUncheckedUpdateWithoutThesisInput>
 }
 
 export type ThesisPresentationAnnouncementCreateWithoutThesisInput = {
+  text: string
   createdAt?: Date | string
 }
 
 export type ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput = {
   id?: number
+  text: string
   createdAt?: Date | string
 }
 
@@ -376,52 +385,25 @@ export type ThesisPresentationAnnouncementCreateOrConnectWithoutThesisInput = {
   create: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput>
 }
 
-export type ThesisPresentationAnnouncementCreateManyThesisInputEnvelope = {
-  data: Prisma.ThesisPresentationAnnouncementCreateManyThesisInput | Prisma.ThesisPresentationAnnouncementCreateManyThesisInput[]
-  skipDuplicates?: boolean
-}
-
-export type ThesisPresentationAnnouncementUpsertWithWhereUniqueWithoutThesisInput = {
-  where: Prisma.ThesisPresentationAnnouncementWhereUniqueInput
+export type ThesisPresentationAnnouncementUpsertWithoutThesisInput = {
   update: Prisma.XOR<Prisma.ThesisPresentationAnnouncementUpdateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedUpdateWithoutThesisInput>
   create: Prisma.XOR<Prisma.ThesisPresentationAnnouncementCreateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedCreateWithoutThesisInput>
+  where?: Prisma.ThesisPresentationAnnouncementWhereInput
 }
 
-export type ThesisPresentationAnnouncementUpdateWithWhereUniqueWithoutThesisInput = {
-  where: Prisma.ThesisPresentationAnnouncementWhereUniqueInput
+export type ThesisPresentationAnnouncementUpdateToOneWithWhereWithoutThesisInput = {
+  where?: Prisma.ThesisPresentationAnnouncementWhereInput
   data: Prisma.XOR<Prisma.ThesisPresentationAnnouncementUpdateWithoutThesisInput, Prisma.ThesisPresentationAnnouncementUncheckedUpdateWithoutThesisInput>
 }
 
-export type ThesisPresentationAnnouncementUpdateManyWithWhereWithoutThesisInput = {
-  where: Prisma.ThesisPresentationAnnouncementScalarWhereInput
-  data: Prisma.XOR<Prisma.ThesisPresentationAnnouncementUpdateManyMutationInput, Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisInput>
-}
-
-export type ThesisPresentationAnnouncementScalarWhereInput = {
-  AND?: Prisma.ThesisPresentationAnnouncementScalarWhereInput | Prisma.ThesisPresentationAnnouncementScalarWhereInput[]
-  OR?: Prisma.ThesisPresentationAnnouncementScalarWhereInput[]
-  NOT?: Prisma.ThesisPresentationAnnouncementScalarWhereInput | Prisma.ThesisPresentationAnnouncementScalarWhereInput[]
-  id?: Prisma.IntFilter<"ThesisPresentationAnnouncement"> | number
-  thesisId?: Prisma.IntFilter<"ThesisPresentationAnnouncement"> | number
-  createdAt?: Prisma.DateTimeFilter<"ThesisPresentationAnnouncement"> | Date | string
-}
-
-export type ThesisPresentationAnnouncementCreateManyThesisInput = {
-  id?: number
-  createdAt?: Date | string
-}
-
 export type ThesisPresentationAnnouncementUpdateWithoutThesisInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ThesisPresentationAnnouncementUncheckedUpdateWithoutThesisInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -429,6 +411,7 @@ export type ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisInput 
 
 export type ThesisPresentationAnnouncementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  text?: boolean
   thesisId?: boolean
   createdAt?: boolean
   thesis?: boolean | Prisma.ThesisDefaultArgs<ExtArgs>
@@ -436,6 +419,7 @@ export type ThesisPresentationAnnouncementSelect<ExtArgs extends runtime.Types.E
 
 export type ThesisPresentationAnnouncementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  text?: boolean
   thesisId?: boolean
   createdAt?: boolean
   thesis?: boolean | Prisma.ThesisDefaultArgs<ExtArgs>
@@ -443,6 +427,7 @@ export type ThesisPresentationAnnouncementSelectCreateManyAndReturn<ExtArgs exte
 
 export type ThesisPresentationAnnouncementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  text?: boolean
   thesisId?: boolean
   createdAt?: boolean
   thesis?: boolean | Prisma.ThesisDefaultArgs<ExtArgs>
@@ -450,11 +435,12 @@ export type ThesisPresentationAnnouncementSelectUpdateManyAndReturn<ExtArgs exte
 
 export type ThesisPresentationAnnouncementSelectScalar = {
   id?: boolean
+  text?: boolean
   thesisId?: boolean
   createdAt?: boolean
 }
 
-export type ThesisPresentationAnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "thesisId" | "createdAt", ExtArgs["result"]["thesisPresentationAnnouncement"]>
+export type ThesisPresentationAnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "text" | "thesisId" | "createdAt", ExtArgs["result"]["thesisPresentationAnnouncement"]>
 export type ThesisPresentationAnnouncementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   thesis?: boolean | Prisma.ThesisDefaultArgs<ExtArgs>
 }
@@ -472,6 +458,7 @@ export type $ThesisPresentationAnnouncementPayload<ExtArgs extends runtime.Types
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    text: string
     thesisId: number
     createdAt: Date
   }, ExtArgs["result"]["thesisPresentationAnnouncement"]>
@@ -899,6 +886,7 @@ export interface Prisma__ThesisPresentationAnnouncementClient<T, Null = never, E
  */
 export interface ThesisPresentationAnnouncementFieldRefs {
   readonly id: Prisma.FieldRef<"ThesisPresentationAnnouncement", 'Int'>
+  readonly text: Prisma.FieldRef<"ThesisPresentationAnnouncement", 'String'>
   readonly thesisId: Prisma.FieldRef<"ThesisPresentationAnnouncement", 'Int'>
   readonly createdAt: Prisma.FieldRef<"ThesisPresentationAnnouncement", 'DateTime'>
 }
