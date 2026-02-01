@@ -13,7 +13,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Configure multer for memory storage (stores file as Buffer)
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
@@ -26,7 +25,6 @@ const upload = multer({
   },
 });
 
-// Health check route
 app.get("/", (req, res) => {
   res.json({
     message: "Thesis Assignment API",
@@ -34,9 +32,6 @@ app.get("/", (req, res) => {
   });
 });
 
-/**
- * Login (public)
- */
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -341,7 +336,6 @@ app.patch("/user/:id", async (req, res) => {
   }
 
   if (email && user.email !== email) {
-    // Update user email if provided
     await prisma.user.update({
       where: { id: Number(id) },
       data: {
@@ -350,7 +344,6 @@ app.patch("/user/:id", async (req, res) => {
     });
   }
 
-  // Update details only if query made by a user
   if (user.student) {
     await prisma.student.update({
       where: { id: user.student.id },
@@ -362,7 +355,6 @@ app.patch("/user/:id", async (req, res) => {
     });
   }
 
-  // Fetch the updated user with all relations
   const updatedUserDetails = await prisma.user.findUnique({
     where: { id: Number(id) },
     include: {
@@ -427,7 +419,6 @@ app.post("/topic", upload.single("pdfFile"), async (req, res) => {
   res.json(topic);
 });
 
-// Download PDF from topic
 app.get("/topic/:id/pdf", async (req, res) => {
   const { id } = req.params;
 
@@ -496,7 +487,6 @@ app.post("/thesis", async (req, res) => {
     });
   }
 
-  // Check if topic exists and is not already assigned
   const topic = await prisma.topic.findUnique({
     where: { id: Number(topicId) },
   });
@@ -509,7 +499,6 @@ app.post("/thesis", async (req, res) => {
     return res.status(400).json({ error: "Topic is already assigned" });
   }
 
-  // Check if student exists and doesn't already have a thesis
   const student = await prisma.student.findUnique({
     where: { id: Number(studentId) },
     include: { thesis: true },
@@ -525,7 +514,6 @@ app.post("/thesis", async (req, res) => {
       .json({ error: "Student already has a thesis assigned" });
   }
 
-  // Create thesis and mark topic as assigned
   const thesis = await prisma.thesis.create({
     data: {
       professor: { connect: { id: Number(professorId) } },
@@ -535,7 +523,6 @@ app.post("/thesis", async (req, res) => {
     },
   });
 
-  // Mark topic as assigned
   await prisma.topic.update({
     where: { id: Number(topicId) },
     data: { isAssigned: true },
@@ -656,7 +643,6 @@ app.get("/thesis/:id", async (req, res) => {
   res.json(thesis);
 });
 
-// Update thesis fields
 app.patch("/thesis/:id", async (req, res) => {
   const { id } = req.params;
   const {
@@ -773,7 +759,6 @@ app.post("/thesis/:id/grades", async (req, res) => {
 });
 
 
-// Upload thesis document
 app.post(
   "/thesis/:id/document",
   upload.single("document"),
@@ -804,7 +789,6 @@ app.post(
   },
 );
 
-// Download thesis document
 app.get("/thesis/:id/document", async (req, res) => {
   const { id } = req.params;
 
@@ -821,53 +805,6 @@ app.get("/thesis/:id/document", async (req, res) => {
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", `inline; filename="${filename}"`);
   res.send(thesis.thesisDocument);
-});
-
-// Get examination report as HTML
-app.get("/thesis/:id/examination-report", async (req, res) => {
-  const { id } = req.params;
-
-  const thesis = await prisma.thesis.findUnique({
-    where: { id: Number(id) },
-    include: {
-      topic: true,
-      student: {
-        include: {
-          user: true,
-        },
-      },
-      supervisor: {
-        include: {
-          user: true,
-        },
-      },
-      committeeMembers: {
-        include: {
-          professor: {
-            include: {
-              user: true,
-            },
-          },
-        },
-      },
-      grades: {
-        include: {
-          professor: {
-            include: {
-              user: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  if (!thesis) {
-    return res.status(404).json({ error: "Thesis not found" });
-  }
-
-
-  // TODO
 });
 
 app.post("/thesis/:id/committee", async (req, res) => {
@@ -887,7 +824,6 @@ app.post("/thesis/:id/committee", async (req, res) => {
     return res.status(404).json({ error: "Thesis not found" });
   }
 
-  // Check if professor is already a committee member
   const isAlreadyMember = thesis.committeeMembers.some(
     (member) => member.professorId === Number(professorId),
   );
@@ -908,7 +844,6 @@ app.post("/thesis/:id/committee", async (req, res) => {
     });
   }
 
-  // Check if professor is the supervisor
   if (thesis.supervisorId === Number(professorId)) {
     return res
       .status(400)
@@ -933,7 +868,6 @@ app.post("/thesis/:id/committee", async (req, res) => {
   res.json(committeeMember);
 });
 
-// Get invitations for a professor
 app.get("/invitation", async (req, res) => {
   const { professorId } = req.query;
 
@@ -966,7 +900,6 @@ app.get("/invitation", async (req, res) => {
   res.json(invitations);
 });
 
-// Accept invitation
 app.post("/invitation/:id/accept", async (req, res) => {
   const { id } = req.params;
 
@@ -982,7 +915,6 @@ app.post("/invitation/:id/accept", async (req, res) => {
     return res.status(400).json({ error: "Invitation already responded" });
   }
 
-  // Update invitation status and create committee member
   await prisma.$transaction([
     prisma.committeeInvitation.update({
       where: { id: Number(id) },
@@ -997,7 +929,6 @@ app.post("/invitation/:id/accept", async (req, res) => {
     }),
   ]);
 
-  // Check if thesis now has at least 2 committee members
   const thesis = await prisma.thesis.findUnique({
     where: { id: invitation.thesisId },
     include: { committeeMembers: true },
@@ -1036,7 +967,6 @@ app.post("/invitation/:id/accept", async (req, res) => {
   res.json({ message: "Invitation accepted" });
 });
 
-// Reject invitation
 app.post("/invitation/:id/reject", async (req, res) => {
   const { id } = req.params;
 
@@ -1060,7 +990,6 @@ app.post("/invitation/:id/reject", async (req, res) => {
   res.json({ message: "Invitation rejected" });
 });
 
-// Cancel thesis assignment (supervisor only, only when UNDER_ASSIGNMENT)
 app.post("/thesis/:id/cancel-assignment", async (req, res) => {
   const { id } = req.params;
   const { supervisorId, reason } = req.body;
@@ -1082,18 +1011,15 @@ app.post("/thesis/:id/cancel-assignment", async (req, res) => {
   }
 
   await prisma.$transaction([
-    // Delete all committee members
     prisma.committeeMember.deleteMany({
       where: { thesisId: thesis.id },
     }),
-    // Delete all committee invitations
     prisma.committeeInvitation.deleteMany({
       where: { thesisId: thesis.id },
     }),
     prisma.thesisStatusChange.deleteMany({
       where: { thesisId: thesis.id },
     }),
-    // Mark topic as unassigned
     prisma.topic.update({
       where: { id: thesis.topicId! },
       data: { isAssigned: false },
@@ -1127,7 +1053,6 @@ app.get("/thesis/:id/notes", async (req, res) => {
   res.json(notes);
 });
 
-// Create a note for a thesis
 app.post("/thesis/:id/notes", async (req, res) => {
   const { id } = req.params;
   const { professorId, note } = req.body;
@@ -1206,7 +1131,6 @@ app.post("/thesis/:id/start-examination", async (req, res) => {
   res.json({ message: "Thesis status changed to UNDER_EXAMINATION" });
 });
 
-// Create presentation announcement (supervisor only, when ACTIVE and details filled)
 app.post("/thesis/:id/announcement", async (req, res) => {
   const { id } = req.params;
   const { supervisorId, text } = req.body;
