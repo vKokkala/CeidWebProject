@@ -422,7 +422,7 @@ const ThesisScreen = () => {
         )}
       </section>
 
-      {thesis.status !== "COMPLETED" && (
+      {thesis.status !== "COMPLETED" && user?.role !== "SECRETARIAT" && (
         <section className="thesisSection">
           <h2>Grade this thesis</h2>
 

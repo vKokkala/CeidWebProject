@@ -9,4 +9,6 @@ export const Screens = {
   STATISTICS: '/statistics',
   STUDENT_THESIS: '/studentThesis',
   ANNOUNCEMENTS: '/announcements',
+  IMPORT_DATA: '/importData',
+  ACTIVE_THESES: '/activeTheses',
 };

@@ -72,6 +72,19 @@
     color: #e57373;
 }
 
+.statusInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.timeSinceAssignment {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
 .thesisTitle {
     font-size: 28px;
     font-weight: 700;

@@ -62,3 +62,49 @@
 .thesis-card-pdf-link:hover {
     text-decoration: underline;
 }
+
+.thesis-card-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.thesis-card-status {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.thesis-card-status.status-under-assignment {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+.thesis-card-status.status-active {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+}
+
+.thesis-card-status.status-under-examination {
+    background-color: rgba(33, 150, 243, 0.2);
+    color: #64b5f6;
+}
+
+.thesis-card-status.status-completed {
+    background-color: rgba(156, 39, 176, 0.2);
+    color: #ba68c8;
+}
+
+.thesis-card-status.status-cancelled {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #e57373;
+}
+
+.thesis-card-time-elapsed {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}

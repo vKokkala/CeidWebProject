@@ -2,9 +2,26 @@ import { useNavigate } from "react-router-dom";
 import "./ThesisCard.css";
 import api from "../../api/client";
 
+type ThesisStatus =
+  | "UNDER_ASSIGNMENT"
+  | "ACTIVE"
+  | "UNDER_EXAMINATION"
+  | "COMPLETED"
+  | "CANCELLED";
+
+const statusLabels: Record<ThesisStatus, string> = {
+  UNDER_ASSIGNMENT: "Under Assignment",
+  ACTIVE: "Active",
+  UNDER_EXAMINATION: "Under Examination",
+  COMPLETED: "Completed",
+  CANCELLED: "Cancelled",
+};
+
 type ThesisCardProps = {
   thesis: {
     id: number;
+    status?: ThesisStatus;
+    officialAssignmentDate?: string;
     topic?: {
       id: number;
       title: string;
@@ -32,9 +49,33 @@ type ThesisCardProps = {
   };
 };
 
+const formatTimeSince = (dateString: string): string => {
+  const assignmentDate = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - assignmentDate.getTime();
+
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const months = Math.floor(days / 30);
+  const years = Math.floor(days / 365);
+
+  if (years > 0) {
+    const remainingMonths = Math.floor((days % 365) / 30);
+    return remainingMonths > 0
+      ? `${years}y ${remainingMonths}m`
+      : `${years}y`;
+  }
+  if (months > 0) {
+    const remainingDays = days % 30;
+    return remainingDays > 0
+      ? `${months}m ${remainingDays}d`
+      : `${months}m`;
+  }
+  return `${days}d`;
+};
+
 const ThesisCard = ({ thesis }: ThesisCardProps) => {
   const navigate = useNavigate();
-  const { topic, student, supervisor } = thesis;
+  const { topic, student, supervisor, status, officialAssignmentDate } = thesis;
 
   const studentName = student?.user
     ? `${student.user.firstName} ${student.user.lastName}`
@@ -49,6 +90,18 @@ const ThesisCard = ({ thesis }: ThesisCardProps) => {
 
   return (
     <div className="thesis-card" onClick={handleClick}>
+      {status && (
+        <div className="thesis-card-status-row">
+          <span className={`thesis-card-status status-${status.toLowerCase().replace("_", "-")}`}>
+            {statusLabels[status] || status}
+          </span>
+          {officialAssignmentDate && (
+            <span className="thesis-card-time-elapsed">
+              {formatTimeSince(officialAssignmentDate)} since assignment
+            </span>
+          )}
+        </div>
+      )}
       <div className="thesis-card-title">{topic?.title || "No topic"}</div>
       <div className="thesis-card-description">
         {topic?.description || "No description"}

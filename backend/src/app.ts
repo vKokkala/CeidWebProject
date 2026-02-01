@@ -155,6 +155,111 @@ app.get("/announcements", async (req, res) => {
 // Apply auth middleware to all routes below this point
 app.use(authMiddleware);
 
+
+app.post("/import-users", async (req, res) => {
+  const { students = [], professors = [] } = req.body;
+
+  const errors: string[] = [];
+  let studentsCreated = 0;
+  let professorsCreated = 0;
+
+  const generatePassword = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let password = '';
+    for (let i = 0; i < 12; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return password;
+  };
+
+  const getUsername = (email: string) => {
+    return email.split('@')[0];
+  };
+
+  for (const student of students) {
+    try {
+      const { email, firstName, lastName, am, address, cellPhoneNumber, phoneNumber } = student;
+
+      if (!email || !firstName || !lastName || !am) {
+        errors.push(`Student missing required fields (email, firstName, lastName, am): ${email || 'unknown'}`);
+        continue;
+      }
+
+      const username = getUsername(email) ?? email;
+      const password = generatePassword();
+
+      await prisma.user.create({
+        data: {
+          email,
+          firstName,
+          lastName,
+          username,
+          password,
+          role: "STUDENT",
+          student: {
+            create: {
+              am,
+              address,
+              cellPhoneNumber,
+              phoneNumber,
+            },
+          },
+        },
+      });
+      studentsCreated++;
+    } catch (error: any) {
+      const identifier = student.email || 'unknown';
+      if (error.code === 'P2002') {
+        errors.push(`Student already exists: ${identifier}`);
+      } else {
+        errors.push(`Failed to create student ${identifier}: ${error.message}`);
+      }
+    }
+  }
+
+  for (const professor of professors) {
+    try {
+      const { email, firstName, lastName } = professor;
+
+      if (!email || !firstName || !lastName) {
+        errors.push(`Professor missing required fields (email, firstName, lastName): ${email || 'unknown'}`);
+        continue;
+      }
+
+      const username = getUsername(email) ?? email;
+      const password = generatePassword();
+
+      await prisma.user.create({
+        data: {
+          email,
+          firstName,
+          lastName,
+          username,
+          password,
+          role: "PROFESSOR",
+          professor: {
+            create: {},
+          },
+        },
+      });
+      professorsCreated++;
+    } catch (error: any) {
+      const identifier = professor.email || 'unknown';
+      if (error.code === 'P2002') {
+        errors.push(`Professor already exists: ${identifier}`);
+      } else {
+        errors.push(`Failed to create professor ${identifier}: ${error.message}`);
+      }
+    }
+  }
+
+  res.json({
+    studentsCreated,
+    professorsCreated,
+    errors: errors.length > 0 ? errors : undefined,
+  });
+});
+
 /**
  * Get all users
  */

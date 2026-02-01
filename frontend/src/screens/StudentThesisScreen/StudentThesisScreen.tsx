@@ -19,6 +19,30 @@ const statusLabels: Record<ThesisStatus, string> = {
   CANCELLED: "Cancelled",
 };
 
+const formatTimeSince = (dateString: string): string => {
+  const assignmentDate = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - assignmentDate.getTime();
+
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const months = Math.floor(days / 30);
+  const years = Math.floor(days / 365);
+
+  if (years > 0) {
+    const remainingMonths = Math.floor((days % 365) / 30);
+    return remainingMonths > 0
+      ? `${years} year${years > 1 ? 's' : ''}, ${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`
+      : `${years} year${years > 1 ? 's' : ''}`;
+  }
+  if (months > 0) {
+    const remainingDays = days % 30;
+    return remainingDays > 0
+      ? `${months} month${months > 1 ? 's' : ''}, ${remainingDays} day${remainingDays > 1 ? 's' : ''}`
+      : `${months} month${months > 1 ? 's' : ''}`;
+  }
+  return `${days} day${days !== 1 ? 's' : ''}`;
+};
+
 const StudentThesisScreen = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -295,10 +319,17 @@ const StudentThesisScreen = () => {
     <div className="studentThesisScreen">
       <header className="studentThesisHeader">
         <h1>My Thesis</h1>
-        <div
-          className={`statusBadge status-${thesis.status?.toLowerCase().replace("_", "-")}`}
-        >
-          {statusLabels[thesis.status as ThesisStatus] || thesis.status}
+        <div className="statusInfo">
+          <div
+            className={`statusBadge status-${thesis.status?.toLowerCase().replace("_", "-")}`}
+          >
+            {statusLabels[thesis.status as ThesisStatus] || thesis.status}
+          </div>
+          {thesis.officialAssignmentDate && (
+            <span className="timeSinceAssignment">
+              {formatTimeSince(thesis.officialAssignmentDate)} since assignment
+            </span>
+          )}
         </div>
       </header>
 

@@ -1,0 +1,179 @@
+.import-screen {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.import-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.import-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: white;
+}
+
+.import-description {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 24px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.import-card {
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    color: white;
+    box-shadow: -4px 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.file-drop-zone {
+    border: 2px dashed rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 48px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.file-drop-zone:hover {
+    border-color: rgba(102, 126, 234, 0.6);
+    background-color: rgba(102, 126, 234, 0.1);
+}
+
+.file-drop-zone.has-file {
+    border-color: rgba(76, 175, 80, 0.6);
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.file-drop-zone p {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+}
+
+.file-drop-zone small {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+}
+
+.file-name {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.import-actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.import-result {
+    margin-top: 24px;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.import-result.success {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.import-result.error {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #e57373;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.import-result h4 {
+    margin: 0 0 8px 0;
+}
+
+.import-result ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+}
+
+.import-result li {
+    margin: 4px 0;
+}
+
+.json-format {
+    margin-top: 32px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.json-format h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.json-format pre {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+.json-note {
+    margin: 12px 0 0 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+}

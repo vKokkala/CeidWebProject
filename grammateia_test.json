@@ -1,0 +1,81 @@
+{
+  "students": [
+    {
+      "email": "nikos.papadopoulos@example.com",
+      "firstName": "Nikos",
+      "lastName": "Papadopoulos",
+      "username": "npapadopoulos",
+      "password": "password123",
+      "am": "1234567"
+    },
+    {
+      "email": "maria.kostopoulou@example.com",
+      "firstName": "Maria",
+      "lastName": "Kostopoulou",
+      "username": "mkostopoulou",
+      "password": "password123",
+      "am": "2345678"
+    },
+    {
+      "email": "giorgos.ioannou@example.com",
+      "firstName": "Giorgos",
+      "lastName": "Ioannou",
+      "username": "gioannou",
+      "password": "password123",
+      "am": "3456789"
+    },
+    {
+      "email": "eleni.dimitriou@example.com",
+      "firstName": "Eleni",
+      "lastName": "Dimitriou",
+      "username": "edimitriou",
+      "password": "password123",
+      "am": "4567890"
+    },
+    {
+      "email": "kostas.anagnostou@example.com",
+      "firstName": "Kostas",
+      "lastName": "Anagnostou",
+      "username": "kanagnostou",
+      "password": "password123",
+      "am": "5678901"
+    }
+  ],
+  "professors": [
+    {
+      "email": "panagiotis.karalis@example.com",
+      "firstName": "Panagiotis",
+      "lastName": "Karalis",
+      "username": "pkaralis",
+      "password": "password123"
+    },
+    {
+      "email": "anna.vlachou@example.com",
+      "firstName": "Anna",
+      "lastName": "Vlachou",
+      "username": "avlachou",
+      "password": "password123"
+    },
+    {
+      "email": "dimitris.stefanidis@example.com",
+      "firstName": "Dimitris",
+      "lastName": "Stefanidis",
+      "username": "dstefanidis",
+      "password": "password123"
+    },
+    {
+      "email": "katerina.michail@example.com",
+      "firstName": "Katerina",
+      "lastName": "Michail",
+      "username": "kmichail",
+      "password": "password123"
+    },
+    {
+      "email": "vasilis.lampropoulos@example.com",
+      "firstName": "Vasilis",
+      "lastName": "Lampropoulos",
+      "username": "vlampropoulos",
+      "password": "password123"
+    }
+  ]
+}

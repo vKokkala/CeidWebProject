@@ -32,7 +32,11 @@ const AppContent = () => {
   const location = useLocation();
   
   if (location.pathname === "/announcements") {
-    return <AnnouncementsScreen />;
+    return (
+      <div className="wrapper">
+        <AnnouncementsScreen />
+      </div>
+    );
   }
 
   return (

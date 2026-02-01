@@ -24,8 +24,8 @@ export const UserMenu: Record<
   },
   SECRETARIAT: {
     options: [
-      { title: "Active Theses" },
-      { title: "Import Data" },
+      { title: "Active Theses", route: Screens.ACTIVE_THESES },
+      { title: "Import Data", route: Screens.IMPORT_DATA },
       { title: "Theses All ", route: Screens.THESIS_ALL },
     ],
   },

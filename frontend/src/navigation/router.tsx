@@ -7,6 +7,8 @@ import EditProfileScreen from "../screens/EditProfileScreen/EditProfileScreen";
 import InvitationsScreen from "../screens/InvitationsScreen/InvitationsScreen";
 import StatisticsScreen from "../screens/StatisticsScreen/StatisticsScreen";
 import StudentThesisScreen from "../screens/StudentThesisScreen/StudentThesisScreen";
+import ImportDataScreen from "../screens/ImportDataScreen/ImportDataScreen";
+import ActiveThesesScreen from "../screens/ActiveThesesScreen/ActiveThesesScreen";
 
 const Router = () => {
   const {
@@ -19,7 +21,9 @@ const Router = () => {
     INVITATIONS,
     STATISTICS,
     STUDENT_THESIS,
-    ANNOUNCEMENTS
+    ANNOUNCEMENTS,
+    IMPORT_DATA,
+    ACTIVE_THESES
   } = Screens;
 
   return (
@@ -38,6 +42,8 @@ const Router = () => {
       <Route path={INVITATIONS} element={<InvitationsScreen />} />
       <Route path={STATISTICS} element={<StatisticsScreen />} />
       <Route path={STUDENT_THESIS} element={<StudentThesisScreen />} />
+      <Route path={IMPORT_DATA} element={<ImportDataScreen />} />
+      <Route path={ACTIVE_THESES} element={<ActiveThesesScreen />} />
     </Routes>
   );
 };
