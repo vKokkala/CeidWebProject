@@ -1094,4 +1094,47 @@ app.post("/thesis/:id/notes", async (req, res) => {
   res.json(newNote);
 });
 
+app.post("/thesis/:id/start-examination", async (req, res) => {
+  const { id } = req.params;
+  const { supervisorId } = req.body;
+
+  if (!supervisorId) {
+    return res.status(400).json({ error: "supervisorId is required" });
+  }
+
+  const thesis = await prisma.thesis.findUnique({
+    where: { id: Number(id) },
+  });
+
+  if (!thesis) {
+    return res.status(404).json({ error: "Thesis not found" });
+  }
+
+  if (thesis.status !== "ACTIVE") {
+    return res.status(400).json({ error: "Thesis must be in ACTIVE status" });
+  }
+
+  if (thesis.supervisorId !== Number(supervisorId)) {
+    return res.status(403).json({ error: "Only the supervisor can change the status" });
+  }
+
+  await prisma.$transaction([
+    prisma.thesis.update({
+      where: { id: thesis.id },
+      data: { status: "UNDER_EXAMINATION" },
+    }),
+    prisma.thesisStatusChange.create({
+      data: {
+        fromStatus: "ACTIVE",
+        toStatus: "UNDER_EXAMINATION",
+        changedBy: "Supervisor",
+        notes: "Thesis moved to examination phase",
+        thesisId: thesis.id,
+      },
+    }),
+  ]);
+
+  res.json({ message: "Thesis status changed to UNDER_EXAMINATION" });
+});
+
 export default app;

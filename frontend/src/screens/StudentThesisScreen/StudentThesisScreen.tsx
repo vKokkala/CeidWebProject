@@ -726,32 +726,36 @@ const StudentThesisScreen = () => {
               </div>
             </div>
 
-            {/* Nemertis Link */}
-            <div className="formRow">
-              <label className="formLabel">Library Repository (Nemertis)</label>
-              <input
-                type="url"
-                className="formInput"
-                placeholder="Enter Nemertis repository URL..."
-                value={formData.nemertisLink}
-                onChange={(e) =>
-                  updateFormField("nemertisLink", e.target.value)
-                }
-              />
-            </div>
+            {thesis.status === "COMPLETED" && (
+              <>
+                <div className="formRow">
+                  <label className="formLabel">
+                    Library Repository (Nemertis)
+                  </label>
+                  <input
+                    type="url"
+                    className="formInput"
+                    placeholder="Enter Nemertis repository URL..."
+                    value={formData.nemertisLink}
+                    onChange={(e) =>
+                      updateFormField("nemertisLink", e.target.value)
+                    }
+                  />
+                </div>
 
-            {/* Examination Report */}
-            <div className="formRow">
-              <label className="formLabel">Examination Report</label>
-              <a
-                href={`${api.defaults.baseURL}/thesis/${thesisId}/examination-report`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btnSmall btnSecondary reportLink"
-              >
-                View Examination Report (HTML)
-              </a>
-            </div>
+                <div className="formRow">
+                  <label className="formLabel">Examination Report</label>
+                  <a
+                    href={`${api.defaults.baseURL}/thesis/${thesisId}/examination-report`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btnSmall btnSecondary reportLink"
+                  >
+                    View Examination Report (HTML)
+                  </a>
+                </div>
+              </>
+            )}
 
             <div className="formActions">
               {formMessage && (

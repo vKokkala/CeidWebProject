@@ -46,6 +46,21 @@
     cursor: not-allowed;
 }
 
+.btnWarning {
+    background: rgba(156, 39, 176, 0.2);
+    color: #ce93d8;
+    border: 1px solid rgba(156, 39, 176, 0.3);
+}
+
+.btnWarning:hover {
+    background: rgba(156, 39, 176, 0.3);
+}
+
+.btnWarning:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .statusBadge {
     padding: 6px 14px;
     border-radius: 20px;

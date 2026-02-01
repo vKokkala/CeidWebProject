@@ -38,6 +38,7 @@ const ThesisScreen = () => {
   const [notes, setNotes] = useState<ThesisNote[]>([]);
   const [newNote, setNewNote] = useState("");
   const [noteLoading, setNoteLoading] = useState(false);
+  const [examinationLoading, setExaminationLoading] = useState(false);
 
   useEffect(() => {
     const fetchThesis = async () => {
@@ -115,6 +116,30 @@ const ThesisScreen = () => {
     }
   };
 
+  const handleStartExamination = async () => {
+    if (!thesis || !user?.professor?.id) return;
+
+    const confirmed = window.confirm(
+      "Are you sure you want to move this thesis to examination phase?"
+    );
+
+    if (!confirmed) return;
+
+    setExaminationLoading(true);
+    try {
+      await api.post(`/thesis/${thesis.id}/start-examination`, {
+        supervisorId: user.professor.id,
+      });
+      // Refresh thesis data
+      const response = await api.get(`/thesis/${thesis.id}`);
+      setThesis(response.data);
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to start examination");
+    } finally {
+      setExaminationLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="thesisScreen">
@@ -150,6 +175,7 @@ const ThesisScreen = () => {
   const isUnderAssignment = thesis.status === "UNDER_ASSIGNMENT";
   const isSupervisor = user?.professor?.id === thesis.supervisorId;
   const canCancel = isUnderAssignment && isSupervisor;
+  const canStartExamination = isActive && isSupervisor;
   const isProfessor = !!user?.professor?.id;
   const canAddNotes = isActive && isProfessor;
 
@@ -171,6 +197,15 @@ const ThesisScreen = () => {
             disabled={cancelLoading}
           >
             {cancelLoading ? "Cancelling..." : "Cancel Assignment"}
+          </button>
+        )}
+        {canStartExamination && (
+          <button
+            className="btn btnWarning"
+            onClick={handleStartExamination}
+            disabled={examinationLoading}
+          >
+            {examinationLoading ? "Starting..." : "Start Examination"}
           </button>
         )}
       </header>
