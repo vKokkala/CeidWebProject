@@ -70,13 +70,14 @@ model Professor {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id])
 
-  topics               Topic[]
-  theses               Thesis[]
-  grades               Grade[]
-  supervisedTheses     Thesis[]              @relation("SupervisedTheses")
-  committeeMembers     CommitteeMember[]
-  committeeInvitations CommitteeInvitation[]
-  notes                ThesisNote[]
+  topics                          Topic[]
+  theses                          Thesis[]
+  grades                          Grade[]
+  supervisedTheses                Thesis[]                         @relation("SupervisedTheses")
+  committeeMembers                CommitteeMember[]
+  committeeInvitations            CommitteeInvitation[]
+  notes                           ThesisNote[]
+  // thesisPresentationAnnouncements ThesisPresentationAnnouncement[]
 }
 
 model Secretariat {
@@ -209,7 +210,8 @@ model Thesis {
 
   nemertisLink String?
 
-  finalGrade Decimal? @db.Decimal(4, 2)
+  finalGrade                      Decimal?                         @db.Decimal(4, 2)
+  thesisPresentationAnnouncements ThesisPresentationAnnouncement[]
 }
 
 model ThesisStatusChange {
@@ -247,4 +249,13 @@ model CommitteeMember {
 
   professorId Int
   professor   Professor @relation(fields: [professorId], references: [id])
+}
+
+model ThesisPresentationAnnouncement {
+  id Int @id @default(autoincrement())
+
+  thesisId Int
+  thesis   Thesis @relation(fields: [thesisId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime  @default(now())
 }

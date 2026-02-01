@@ -140,6 +140,21 @@ const ThesisScreen = () => {
     }
   };
 
+  const handleViewDocument = async () => {
+    if (!thesis?.id) return;
+
+    try {
+      const response = await api.get(`/thesis/${thesis.id}/document`, {
+        responseType: "blob",
+      });
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url, "_blank");
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to view document");
+    }
+  };
+
   if (loading) {
     return (
       <div className="thesisScreen">
@@ -240,7 +255,92 @@ const ThesisScreen = () => {
               </a>
             </div>
           )}
+          {thesis.examinationDate && (
+            <div className="infoItem">
+              <span className="infoLabel">Examination Date</span>
+              <span className="infoValue">
+                {new Date(thesis.examinationDate).toLocaleString("el-GR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </div>
+          )}
+          {thesis.examinationMode && (
+            <div className="infoItem">
+              <span className="infoLabel">Examination Mode</span>
+              <span className="infoValue">
+                {thesis.examinationMode === "ONSITE" ? "In-Person" : "Online"}
+              </span>
+            </div>
+          )}
+          {thesis.examinationPlace && (
+            <div className="infoItem">
+              <span className="infoLabel">
+                {thesis.examinationMode === "ONLINE" ? "Meeting Link" : "Room"}
+              </span>
+              {thesis.examinationMode === "ONLINE" ? (
+                <a
+                  href={thesis.examinationPlace}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="infoLink"
+                >
+                  {thesis.examinationPlace}
+                </a>
+              ) : (
+                <span className="infoValue">{thesis.examinationPlace}</span>
+              )}
+            </div>
+          )}
+          {thesis.thesisDocument && (
+            <div className="infoItem">
+              <span className="infoLabel">Draft Document</span>
+              <button
+                type="button"
+                onClick={handleViewDocument}
+                className="infoLink linkButton"
+              >
+                View Document
+              </button>
+            </div>
+          )}
+          {thesis.nemertisLink && (
+            <div className="infoItem">
+              <span className="infoLabel">Library Repository</span>
+              <a
+                href={thesis.nemertisLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="infoLink"
+              >
+                View in Nemertis
+              </a>
+            </div>
+          )}
         </div>
+        {thesis.relevantLinks?.length > 0 && (
+          <div className="relevantLinksDisplay">
+            <span className="infoLabel">Additional Materials</span>
+            <ul className="linksList">
+              {thesis.relevantLinks.map((link: string, index: number) => (
+                <li key={index} className="linkItemDisplay">
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="infoLink"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       {/* Committee */}

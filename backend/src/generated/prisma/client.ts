@@ -99,3 +99,8 @@ export type ThesisNote = Prisma.ThesisNoteModel
  * 
  */
 export type CommitteeMember = Prisma.CommitteeMemberModel
+/**
+ * Model ThesisPresentationAnnouncement
+ * 
+ */
+export type ThesisPresentationAnnouncement = Prisma.ThesisPresentationAnnouncementModel

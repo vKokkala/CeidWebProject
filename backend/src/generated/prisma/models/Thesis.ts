@@ -337,6 +337,7 @@ export type ThesisWhereInput = {
   statusChanges?: Prisma.ThesisStatusChangeListRelationFilter
   notes?: Prisma.ThesisNoteListRelationFilter
   grades?: Prisma.GradeListRelationFilter
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementListRelationFilter
 }
 
 export type ThesisOrderByWithRelationInput = {
@@ -366,6 +367,7 @@ export type ThesisOrderByWithRelationInput = {
   statusChanges?: Prisma.ThesisStatusChangeOrderByRelationAggregateInput
   notes?: Prisma.ThesisNoteOrderByRelationAggregateInput
   grades?: Prisma.GradeOrderByRelationAggregateInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementOrderByRelationAggregateInput
 }
 
 export type ThesisWhereUniqueInput = Prisma.AtLeast<{
@@ -398,6 +400,7 @@ export type ThesisWhereUniqueInput = Prisma.AtLeast<{
   statusChanges?: Prisma.ThesisStatusChangeListRelationFilter
   notes?: Prisma.ThesisNoteListRelationFilter
   grades?: Prisma.GradeListRelationFilter
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementListRelationFilter
 }, "id" | "topicId" | "studentId">
 
 export type ThesisOrderByWithAggregationInput = {
@@ -470,6 +473,7 @@ export type ThesisCreateInput = {
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateInput = {
@@ -495,6 +499,7 @@ export type ThesisUncheckedCreateInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUpdateInput = {
@@ -519,6 +524,7 @@ export type ThesisUpdateInput = {
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateInput = {
@@ -544,6 +550,7 @@ export type ThesisUncheckedUpdateInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisCreateManyInput = {
@@ -944,6 +951,20 @@ export type ThesisUpdateOneRequiredWithoutCommitteeMembersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ThesisUpdateToOneWithWhereWithoutCommitteeMembersInput, Prisma.ThesisUpdateWithoutCommitteeMembersInput>, Prisma.ThesisUncheckedUpdateWithoutCommitteeMembersInput>
 }
 
+export type ThesisCreateNestedOneWithoutThesisPresentationAnnouncementsInput = {
+  create?: Prisma.XOR<Prisma.ThesisCreateWithoutThesisPresentationAnnouncementsInput, Prisma.ThesisUncheckedCreateWithoutThesisPresentationAnnouncementsInput>
+  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutThesisPresentationAnnouncementsInput
+  connect?: Prisma.ThesisWhereUniqueInput
+}
+
+export type ThesisUpdateOneRequiredWithoutThesisPresentationAnnouncementsNestedInput = {
+  create?: Prisma.XOR<Prisma.ThesisCreateWithoutThesisPresentationAnnouncementsInput, Prisma.ThesisUncheckedCreateWithoutThesisPresentationAnnouncementsInput>
+  connectOrCreate?: Prisma.ThesisCreateOrConnectWithoutThesisPresentationAnnouncementsInput
+  upsert?: Prisma.ThesisUpsertWithoutThesisPresentationAnnouncementsInput
+  connect?: Prisma.ThesisWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ThesisUpdateToOneWithWhereWithoutThesisPresentationAnnouncementsInput, Prisma.ThesisUpdateWithoutThesisPresentationAnnouncementsInput>, Prisma.ThesisUncheckedUpdateWithoutThesisPresentationAnnouncementsInput>
+}
+
 export type ThesisCreateWithoutStudentInput = {
   status?: $Enums.ThesisStatus
   officialAssignmentDate?: Date | string | null
@@ -965,6 +986,7 @@ export type ThesisCreateWithoutStudentInput = {
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutStudentInput = {
@@ -989,6 +1011,7 @@ export type ThesisUncheckedCreateWithoutStudentInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutStudentInput = {
@@ -1028,6 +1051,7 @@ export type ThesisUpdateWithoutStudentInput = {
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutStudentInput = {
@@ -1052,6 +1076,7 @@ export type ThesisUncheckedUpdateWithoutStudentInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisCreateWithoutProfessorInput = {
@@ -1075,6 +1100,7 @@ export type ThesisCreateWithoutProfessorInput = {
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutProfessorInput = {
@@ -1099,6 +1125,7 @@ export type ThesisUncheckedCreateWithoutProfessorInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutProfessorInput = {
@@ -1132,6 +1159,7 @@ export type ThesisCreateWithoutSupervisorInput = {
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutSupervisorInput = {
@@ -1156,6 +1184,7 @@ export type ThesisUncheckedCreateWithoutSupervisorInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutSupervisorInput = {
@@ -1244,6 +1273,7 @@ export type ThesisCreateWithoutTopicInput = {
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutTopicInput = {
@@ -1268,6 +1298,7 @@ export type ThesisUncheckedCreateWithoutTopicInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutTopicInput = {
@@ -1307,6 +1338,7 @@ export type ThesisUpdateWithoutTopicInput = {
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutTopicInput = {
@@ -1331,6 +1363,7 @@ export type ThesisUncheckedUpdateWithoutTopicInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisCreateWithoutCommitteeInvitationsInput = {
@@ -1354,6 +1387,7 @@ export type ThesisCreateWithoutCommitteeInvitationsInput = {
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutCommitteeInvitationsInput = {
@@ -1378,6 +1412,7 @@ export type ThesisUncheckedCreateWithoutCommitteeInvitationsInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutCommitteeInvitationsInput = {
@@ -1417,6 +1452,7 @@ export type ThesisUpdateWithoutCommitteeInvitationsInput = {
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutCommitteeInvitationsInput = {
@@ -1441,6 +1477,7 @@ export type ThesisUncheckedUpdateWithoutCommitteeInvitationsInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisCreateWithoutGradesInput = {
@@ -1464,6 +1501,7 @@ export type ThesisCreateWithoutGradesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutThesisInput
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutGradesInput = {
@@ -1488,6 +1526,7 @@ export type ThesisUncheckedCreateWithoutGradesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutThesisInput
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutGradesInput = {
@@ -1527,6 +1566,7 @@ export type ThesisUpdateWithoutGradesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutThesisNestedInput
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutGradesInput = {
@@ -1551,6 +1591,7 @@ export type ThesisUncheckedUpdateWithoutGradesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutThesisNestedInput
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisCreateWithoutStatusChangesInput = {
@@ -1574,6 +1615,7 @@ export type ThesisCreateWithoutStatusChangesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutStatusChangesInput = {
@@ -1598,6 +1640,7 @@ export type ThesisUncheckedCreateWithoutStatusChangesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutStatusChangesInput = {
@@ -1637,6 +1680,7 @@ export type ThesisUpdateWithoutStatusChangesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutStatusChangesInput = {
@@ -1661,6 +1705,7 @@ export type ThesisUncheckedUpdateWithoutStatusChangesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisCreateWithoutNotesInput = {
@@ -1684,6 +1729,7 @@ export type ThesisCreateWithoutNotesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutThesisInput
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutNotesInput = {
@@ -1708,6 +1754,7 @@ export type ThesisUncheckedCreateWithoutNotesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutThesisInput
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutNotesInput = {
@@ -1747,6 +1794,7 @@ export type ThesisUpdateWithoutNotesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutThesisNestedInput
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutNotesInput = {
@@ -1771,6 +1819,7 @@ export type ThesisUncheckedUpdateWithoutNotesInput = {
   committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutThesisNestedInput
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisCreateWithoutCommitteeMembersInput = {
@@ -1794,6 +1843,7 @@ export type ThesisCreateWithoutCommitteeMembersInput = {
   statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisUncheckedCreateWithoutCommitteeMembersInput = {
@@ -1818,6 +1868,7 @@ export type ThesisUncheckedCreateWithoutCommitteeMembersInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
   notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedCreateNestedManyWithoutThesisInput
 }
 
 export type ThesisCreateOrConnectWithoutCommitteeMembersInput = {
@@ -1857,6 +1908,7 @@ export type ThesisUpdateWithoutCommitteeMembersInput = {
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutCommitteeMembersInput = {
@@ -1877,6 +1929,121 @@ export type ThesisUncheckedUpdateWithoutCommitteeMembersInput = {
   thesisDocument?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
   nemertisLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   finalGrade?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutThesisNestedInput
+  statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
+  notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
+}
+
+export type ThesisCreateWithoutThesisPresentationAnnouncementsInput = {
+  status?: $Enums.ThesisStatus
+  officialAssignmentDate?: Date | string | null
+  completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  examinationDate?: Date | string | null
+  examinationMode?: $Enums.ExamMode | null
+  examinationPlace?: string | null
+  isGradingEnabled?: boolean
+  relevantLinks?: Prisma.ThesisCreaterelevantLinksInput | string[]
+  thesisDocument?: runtime.Bytes | null
+  nemertisLink?: string | null
+  finalGrade?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  topic?: Prisma.TopicCreateNestedOneWithoutThesisInput
+  student: Prisma.StudentCreateNestedOneWithoutThesisInput
+  professor?: Prisma.ProfessorCreateNestedOneWithoutThesesInput
+  supervisor: Prisma.ProfessorCreateNestedOneWithoutSupervisedThesesInput
+  committeeMembers?: Prisma.CommitteeMemberCreateNestedManyWithoutThesisInput
+  committeeInvitations?: Prisma.CommitteeInvitationCreateNestedManyWithoutThesisInput
+  statusChanges?: Prisma.ThesisStatusChangeCreateNestedManyWithoutThesisInput
+  notes?: Prisma.ThesisNoteCreateNestedManyWithoutThesisInput
+  grades?: Prisma.GradeCreateNestedManyWithoutThesisInput
+}
+
+export type ThesisUncheckedCreateWithoutThesisPresentationAnnouncementsInput = {
+  id?: number
+  status?: $Enums.ThesisStatus
+  officialAssignmentDate?: Date | string | null
+  completedAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  examinationDate?: Date | string | null
+  examinationMode?: $Enums.ExamMode | null
+  examinationPlace?: string | null
+  topicId?: number | null
+  studentId: number
+  professorId?: number | null
+  supervisorId: number
+  isGradingEnabled?: boolean
+  relevantLinks?: Prisma.ThesisCreaterelevantLinksInput | string[]
+  thesisDocument?: runtime.Bytes | null
+  nemertisLink?: string | null
+  finalGrade?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  committeeMembers?: Prisma.CommitteeMemberUncheckedCreateNestedManyWithoutThesisInput
+  committeeInvitations?: Prisma.CommitteeInvitationUncheckedCreateNestedManyWithoutThesisInput
+  statusChanges?: Prisma.ThesisStatusChangeUncheckedCreateNestedManyWithoutThesisInput
+  notes?: Prisma.ThesisNoteUncheckedCreateNestedManyWithoutThesisInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutThesisInput
+}
+
+export type ThesisCreateOrConnectWithoutThesisPresentationAnnouncementsInput = {
+  where: Prisma.ThesisWhereUniqueInput
+  create: Prisma.XOR<Prisma.ThesisCreateWithoutThesisPresentationAnnouncementsInput, Prisma.ThesisUncheckedCreateWithoutThesisPresentationAnnouncementsInput>
+}
+
+export type ThesisUpsertWithoutThesisPresentationAnnouncementsInput = {
+  update: Prisma.XOR<Prisma.ThesisUpdateWithoutThesisPresentationAnnouncementsInput, Prisma.ThesisUncheckedUpdateWithoutThesisPresentationAnnouncementsInput>
+  create: Prisma.XOR<Prisma.ThesisCreateWithoutThesisPresentationAnnouncementsInput, Prisma.ThesisUncheckedCreateWithoutThesisPresentationAnnouncementsInput>
+  where?: Prisma.ThesisWhereInput
+}
+
+export type ThesisUpdateToOneWithWhereWithoutThesisPresentationAnnouncementsInput = {
+  where?: Prisma.ThesisWhereInput
+  data: Prisma.XOR<Prisma.ThesisUpdateWithoutThesisPresentationAnnouncementsInput, Prisma.ThesisUncheckedUpdateWithoutThesisPresentationAnnouncementsInput>
+}
+
+export type ThesisUpdateWithoutThesisPresentationAnnouncementsInput = {
+  status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
+  officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  examinationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  examinationMode?: Prisma.NullableEnumExamModeFieldUpdateOperationsInput | $Enums.ExamMode | null
+  examinationPlace?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  relevantLinks?: Prisma.ThesisUpdaterelevantLinksInput | string[]
+  thesisDocument?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  nemertisLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  finalGrade?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  topic?: Prisma.TopicUpdateOneWithoutThesisNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutThesisNestedInput
+  professor?: Prisma.ProfessorUpdateOneWithoutThesesNestedInput
+  supervisor?: Prisma.ProfessorUpdateOneRequiredWithoutSupervisedThesesNestedInput
+  committeeMembers?: Prisma.CommitteeMemberUpdateManyWithoutThesisNestedInput
+  committeeInvitations?: Prisma.CommitteeInvitationUpdateManyWithoutThesisNestedInput
+  statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
+  notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+}
+
+export type ThesisUncheckedUpdateWithoutThesisPresentationAnnouncementsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
+  officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  examinationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  examinationMode?: Prisma.NullableEnumExamModeFieldUpdateOperationsInput | $Enums.ExamMode | null
+  examinationPlace?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.IntFieldUpdateOperationsInput | number
+  professorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  supervisorId?: Prisma.IntFieldUpdateOperationsInput | number
+  isGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  relevantLinks?: Prisma.ThesisUpdaterelevantLinksInput | string[]
+  thesisDocument?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
+  nemertisLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  finalGrade?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  committeeMembers?: Prisma.CommitteeMemberUncheckedUpdateManyWithoutThesisNestedInput
   committeeInvitations?: Prisma.CommitteeInvitationUncheckedUpdateManyWithoutThesisNestedInput
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
@@ -1942,6 +2109,7 @@ export type ThesisUpdateWithoutProfessorInput = {
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutProfessorInput = {
@@ -1966,6 +2134,7 @@ export type ThesisUncheckedUpdateWithoutProfessorInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateManyWithoutProfessorInput = {
@@ -2008,6 +2177,7 @@ export type ThesisUpdateWithoutSupervisorInput = {
   statusChanges?: Prisma.ThesisStatusChangeUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateWithoutSupervisorInput = {
@@ -2032,6 +2202,7 @@ export type ThesisUncheckedUpdateWithoutSupervisorInput = {
   statusChanges?: Prisma.ThesisStatusChangeUncheckedUpdateManyWithoutThesisNestedInput
   notes?: Prisma.ThesisNoteUncheckedUpdateManyWithoutThesisNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutThesisNestedInput
+  thesisPresentationAnnouncements?: Prisma.ThesisPresentationAnnouncementUncheckedUpdateManyWithoutThesisNestedInput
 }
 
 export type ThesisUncheckedUpdateManyWithoutSupervisorInput = {
@@ -2064,6 +2235,7 @@ export type ThesisCountOutputType = {
   statusChanges: number
   notes: number
   grades: number
+  thesisPresentationAnnouncements: number
 }
 
 export type ThesisCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2072,6 +2244,7 @@ export type ThesisCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   statusChanges?: boolean | ThesisCountOutputTypeCountStatusChangesArgs
   notes?: boolean | ThesisCountOutputTypeCountNotesArgs
   grades?: boolean | ThesisCountOutputTypeCountGradesArgs
+  thesisPresentationAnnouncements?: boolean | ThesisCountOutputTypeCountThesisPresentationAnnouncementsArgs
 }
 
 /**
@@ -2119,6 +2292,13 @@ export type ThesisCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.GradeWhereInput
 }
 
+/**
+ * ThesisCountOutputType without action
+ */
+export type ThesisCountOutputTypeCountThesisPresentationAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ThesisPresentationAnnouncementWhereInput
+}
+
 
 export type ThesisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2147,6 +2327,7 @@ export type ThesisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   statusChanges?: boolean | Prisma.Thesis$statusChangesArgs<ExtArgs>
   notes?: boolean | Prisma.Thesis$notesArgs<ExtArgs>
   grades?: boolean | Prisma.Thesis$gradesArgs<ExtArgs>
+  thesisPresentationAnnouncements?: boolean | Prisma.Thesis$thesisPresentationAnnouncementsArgs<ExtArgs>
   _count?: boolean | Prisma.ThesisCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["thesis"]>
 
@@ -2229,6 +2410,7 @@ export type ThesisInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   statusChanges?: boolean | Prisma.Thesis$statusChangesArgs<ExtArgs>
   notes?: boolean | Prisma.Thesis$notesArgs<ExtArgs>
   grades?: boolean | Prisma.Thesis$gradesArgs<ExtArgs>
+  thesisPresentationAnnouncements?: boolean | Prisma.Thesis$thesisPresentationAnnouncementsArgs<ExtArgs>
   _count?: boolean | Prisma.ThesisCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ThesisIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2256,6 +2438,7 @@ export type $ThesisPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     statusChanges: Prisma.$ThesisStatusChangePayload<ExtArgs>[]
     notes: Prisma.$ThesisNotePayload<ExtArgs>[]
     grades: Prisma.$GradePayload<ExtArgs>[]
+    thesisPresentationAnnouncements: Prisma.$ThesisPresentationAnnouncementPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -2678,6 +2861,7 @@ export interface Prisma__ThesisClient<T, Null = never, ExtArgs extends runtime.T
   statusChanges<T extends Prisma.Thesis$statusChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Thesis$statusChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThesisStatusChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notes<T extends Prisma.Thesis$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Thesis$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThesisNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   grades<T extends Prisma.Thesis$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Thesis$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  thesisPresentationAnnouncements<T extends Prisma.Thesis$thesisPresentationAnnouncementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Thesis$thesisPresentationAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThesisPresentationAnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3275,6 +3459,30 @@ export type Thesis$gradesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.GradeScalarFieldEnum | Prisma.GradeScalarFieldEnum[]
+}
+
+/**
+ * Thesis.thesisPresentationAnnouncements
+ */
+export type Thesis$thesisPresentationAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ThesisPresentationAnnouncement
+   */
+  select?: Prisma.ThesisPresentationAnnouncementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ThesisPresentationAnnouncement
+   */
+  omit?: Prisma.ThesisPresentationAnnouncementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ThesisPresentationAnnouncementInclude<ExtArgs> | null
+  where?: Prisma.ThesisPresentationAnnouncementWhereInput
+  orderBy?: Prisma.ThesisPresentationAnnouncementOrderByWithRelationInput | Prisma.ThesisPresentationAnnouncementOrderByWithRelationInput[]
+  cursor?: Prisma.ThesisPresentationAnnouncementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ThesisPresentationAnnouncementScalarFieldEnum | Prisma.ThesisPresentationAnnouncementScalarFieldEnum[]
 }
 
 /**

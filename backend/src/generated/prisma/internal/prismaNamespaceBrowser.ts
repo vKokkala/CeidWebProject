@@ -62,7 +62,8 @@ export const ModelName = {
   Thesis: 'Thesis',
   ThesisStatusChange: 'ThesisStatusChange',
   ThesisNote: 'ThesisNote',
-  CommitteeMember: 'CommitteeMember'
+  CommitteeMember: 'CommitteeMember',
+  ThesisPresentationAnnouncement: 'ThesisPresentationAnnouncement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -237,6 +238,15 @@ export const CommitteeMemberScalarFieldEnum = {
 } as const
 
 export type CommitteeMemberScalarFieldEnum = (typeof CommitteeMemberScalarFieldEnum)[keyof typeof CommitteeMemberScalarFieldEnum]
+
+
+export const ThesisPresentationAnnouncementScalarFieldEnum = {
+  id: 'id',
+  thesisId: 'thesisId',
+  createdAt: 'createdAt'
+} as const
+
+export type ThesisPresentationAnnouncementScalarFieldEnum = (typeof ThesisPresentationAnnouncementScalarFieldEnum)[keyof typeof ThesisPresentationAnnouncementScalarFieldEnum]
 
 
 export const SortOrder = {

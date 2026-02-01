@@ -395,7 +395,8 @@ export const ModelName = {
   Thesis: 'Thesis',
   ThesisStatusChange: 'ThesisStatusChange',
   ThesisNote: 'ThesisNote',
-  CommitteeMember: 'CommitteeMember'
+  CommitteeMember: 'CommitteeMember',
+  ThesisPresentationAnnouncement: 'ThesisPresentationAnnouncement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -411,7 +412,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "student" | "professor" | "secretariat" | "user" | "topic" | "assignmentCancellation" | "committeeInvitation" | "grade" | "thesis" | "thesisStatusChange" | "thesisNote" | "committeeMember"
+    modelProps: "student" | "professor" | "secretariat" | "user" | "topic" | "assignmentCancellation" | "committeeInvitation" | "grade" | "thesis" | "thesisStatusChange" | "thesisNote" | "committeeMember" | "thesisPresentationAnnouncement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1303,6 +1304,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ThesisPresentationAnnouncement: {
+      payload: Prisma.$ThesisPresentationAnnouncementPayload<ExtArgs>
+      fields: Prisma.ThesisPresentationAnnouncementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ThesisPresentationAnnouncementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ThesisPresentationAnnouncementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>
+        }
+        findFirst: {
+          args: Prisma.ThesisPresentationAnnouncementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ThesisPresentationAnnouncementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>
+        }
+        findMany: {
+          args: Prisma.ThesisPresentationAnnouncementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>[]
+        }
+        create: {
+          args: Prisma.ThesisPresentationAnnouncementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>
+        }
+        createMany: {
+          args: Prisma.ThesisPresentationAnnouncementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ThesisPresentationAnnouncementCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>[]
+        }
+        delete: {
+          args: Prisma.ThesisPresentationAnnouncementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>
+        }
+        update: {
+          args: Prisma.ThesisPresentationAnnouncementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>
+        }
+        deleteMany: {
+          args: Prisma.ThesisPresentationAnnouncementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ThesisPresentationAnnouncementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ThesisPresentationAnnouncementUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>[]
+        }
+        upsert: {
+          args: Prisma.ThesisPresentationAnnouncementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThesisPresentationAnnouncementPayload>
+        }
+        aggregate: {
+          args: Prisma.ThesisPresentationAnnouncementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateThesisPresentationAnnouncement>
+        }
+        groupBy: {
+          args: Prisma.ThesisPresentationAnnouncementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ThesisPresentationAnnouncementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ThesisPresentationAnnouncementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ThesisPresentationAnnouncementCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1498,6 +1573,15 @@ export const CommitteeMemberScalarFieldEnum = {
 } as const
 
 export type CommitteeMemberScalarFieldEnum = (typeof CommitteeMemberScalarFieldEnum)[keyof typeof CommitteeMemberScalarFieldEnum]
+
+
+export const ThesisPresentationAnnouncementScalarFieldEnum = {
+  id: 'id',
+  thesisId: 'thesisId',
+  createdAt: 'createdAt'
+} as const
+
+export type ThesisPresentationAnnouncementScalarFieldEnum = (typeof ThesisPresentationAnnouncementScalarFieldEnum)[keyof typeof ThesisPresentationAnnouncementScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1797,6 +1881,7 @@ export type GlobalOmitConfig = {
   thesisStatusChange?: Prisma.ThesisStatusChangeOmit
   thesisNote?: Prisma.ThesisNoteOmit
   committeeMember?: Prisma.CommitteeMemberOmit
+  thesisPresentationAnnouncement?: Prisma.ThesisPresentationAnnouncementOmit
 }
 
 /* Types for Logging */
