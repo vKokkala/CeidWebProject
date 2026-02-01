@@ -175,7 +175,7 @@ model Thesis {
   status ThesisStatus @default(UNDER_ASSIGNMENT)
 
   // dATES 
-  assignmentFinalisedAt  DateTime?
+  // assignmentFinalisedAt  DateTime?
   officialAssignmentDate DateTime?
   completedAt            DateTime?
   cancelledAt            DateTime?

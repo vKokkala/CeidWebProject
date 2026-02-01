@@ -31,12 +31,29 @@
     background: rgba(255, 255, 255, 0.15);
 }
 
+.btnDanger {
+    background: rgba(244, 67, 54, 0.2);
+    color: #e57373;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.btnDanger:hover {
+    background: rgba(244, 67, 54, 0.3);
+}
+
+.btnDanger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .statusBadge {
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
 }
 
 .status-under-assignment {
@@ -44,9 +61,9 @@
     color: #ffc107;
 }
 
-.status-active {
+.statusBadge.status-active {
     background: rgba(33, 150, 243, 0.2);
-    color: #2196f3;
+    color: #f1f9ff;
 }
 
 .status-under-examination {

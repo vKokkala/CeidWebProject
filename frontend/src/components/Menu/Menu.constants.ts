@@ -10,7 +10,7 @@ export const UserMenu: Record<
   PROFESSOR: {
     options: [
       { title: "Topics", route: Screens.TOPICS },
-      { title: "Assignments", route: Screens.ASSIGNMENTS },
+      // { title: "Assignments", route: Screens.ASSIGNMENTS },
       { title: "Theses All", route: Screens.THESIS_ALL },
       { title: "Invitations", route: Screens.INVITATIONS },
       { title: "Statistics", route: Screens.STATISTICS },

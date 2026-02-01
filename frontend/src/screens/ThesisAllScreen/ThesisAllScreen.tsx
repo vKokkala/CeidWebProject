@@ -32,6 +32,9 @@ const ThesisAllScreen = () => {
     const fetchTheses = async () => {
       const response = await api.get("/thesis");
       console.log("thesesALl", response.data);
+
+      console.log('response.data', response.data)
+
       setTheses(response.data);
     };
 

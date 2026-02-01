@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../api/client";
+import { useAuth } from "../../context/AuthContext";
 import "./ThesisScreen.css";
 
 type ThesisStatus =
@@ -21,11 +22,13 @@ const statusLabels: Record<ThesisStatus, string> = {
 const ThesisScreen = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [thesis, setThesis] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [cancelLoading, setCancelLoading] = useState(false);
 
-  console.log('thesis', thesis)
+  console.log("thesis", thesis);
 
   useEffect(() => {
     const fetchThesis = async () => {
@@ -43,6 +46,29 @@ const ThesisScreen = () => {
       fetchThesis();
     }
   }, [id]);
+
+  const handleCancelAssignment = async () => {
+    if (!thesis || !user?.professor?.id) return;
+
+    const confirmed = window.confirm(
+      "Are you sure you want to cancel this assignment? This will delete the thesis and free the student for a new assignment."
+    );
+
+    if (!confirmed) return;
+
+    setCancelLoading(true);
+    try {
+      await api.post(`/thesis/${thesis.id}/cancel-assignment`, {
+        supervisorId: user.professor.id,
+        reason: "Assignment cancelled by supervisor",
+      });
+      navigate(-1);
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to cancel assignment");
+    } finally {
+      setCancelLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -75,6 +101,9 @@ const ThesisScreen = () => {
   const committeMemberIds = committeeMembers.map(x => x.professorId);
 
   const isCompleted = thesis.status === "COMPLETED";
+  const isUnderAssignment = thesis.status === "UNDER_ASSIGNMENT";
+  const isSupervisor = user?.professor?.id === thesis.supervisorId;
+  const canCancel = isUnderAssignment && isSupervisor;
 
   return (
     <div className="thesisScreen">
@@ -87,6 +116,15 @@ const ThesisScreen = () => {
         >
           {statusLabels[thesis.status as ThesisStatus] || thesis.status}
         </div>
+        {canCancel && (
+          <button
+            className="btn btnDanger"
+            onClick={handleCancelAssignment}
+            disabled={cancelLoading}
+          >
+            {cancelLoading ? "Cancelling..." : "Cancel Assignment"}
+          </button>
+        )}
       </header>
 
       <h1 className="thesisTitle">{thesis.topic?.title || "No Topic"}</h1>
@@ -235,7 +273,6 @@ const ThesisScreen = () => {
           <div className="timeline">
             {thesis.statusChanges?.map((change: any) => (
               <div key={change.id} className="timelineItem">
-                <div className="timelineDot"></div>
                 <div className="timelineContent">
                   <div className="timelineHeader">
                     <span className="timelineStatus">

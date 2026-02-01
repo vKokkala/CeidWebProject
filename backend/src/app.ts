@@ -940,7 +940,7 @@ app.post("/invitation/:id/accept", async (req, res) => {
         where: { id: thesis.id },
         data: {
           status: "ACTIVE",
-          assignmentFinalisedAt: new Date(),
+          officialAssignmentDate: new Date(),
         },
       }),
       prisma.thesisStatusChange.create({
@@ -1021,28 +1021,16 @@ app.post("/thesis/:id/cancel-assignment", async (req, res) => {
     prisma.committeeInvitation.deleteMany({
       where: { thesisId: thesis.id },
     }),
-    // Update thesis status
-    prisma.thesis.update({
-      where: { id: thesis.id },
-      data: {
-        status: "CANCELLED",
-        cancelledAt: new Date(),
-      },
-    }),
-    // Create status change record
-    prisma.thesisStatusChange.create({
-      data: {
-        fromStatus: "UNDER_ASSIGNMENT",
-        toStatus: "CANCELLED",
-        changedBy: "Supervisor",
-        notes: reason || "Assignment cancelled by supervisor",
-        thesisId: thesis.id,
-      },
+    prisma.thesisStatusChange.deleteMany({
+      where: { thesisId: thesis.id },
     }),
     // Mark topic as unassigned
     prisma.topic.update({
       where: { id: thesis.topicId! },
       data: { isAssigned: false },
+    }),
+    prisma.thesis.delete({
+      where: { id: thesis.id },
     }),
   ]);
 

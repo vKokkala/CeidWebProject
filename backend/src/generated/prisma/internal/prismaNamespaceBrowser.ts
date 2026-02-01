@@ -185,7 +185,6 @@ export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof Gr
 export const ThesisScalarFieldEnum = {
   id: 'id',
   status: 'status',
-  assignmentFinalisedAt: 'assignmentFinalisedAt',
   officialAssignmentDate: 'officialAssignmentDate',
   completedAt: 'completedAt',
   cancelledAt: 'cancelledAt',

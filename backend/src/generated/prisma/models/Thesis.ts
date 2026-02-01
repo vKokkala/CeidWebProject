@@ -47,7 +47,6 @@ export type ThesisSumAggregateOutputType = {
 export type ThesisMinAggregateOutputType = {
   id: number | null
   status: $Enums.ThesisStatus | null
-  assignmentFinalisedAt: Date | null
   officialAssignmentDate: Date | null
   completedAt: Date | null
   cancelledAt: Date | null
@@ -67,7 +66,6 @@ export type ThesisMinAggregateOutputType = {
 export type ThesisMaxAggregateOutputType = {
   id: number | null
   status: $Enums.ThesisStatus | null
-  assignmentFinalisedAt: Date | null
   officialAssignmentDate: Date | null
   completedAt: Date | null
   cancelledAt: Date | null
@@ -87,7 +85,6 @@ export type ThesisMaxAggregateOutputType = {
 export type ThesisCountAggregateOutputType = {
   id: number
   status: number
-  assignmentFinalisedAt: number
   officialAssignmentDate: number
   completedAt: number
   cancelledAt: number
@@ -128,7 +125,6 @@ export type ThesisSumAggregateInputType = {
 export type ThesisMinAggregateInputType = {
   id?: true
   status?: true
-  assignmentFinalisedAt?: true
   officialAssignmentDate?: true
   completedAt?: true
   cancelledAt?: true
@@ -148,7 +144,6 @@ export type ThesisMinAggregateInputType = {
 export type ThesisMaxAggregateInputType = {
   id?: true
   status?: true
-  assignmentFinalisedAt?: true
   officialAssignmentDate?: true
   completedAt?: true
   cancelledAt?: true
@@ -168,7 +163,6 @@ export type ThesisMaxAggregateInputType = {
 export type ThesisCountAggregateInputType = {
   id?: true
   status?: true
-  assignmentFinalisedAt?: true
   officialAssignmentDate?: true
   completedAt?: true
   cancelledAt?: true
@@ -276,7 +270,6 @@ export type ThesisGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type ThesisGroupByOutputType = {
   id: number
   status: $Enums.ThesisStatus
-  assignmentFinalisedAt: Date | null
   officialAssignmentDate: Date | null
   completedAt: Date | null
   cancelledAt: Date | null
@@ -320,7 +313,6 @@ export type ThesisWhereInput = {
   NOT?: Prisma.ThesisWhereInput | Prisma.ThesisWhereInput[]
   id?: Prisma.IntFilter<"Thesis"> | number
   status?: Prisma.EnumThesisStatusFilter<"Thesis"> | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   officialAssignmentDate?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   cancelledAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
@@ -350,7 +342,6 @@ export type ThesisWhereInput = {
 export type ThesisOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignmentFinalisedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   officialAssignmentDate?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -385,7 +376,6 @@ export type ThesisWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ThesisWhereInput[]
   NOT?: Prisma.ThesisWhereInput | Prisma.ThesisWhereInput[]
   status?: Prisma.EnumThesisStatusFilter<"Thesis"> | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   officialAssignmentDate?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   cancelledAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
@@ -413,7 +403,6 @@ export type ThesisWhereUniqueInput = Prisma.AtLeast<{
 export type ThesisOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignmentFinalisedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   officialAssignmentDate?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -442,7 +431,6 @@ export type ThesisScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ThesisScalarWhereWithAggregatesInput | Prisma.ThesisScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Thesis"> | number
   status?: Prisma.EnumThesisStatusWithAggregatesFilter<"Thesis"> | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Thesis"> | Date | string | null
   officialAssignmentDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Thesis"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Thesis"> | Date | string | null
   cancelledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Thesis"> | Date | string | null
@@ -462,7 +450,6 @@ export type ThesisScalarWhereWithAggregatesInput = {
 
 export type ThesisCreateInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -488,7 +475,6 @@ export type ThesisCreateInput = {
 export type ThesisUncheckedCreateInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -513,7 +499,6 @@ export type ThesisUncheckedCreateInput = {
 
 export type ThesisUpdateInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -539,7 +524,6 @@ export type ThesisUpdateInput = {
 export type ThesisUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -565,7 +549,6 @@ export type ThesisUncheckedUpdateInput = {
 export type ThesisCreateManyInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -585,7 +568,6 @@ export type ThesisCreateManyInput = {
 
 export type ThesisUpdateManyMutationInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -602,7 +584,6 @@ export type ThesisUpdateManyMutationInput = {
 export type ThesisUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -651,7 +632,6 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 export type ThesisCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignmentFinalisedAt?: Prisma.SortOrder
   officialAssignmentDate?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   cancelledAt?: Prisma.SortOrder
@@ -681,7 +661,6 @@ export type ThesisAvgOrderByAggregateInput = {
 export type ThesisMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignmentFinalisedAt?: Prisma.SortOrder
   officialAssignmentDate?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   cancelledAt?: Prisma.SortOrder
@@ -701,7 +680,6 @@ export type ThesisMaxOrderByAggregateInput = {
 export type ThesisMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  assignmentFinalisedAt?: Prisma.SortOrder
   officialAssignmentDate?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   cancelledAt?: Prisma.SortOrder
@@ -968,7 +946,6 @@ export type ThesisUpdateOneRequiredWithoutCommitteeMembersNestedInput = {
 
 export type ThesisCreateWithoutStudentInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -993,7 +970,6 @@ export type ThesisCreateWithoutStudentInput = {
 export type ThesisUncheckedCreateWithoutStudentInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1033,7 +1009,6 @@ export type ThesisUpdateToOneWithWhereWithoutStudentInput = {
 
 export type ThesisUpdateWithoutStudentInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1058,7 +1033,6 @@ export type ThesisUpdateWithoutStudentInput = {
 export type ThesisUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1082,7 +1056,6 @@ export type ThesisUncheckedUpdateWithoutStudentInput = {
 
 export type ThesisCreateWithoutProfessorInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1107,7 +1080,6 @@ export type ThesisCreateWithoutProfessorInput = {
 export type ThesisUncheckedCreateWithoutProfessorInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1141,7 +1113,6 @@ export type ThesisCreateManyProfessorInputEnvelope = {
 
 export type ThesisCreateWithoutSupervisorInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1166,7 +1137,6 @@ export type ThesisCreateWithoutSupervisorInput = {
 export type ThesisUncheckedCreateWithoutSupervisorInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1220,7 +1190,6 @@ export type ThesisScalarWhereInput = {
   NOT?: Prisma.ThesisScalarWhereInput | Prisma.ThesisScalarWhereInput[]
   id?: Prisma.IntFilter<"Thesis"> | number
   status?: Prisma.EnumThesisStatusFilter<"Thesis"> | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   officialAssignmentDate?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
   cancelledAt?: Prisma.DateTimeNullableFilter<"Thesis"> | Date | string | null
@@ -1256,7 +1225,6 @@ export type ThesisUpdateManyWithWhereWithoutSupervisorInput = {
 
 export type ThesisCreateWithoutTopicInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1281,7 +1249,6 @@ export type ThesisCreateWithoutTopicInput = {
 export type ThesisUncheckedCreateWithoutTopicInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1321,7 +1288,6 @@ export type ThesisUpdateToOneWithWhereWithoutTopicInput = {
 
 export type ThesisUpdateWithoutTopicInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1346,7 +1312,6 @@ export type ThesisUpdateWithoutTopicInput = {
 export type ThesisUncheckedUpdateWithoutTopicInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1370,7 +1335,6 @@ export type ThesisUncheckedUpdateWithoutTopicInput = {
 
 export type ThesisCreateWithoutCommitteeInvitationsInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1395,7 +1359,6 @@ export type ThesisCreateWithoutCommitteeInvitationsInput = {
 export type ThesisUncheckedCreateWithoutCommitteeInvitationsInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1435,7 +1398,6 @@ export type ThesisUpdateToOneWithWhereWithoutCommitteeInvitationsInput = {
 
 export type ThesisUpdateWithoutCommitteeInvitationsInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1460,7 +1422,6 @@ export type ThesisUpdateWithoutCommitteeInvitationsInput = {
 export type ThesisUncheckedUpdateWithoutCommitteeInvitationsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1484,7 +1445,6 @@ export type ThesisUncheckedUpdateWithoutCommitteeInvitationsInput = {
 
 export type ThesisCreateWithoutGradesInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1509,7 +1469,6 @@ export type ThesisCreateWithoutGradesInput = {
 export type ThesisUncheckedCreateWithoutGradesInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1549,7 +1508,6 @@ export type ThesisUpdateToOneWithWhereWithoutGradesInput = {
 
 export type ThesisUpdateWithoutGradesInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1574,7 +1532,6 @@ export type ThesisUpdateWithoutGradesInput = {
 export type ThesisUncheckedUpdateWithoutGradesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1598,7 +1555,6 @@ export type ThesisUncheckedUpdateWithoutGradesInput = {
 
 export type ThesisCreateWithoutStatusChangesInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1623,7 +1579,6 @@ export type ThesisCreateWithoutStatusChangesInput = {
 export type ThesisUncheckedCreateWithoutStatusChangesInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1663,7 +1618,6 @@ export type ThesisUpdateToOneWithWhereWithoutStatusChangesInput = {
 
 export type ThesisUpdateWithoutStatusChangesInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1688,7 +1642,6 @@ export type ThesisUpdateWithoutStatusChangesInput = {
 export type ThesisUncheckedUpdateWithoutStatusChangesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1712,7 +1665,6 @@ export type ThesisUncheckedUpdateWithoutStatusChangesInput = {
 
 export type ThesisCreateWithoutNotesInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1737,7 +1689,6 @@ export type ThesisCreateWithoutNotesInput = {
 export type ThesisUncheckedCreateWithoutNotesInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1777,7 +1728,6 @@ export type ThesisUpdateToOneWithWhereWithoutNotesInput = {
 
 export type ThesisUpdateWithoutNotesInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1802,7 +1752,6 @@ export type ThesisUpdateWithoutNotesInput = {
 export type ThesisUncheckedUpdateWithoutNotesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1826,7 +1775,6 @@ export type ThesisUncheckedUpdateWithoutNotesInput = {
 
 export type ThesisCreateWithoutCommitteeMembersInput = {
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1851,7 +1799,6 @@ export type ThesisCreateWithoutCommitteeMembersInput = {
 export type ThesisUncheckedCreateWithoutCommitteeMembersInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1891,7 +1838,6 @@ export type ThesisUpdateToOneWithWhereWithoutCommitteeMembersInput = {
 
 export type ThesisUpdateWithoutCommitteeMembersInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1916,7 +1862,6 @@ export type ThesisUpdateWithoutCommitteeMembersInput = {
 export type ThesisUncheckedUpdateWithoutCommitteeMembersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1941,7 +1886,6 @@ export type ThesisUncheckedUpdateWithoutCommitteeMembersInput = {
 export type ThesisCreateManyProfessorInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1961,7 +1905,6 @@ export type ThesisCreateManyProfessorInput = {
 export type ThesisCreateManySupervisorInput = {
   id?: number
   status?: $Enums.ThesisStatus
-  assignmentFinalisedAt?: Date | string | null
   officialAssignmentDate?: Date | string | null
   completedAt?: Date | string | null
   cancelledAt?: Date | string | null
@@ -1980,7 +1923,6 @@ export type ThesisCreateManySupervisorInput = {
 
 export type ThesisUpdateWithoutProfessorInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2005,7 +1947,6 @@ export type ThesisUpdateWithoutProfessorInput = {
 export type ThesisUncheckedUpdateWithoutProfessorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2030,7 +1971,6 @@ export type ThesisUncheckedUpdateWithoutProfessorInput = {
 export type ThesisUncheckedUpdateManyWithoutProfessorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2049,7 +1989,6 @@ export type ThesisUncheckedUpdateManyWithoutProfessorInput = {
 
 export type ThesisUpdateWithoutSupervisorInput = {
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2074,7 +2013,6 @@ export type ThesisUpdateWithoutSupervisorInput = {
 export type ThesisUncheckedUpdateWithoutSupervisorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2099,7 +2037,6 @@ export type ThesisUncheckedUpdateWithoutSupervisorInput = {
 export type ThesisUncheckedUpdateManyWithoutSupervisorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumThesisStatusFieldUpdateOperationsInput | $Enums.ThesisStatus
-  assignmentFinalisedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   officialAssignmentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2186,7 +2123,6 @@ export type ThesisCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Types.E
 export type ThesisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   status?: boolean
-  assignmentFinalisedAt?: boolean
   officialAssignmentDate?: boolean
   completedAt?: boolean
   cancelledAt?: boolean
@@ -2217,7 +2153,6 @@ export type ThesisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type ThesisSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   status?: boolean
-  assignmentFinalisedAt?: boolean
   officialAssignmentDate?: boolean
   completedAt?: boolean
   cancelledAt?: boolean
@@ -2242,7 +2177,6 @@ export type ThesisSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type ThesisSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   status?: boolean
-  assignmentFinalisedAt?: boolean
   officialAssignmentDate?: boolean
   completedAt?: boolean
   cancelledAt?: boolean
@@ -2267,7 +2201,6 @@ export type ThesisSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type ThesisSelectScalar = {
   id?: boolean
   status?: boolean
-  assignmentFinalisedAt?: boolean
   officialAssignmentDate?: boolean
   completedAt?: boolean
   cancelledAt?: boolean
@@ -2285,7 +2218,7 @@ export type ThesisSelectScalar = {
   finalGrade?: boolean
 }
 
-export type ThesisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "assignmentFinalisedAt" | "officialAssignmentDate" | "completedAt" | "cancelledAt" | "examinationDate" | "examinationMode" | "examinationPlace" | "topicId" | "studentId" | "professorId" | "supervisorId" | "isGradingEnabled" | "relevantLinks" | "thesisDocument" | "nemertisLink" | "finalGrade", ExtArgs["result"]["thesis"]>
+export type ThesisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "officialAssignmentDate" | "completedAt" | "cancelledAt" | "examinationDate" | "examinationMode" | "examinationPlace" | "topicId" | "studentId" | "professorId" | "supervisorId" | "isGradingEnabled" | "relevantLinks" | "thesisDocument" | "nemertisLink" | "finalGrade", ExtArgs["result"]["thesis"]>
 export type ThesisInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   topic?: boolean | Prisma.Thesis$topicArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -2327,7 +2260,6 @@ export type $ThesisPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     status: $Enums.ThesisStatus
-    assignmentFinalisedAt: Date | null
     officialAssignmentDate: Date | null
     completedAt: Date | null
     cancelledAt: Date | null
@@ -2777,7 +2709,6 @@ export interface Prisma__ThesisClient<T, Null = never, ExtArgs extends runtime.T
 export interface ThesisFieldRefs {
   readonly id: Prisma.FieldRef<"Thesis", 'Int'>
   readonly status: Prisma.FieldRef<"Thesis", 'ThesisStatus'>
-  readonly assignmentFinalisedAt: Prisma.FieldRef<"Thesis", 'DateTime'>
   readonly officialAssignmentDate: Prisma.FieldRef<"Thesis", 'DateTime'>
   readonly completedAt: Prisma.FieldRef<"Thesis", 'DateTime'>
   readonly cancelledAt: Prisma.FieldRef<"Thesis", 'DateTime'>
