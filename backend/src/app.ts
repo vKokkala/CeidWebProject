@@ -588,6 +588,86 @@ app.patch("/thesis/:id", async (req, res) => {
   res.json(updatedThesis);
 });
 
+app.post("/thesis/:id/grades", async (req, res) => {
+  const { id } = req.params;
+  const { professorId, grade } = req.body;
+
+  const thesis = await prisma.thesis.findUnique({
+    where: { id: Number(id) },
+    include: {
+      committeeMembers: {
+        include: {
+          professor: true,
+        },
+      },
+      grades: true,
+    },
+  });
+
+  if (!thesis) {
+    return res.status(404).json({ error: "Thesis not found" });
+  }
+
+  const isCommitteeMember = thesis.committeeMembers.find(
+    (x) => x.professorId == Number(professorId),
+  );
+
+  const supervisorId = thesis.supervisorId;
+
+  if (!isCommitteeMember && supervisorId !== Number(professorId))
+    return res.status(400).json({ error: "Bad request, not committe member" });
+
+  if (0 > Number(grade) || Number(grade) > 10)
+    return res.status(400).json({ error: "Bad request, invalid grade value" });
+
+  if (thesis?.grades?.length === 2) {
+    const finalValue =
+      (thesis.grades.reduce((sum, g) => sum + Number(g.totalGrade ?? 0), 0) +
+        Number(grade)) /
+      3;
+
+    await prisma.$transaction([
+      prisma.thesis.update({
+        where: { id: thesis.id },
+        data: {
+          finalGrade: finalValue,
+          completedAt: new Date(),
+          status: "COMPLETED",
+        },
+      }),
+      prisma.grade.create({
+        data: {
+          totalGrade: Number(grade),
+          thesis: { connect: { id: Number(id) } },
+          professor: { connect: { id: Number(professorId) } },
+        },
+      }),
+      prisma.thesisStatusChange.create({
+        data: {
+          fromStatus: "UNDER_EXAMINATION",
+          toStatus: "COMPLETED",
+          changedBy: "Stystem",
+          notes: "All professors graded",
+          thesisId: thesis.id,
+        },
+      }),
+    ]);
+
+    return res.json({ error: "Graded successfully" });
+  }
+
+  const newGrade = await prisma.grade.create({
+    data: {
+      totalGrade: Number(grade),
+      thesis: { connect: { id: Number(id) } },
+      professor: { connect: { id: Number(professorId) } },
+    },
+  });
+
+  res.json(newGrade);
+});
+
+
 // Upload thesis document
 app.post(
   "/thesis/:id/document",
@@ -681,198 +761,8 @@ app.get("/thesis/:id/examination-report", async (req, res) => {
     return res.status(404).json({ error: "Thesis not found" });
   }
 
-  const studentName = thesis.student?.user
-    ? `${thesis.student.user.firstName} ${thesis.student.user.lastName}`
-    : "Unknown";
 
-  const supervisorName = thesis.supervisor?.user
-    ? `${thesis.supervisor.user.firstName} ${thesis.supervisor.user.lastName}`
-    : "Unknown";
-
-  const committeeHtml = thesis.committeeMembers
-    .map(
-      (member) =>
-        `<li>${member.professor?.user?.firstName} ${member.professor?.user?.lastName}</li>`,
-    )
-    .join("");
-
-  const gradesHtml = thesis.grades
-    .map(
-      (grade) =>
-        `<tr>
-          <td>${grade.professor?.user?.firstName} ${grade.professor?.user?.lastName}</td>
-          <td>${grade.totalGrade}</td>
-          <td>${grade.comments || "-"}</td>
-        </tr>`,
-    )
-    .join("");
-
-  const html = `
-<!DOCTYPE html>
-<html lang="el">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Πρακτικό Εξέτασης - ${thesis.topic?.title || "Διπλωματική Εργασία"}</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      background: #f5f5f5;
-      color: #333;
-    }
-    .report {
-      background: white;
-      padding: 40px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #1a237e;
-      border-bottom: 2px solid #1a237e;
-      padding-bottom: 20px;
-    }
-    h2 {
-      color: #303f9f;
-      margin-top: 30px;
-    }
-    .info-row {
-      display: flex;
-      margin: 12px 0;
-    }
-    .info-label {
-      font-weight: bold;
-      width: 200px;
-      color: #555;
-    }
-    .info-value {
-      flex: 1;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: left;
-    }
-    th {
-      background: #e8eaf6;
-      color: #1a237e;
-    }
-    .final-grade {
-      font-size: 24px;
-      font-weight: bold;
-      color: #2e7d32;
-      text-align: center;
-      padding: 20px;
-      background: #e8f5e9;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-    .footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #ddd;
-      text-align: center;
-      color: #777;
-      font-size: 14px;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    ul li {
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-    ul li:last-child {
-      border-bottom: none;
-    }
-    @media print {
-      body { background: white; }
-      .report { box-shadow: none; }
-    }
-  </style>
-</head>
-<body>
-  <div class="report">
-    <h1>Πρακτικό Εξέτασης Διπλωματικής Εργασίας</h1>
-
-    <h2>Στοιχεία Εργασίας</h2>
-    <div class="info-row">
-      <span class="info-label">Τίτλος:</span>
-      <span class="info-value">${thesis.topic?.title || "-"}</span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">Περιγραφή:</span>
-      <span class="info-value">${thesis.topic?.description || "-"}</span>
-    </div>
-
-    <h2>Στοιχεία Φοιτητή</h2>
-    <div class="info-row">
-      <span class="info-label">Ονοματεπώνυμο:</span>
-      <span class="info-value">${studentName}</span>
-    </div>
-
-    <h2>Επιβλέπων Καθηγητής</h2>
-    <div class="info-row">
-      <span class="info-label">Ονοματεπώνυμο:</span>
-      <span class="info-value">${supervisorName}</span>
-    </div>
-
-    <h2>Τριμελής Επιτροπή</h2>
-    <ul>
-      <li><strong>${supervisorName}</strong> (Επιβλέπων)</li>
-      ${committeeHtml}
-    </ul>
-
-    ${
-      thesis.grades.length > 0
-        ? `
-    <h2>Βαθμολογία</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Μέλος Επιτροπής</th>
-          <th>Βαθμός</th>
-          <th>Σχόλια</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${gradesHtml}
-      </tbody>
-    </table>
-    `
-        : ""
-    }
-
-    ${
-      thesis.finalGrade
-        ? `
-    <div class="final-grade">
-      Τελικός Βαθμός: ${thesis.finalGrade}
-    </div>
-    `
-        : ""
-    }
-
-    <div class="footer">
-      <p>Ημερομηνία έκδοσης: ${new Date().toLocaleDateString("el-GR")}</p>
-      ${thesis.nemertisLink ? `<p>Αποθετήριο: <a href="${thesis.nemertisLink}">${thesis.nemertisLink}</a></p>` : ""}
-    </div>
-  </div>
-</body>
-</html>
-  `;
-
-  res.setHeader("Content-Type", "text/html; charset=utf-8");
-  res.send(html);
+  // TODO
 });
 
 app.post("/thesis/:id/committee", async (req, res) => {

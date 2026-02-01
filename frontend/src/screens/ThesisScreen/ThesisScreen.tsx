@@ -41,20 +41,24 @@ const ThesisScreen = () => {
   const [examinationLoading, setExaminationLoading] = useState(false);
   const [announcementLoading, setAnnouncementLoading] = useState(false);
   const [announcementText, setAnnouncementText] = useState("");
-  const [existingAnnouncement, setExistingAnnouncement] = useState<{ id: number; text: string } | null>(null);
+  const [gradeValue, setGradeValue] = useState(null);
+  const [existingAnnouncement, setExistingAnnouncement] = useState<{
+    id: number;
+    text: string;
+  } | null>(null);
+
+  const fetchThesis = async () => {
+    try {
+      const response = await api.get(`/thesis/${id}`);
+      setThesis(response.data);
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Failed to load thesis");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchThesis = async () => {
-      try {
-        const response = await api.get(`/thesis/${id}`);
-        setThesis(response.data);
-      } catch (err: any) {
-        setError(err.response?.data?.error || "Failed to load thesis");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (id) {
       fetchThesis();
     }
@@ -76,14 +80,13 @@ const ThesisScreen = () => {
     };
 
     fetchNotes();
-  }, [thesis, user?.professor?.id]);;
+  }, [thesis, user?.professor?.id]);
 
   const handleCreateAnnouncement = async () => {
     if (!thesis || !user?.professor?.id || !announcementText) return;
 
-    console.log('announcementText', announcementText)
-    console.log('user.professor.id', user.professor.id)
-
+    console.log("announcementText", announcementText);
+    console.log("user.professor.id", user.professor.id);
 
     setAnnouncementLoading(true);
     try {
@@ -227,6 +230,35 @@ const ThesisScreen = () => {
     thesis.examinationPlace
   );
 
+  const handleEnableGrading = async () => {
+    if (!thesis || !user?.professor?.id || !isSupervisor) return;
+
+    try {
+      const response = await api.patch(`/thesis/${thesis.id}`, {
+        isGradingEnabled: true,
+      });
+      setThesis(response.data);
+      alert("Grading is now enabled");
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to enable grading");
+    }
+  };
+
+  const handleGradeThesis = async () => {
+    if (!thesis || !user?.professor?.id || !gradeValue) return;
+
+    try {
+      await api.post(`/thesis/${thesis.id}/grades`, {
+        professorId: user?.professor?.id,
+        grade: gradeValue
+      });
+      alert("Graded successfully");
+      fetchThesis();
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to grade thesis");
+    }
+  };
+
   return (
     <div className="thesisScreen">
       <header className="thesisScreenHeader">
@@ -255,6 +287,20 @@ const ThesisScreen = () => {
           >
             {examinationLoading ? "Starting..." : "Start Examination"}
           </button>
+        )}
+        {isUnderExamination && isSupervisor && !thesis.isGradingEnabled && (
+          <button
+            className="btn btnWarning"
+            onClick={handleEnableGrading}
+            disabled={examinationLoading}
+          >
+            Enable grading
+          </button>
+        )}
+        {thesis.isGradingEnabled && (
+          <div className={`statusBadge status-completed`}>
+            Grading is enabled
+          </div>
         )}
       </header>
 
@@ -374,6 +420,33 @@ const ThesisScreen = () => {
             </ul>
           </div>
         )}
+      </section>
+
+      <section className="thesisSection">
+        <h2>Grade this thesis</h2>
+
+        <div className="addLinkForm">
+          <input
+            type="url"
+            className="formInput"
+            onChange={(e) => setGradeValue(e.target.value)}
+            onKeyDown={(e) => setGradeValue(e.target.value)}
+          />
+          <button
+            type="button"
+            className="btn btnSmall btnSecondary"
+            onClick={handleGradeThesis}
+          >
+            Submit Grade
+          </button>
+        </div>
+
+        <ul>
+          {thesis.grades?.length > 0 &&
+            thesis.grades.map((x: any) => (
+              <li>{`${x.professor.user.lastName} ${x.professor.user.firstName}:  ${x.totalGrade}`}</li>
+            ))}
+        </ul>
       </section>
 
       {/* Presentation Announcement - Supervisor only when active */}
