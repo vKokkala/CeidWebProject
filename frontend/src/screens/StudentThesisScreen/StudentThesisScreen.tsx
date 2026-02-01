@@ -228,6 +228,21 @@ const StudentThesisScreen = () => {
     }
   };
 
+  const handleViewDocument = async () => {
+    if (!thesisId) return;
+
+    try {
+      const response = await api.get(`/thesis/${thesisId}/document`, {
+        responseType: "blob",
+      });
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url, "_blank");
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to view document");
+    }
+  };
+
   if (loading) {
     return (
       <div className="studentThesisScreen">
@@ -361,14 +376,13 @@ const StudentThesisScreen = () => {
           {thesis.thesisDocument && (
             <div className="infoItem">
               <span className="infoLabel">Draft Document</span>
-              <a
-                href={`${api.defaults.baseURL}/thesis/${thesisId}/document`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="infoLink"
+              <button
+                type="button"
+                onClick={handleViewDocument}
+                className="infoLink linkButton"
               >
                 View Document
-              </a>
+              </button>
             </div>
           )}
           {thesis.nemertisLink && (
@@ -640,14 +654,13 @@ const StudentThesisScreen = () => {
               <div className="documentSection">
                 {thesis.thesisDocument ? (
                   <div className="documentDisplay">
-                    <a
-                      href={`${api.defaults.baseURL}/thesis/${thesisId}/document`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={handleViewDocument}
                       className="btn btnSmall btnSecondary"
                     >
                       View Current Document
-                    </a>
+                    </button>
                     <label className="btn btnSmall btnSecondary uploadLabel">
                       {uploadingDocument ? "Uploading..." : "Replace"}
                       <input
