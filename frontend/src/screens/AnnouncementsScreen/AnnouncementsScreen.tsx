@@ -24,7 +24,7 @@ const AnnouncementsScreen = () => {
 
     loadAnnouncements();
   }, []);
-  
+
   if (loading) return <div>Loading announcements…</div>;
   if (error) return <div>{error}</div>;
 
@@ -34,19 +34,25 @@ const AnnouncementsScreen = () => {
 
       {announcements.length === 0 && <p>No announcements available.</p>}
 
-      {announcements.map((a) => (
-        <div key={a.id} className="announcement-card">
-          <p>{a.text}</p>
+      {announcements.map((x) => (
+        <div key={x.id} className="announcement-card">
+          <p>{x.text}</p>
 
-          <small>{new Date(a.createdAt).toLocaleString()}</small>
+          <small>{new Date(x.createdAt).toLocaleString()}</small>
 
-          {a.thesis && (
+          {x.thesis && (
             <div className="thesis-info">
-              <strong>{a.thesis.topic?.title}</strong>
-              <p>{a.thesis.topic?.description}</p>
+              <strong>{x.thesis.topic?.title}</strong>
+              <p>{x.thesis.topic?.description}</p>
 
-              <p>Student: {a.thesis.student.user.name}</p>
-              <p>Supervisor: {a.thesis.supervisor.user.name}</p>
+              <p>
+                Student:{" "}
+                {`${x.thesis.student.user.firstName} ${x.thesis.student.user.lastName}`}
+              </p>
+              <p>
+                Supervisor:{" "}
+                {`${x.thesis.supervisor.user.firstName} ${x.thesis.supervisor.user.lastName}`}
+              </p>
             </div>
           )}
         </div>
