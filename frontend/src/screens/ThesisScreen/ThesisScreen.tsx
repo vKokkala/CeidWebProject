@@ -19,6 +19,13 @@ const statusLabels: Record<ThesisStatus, string> = {
   CANCELLED: "Cancelled",
 };
 
+interface ThesisNote {
+  id: number;
+  note: string;
+  professorId: number;
+  thesisId: number;
+}
+
 const ThesisScreen = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -28,7 +35,9 @@ const ThesisScreen = () => {
   const [error, setError] = useState<string | null>(null);
   const [cancelLoading, setCancelLoading] = useState(false);
 
-  console.log("thesis", thesis);
+  const [notes, setNotes] = useState<ThesisNote[]>([]);
+  const [newNote, setNewNote] = useState("");
+  const [noteLoading, setNoteLoading] = useState(false);
 
   useEffect(() => {
     const fetchThesis = async () => {
@@ -46,6 +55,42 @@ const ThesisScreen = () => {
       fetchThesis();
     }
   }, [id]);
+
+  // Fetch notes when thesis is active and user is a professor
+  useEffect(() => {
+    const fetchNotes = async () => {
+      if (!thesis || thesis.status !== "ACTIVE" || !user?.professor?.id) return;
+
+      try {
+        const response = await api.get(`/thesis/${thesis.id}/notes`, {
+          params: { professorId: user.professor.id },
+        });
+        setNotes(response.data);
+      } catch (err) {
+        console.error("Failed to fetch notes:", err);
+      }
+    };
+
+    fetchNotes();
+  }, [thesis, user?.professor?.id]);
+
+  const handleAddNote = async () => {
+    if (!thesis || !user?.professor?.id || !newNote.trim()) return;
+
+    setNoteLoading(true);
+    try {
+      const response = await api.post(`/thesis/${thesis.id}/notes`, {
+        professorId: user.professor.id,
+        note: newNote.trim(),
+      });
+      setNotes([response.data, ...notes]);
+      setNewNote("");
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to add note");
+    } finally {
+      setNoteLoading(false);
+    }
+  };
 
   const handleCancelAssignment = async () => {
     if (!thesis || !user?.professor?.id) return;
@@ -101,9 +146,12 @@ const ThesisScreen = () => {
   const committeMemberIds = committeeMembers.map(x => x.professorId);
 
   const isCompleted = thesis.status === "COMPLETED";
+  const isActive = thesis.status === "ACTIVE";
   const isUnderAssignment = thesis.status === "UNDER_ASSIGNMENT";
   const isSupervisor = user?.professor?.id === thesis.supervisorId;
   const canCancel = isUnderAssignment && isSupervisor;
+  const isProfessor = !!user?.professor?.id;
+  const canAddNotes = isActive && isProfessor;
 
   return (
     <div className="thesisScreen">
@@ -263,6 +311,45 @@ const ThesisScreen = () => {
             )}
         </div>
       </section>
+
+      {canAddNotes && (
+        <section className="thesisSection">
+          <h2>My Notes</h2>
+          <p className="notesInfo">Private notes visible only to you</p>
+
+          <div className="noteForm">
+            <textarea
+              className="noteInput"
+              placeholder="Add a note (max 300 characters)..."
+              value={newNote}
+              onChange={(e) => setNewNote(e.target.value.slice(0, 300))}
+              maxLength={300}
+            />
+            <div className="noteFormFooter">
+              <span className="charCount">{newNote.length}/300</span>
+              <button
+                className="btn btnPrimary"
+                onClick={handleAddNote}
+                disabled={noteLoading || !newNote.trim()}
+              >
+                {noteLoading ? "Adding..." : "Add Note"}
+              </button>
+            </div>
+          </div>
+
+          {notes.length === 0 ? (
+            <p className="emptyText">No notes yet.</p>
+          ) : (
+            <div className="notesList">
+              {notes.map((note) => (
+                <div key={note.id} className="noteItem">
+                  <p className="noteText">{note.note}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Status Timeline */}
       <section className="thesisSection">

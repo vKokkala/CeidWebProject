@@ -1037,4 +1037,61 @@ app.post("/thesis/:id/cancel-assignment", async (req, res) => {
   res.json({ message: "Assignment cancelled successfully" });
 });
 
+app.get("/thesis/:id/notes", async (req, res) => {
+  const { id } = req.params;
+  const { professorId } = req.query;
+
+  if (!professorId) {
+    return res.status(400).json({ error: "professorId is required" });
+  }
+
+  const notes = await prisma.thesisNote.findMany({
+    where: {
+      thesisId: Number(id),
+      professorId: Number(professorId),
+    },
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  res.json(notes);
+});
+
+// Create a note for a thesis
+app.post("/thesis/:id/notes", async (req, res) => {
+  const { id } = req.params;
+  const { professorId, note } = req.body;
+
+  if (!professorId || !note) {
+    return res.status(400).json({ error: "ProfessorId and note are required" });
+  }
+
+  if (note.length > 300) {
+    return res.status(400).json({ error: "Note must be 300 characters or less" });
+  }
+
+  const thesis = await prisma.thesis.findUnique({
+    where: { id: Number(id) },
+  });
+
+  if (!thesis) {
+    return res.status(404).json({ error: "Thesis not found" });
+  }
+
+  if (thesis.status !== "ACTIVE") {
+    return res.status(400).json({ error: "Notes can only be added to active theses" });
+  }
+
+  const newNote = await prisma.thesisNote.create({
+    data: {
+      note,
+      thesisId: Number(id),
+      professorId: Number(professorId),
+    },
+  });
+
+  res.json(newNote);
+});
+
 export default app;
